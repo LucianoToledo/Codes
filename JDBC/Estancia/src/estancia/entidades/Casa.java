@@ -36,7 +36,7 @@ public class Casa {
         this.tiempo_maximo = tiempo_maximo;
         this.precio_habitacion = precio_habitacion;
         this.tipo_vivienda = tipo_vivienda;
-        this.estanciasCasas = estanciasCasas;
+        this.estanciasCasas = new ArrayList<>();
         this.familias = familias;
         this.comentarios = comentarios;
     }
