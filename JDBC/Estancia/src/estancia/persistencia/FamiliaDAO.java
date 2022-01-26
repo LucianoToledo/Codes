@@ -37,4 +37,34 @@ public class FamiliaDAO extends DAO {
         return familias;
 
     }
+      public List<Familia> listarFamiliaHotmail() throws Exception {
+
+        List<Familia> familias = new ArrayList();
+
+        try {
+            consultarBase("SELECT * FROM familias WHERE  email LIKE '%hotmail%'");
+
+            System.out.println(resultado.toString());
+
+            while (resultado.next()) {
+                Familia f = new Familia();
+
+                f.setId_familia(resultado.getString("id_familia"));
+                f.setNombre(resultado.getString("nombre"));
+                f.setEdad_minima(resultado.getInt("edad_minima"));
+                f.setEdad_maxima(resultado.getInt("edad_maxima"));
+                f.setNum_hijos(resultado.getInt("num_hijos"));
+                f.setEmail(resultado.getString("email"));
+
+                familias.add(f);
+            }
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            desconectarBase();
+        }
+        return familias;
+
+    }
 }

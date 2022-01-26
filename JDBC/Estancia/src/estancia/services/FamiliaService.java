@@ -25,5 +25,20 @@ public class FamiliaService {
             System.out.println(familia);
         }
     }
+    
+    //c) Encuentra todas aquellas familias cuya dirección de mail sea de Hotmail.
+    public List<Familia> listarFamiliaHotmail() throws Exception {
+        List<Familia> familias = dao.listarFamiliaHotmail();
+        return familias;
+    }
+    
+    public void mostrarFamiliaHotmail() throws Exception {
+        List<Familia> familias = listarFamiliaHotmail();
+
+        for (Familia familia : familias) {
+            System.out.println(familia);
+        }
+    }
+    
 
 }

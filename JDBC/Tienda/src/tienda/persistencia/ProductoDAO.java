@@ -42,6 +42,7 @@ public class ProductoDAO extends DAO {
             String sql = "SELECT nombre, precio FROM producto";
 
             consultarBase(sql);
+            System.out.println(resultado.toString());
 
             while (resultado.next()) {
 
@@ -143,6 +144,5 @@ public class ProductoDAO extends DAO {
             throw e;
         }
     }
-    
-    
+
 }

@@ -14,9 +14,9 @@ public class Tienda {
         try {
             //productoService.mostrarTodos();
             
-            //productoService.mostrarNombrePrecio();
+        //    productoService.mostrarNombrePrecio();
             
-            // productoService.MostrarPrecioEntre120_202();
+             productoService.MostrarPrecioEntre120_202();
             
             //productoService.MostrarPortatil();
             
@@ -26,7 +26,7 @@ public class Tienda {
            
             //fabricanteService.ingresarFabricante(12, " Genius");
             
-            fabricanteService.modificarFabricante(12, "Genius");
+            //fabricanteService.modificarFabricante(12, "Genius");
         
             
         } catch (Exception ex) {
