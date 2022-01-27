@@ -5,7 +5,7 @@ import tienda.persistencia.FabricanteDAO;
 
 public class FabricanteService {
 
-    private FabricanteDAO dao;
+    private final FabricanteDAO dao;
 
     public FabricanteService() {
         this.dao = new FabricanteDAO();
@@ -41,8 +41,24 @@ public class FabricanteService {
 
         fabricante.setCodigo(codigo);
         fabricante.setNombre(nombre);
-        
+
         dao.modificarFabricante(fabricante);
+    }
+
+    public Fabricante buscarPorCodigo(int cod) throws Exception {
+        Fabricante f = new Fabricante();
+
+        f = dao.buscarPorCodigo(cod);
+
+        return f;
+
+    }
+
+    public void mostrarBuscarPorCodigo(int cod) throws Exception {
+
+        Fabricante f = buscarPorCodigo(cod);
+
+        System.out.println(f);
     }
 
 }

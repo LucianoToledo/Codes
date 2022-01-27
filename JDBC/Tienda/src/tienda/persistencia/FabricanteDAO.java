@@ -32,4 +32,25 @@ public class FabricanteDAO extends DAO {
         }
 
     }
+
+    public Fabricante buscarPorCodigo(int cod) throws Exception {
+        Fabricante f = new Fabricante();
+
+        try {
+
+            consultarBase("SELECT * FROM fabricante WHERE codigo = +" + cod);
+
+            while (resultado.next()) {
+                f.setCodigo(resultado.getInt(1));
+                f.setNombre(resultado.getString(2));
+            }
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            desconectarBase();
+        }
+
+        return f;
+    }
 }

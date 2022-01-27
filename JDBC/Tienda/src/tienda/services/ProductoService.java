@@ -1,15 +1,19 @@
 package tienda.services;
 
+import com.sun.org.apache.bcel.internal.generic.F2D;
 import java.util.List;
+import tienda.entidades.Fabricante;
 import tienda.entidades.Producto;
 import tienda.persistencia.ProductoDAO;
 
 public class ProductoService {
 
-    private ProductoDAO dao;
+    private final ProductoDAO dao;
+    private final FabricanteService fabricanteServicio;
 
     public ProductoService() {
         this.dao = new ProductoDAO();
+        fabricanteServicio = new FabricanteService();
     }
 
     //a) Lista el nombre de todos los productos que hay en la tabla producto
@@ -66,10 +70,10 @@ public class ProductoService {
         List<Producto> productos = portatil();
 
         for (Producto producto : productos) {
-            System.out.println(producto.getNombre() + "   -             " + producto.getPrecio());
-            //System.out.println(producto); //al ser un objeto va a mostrar todos los atributos
+           // System.out.println(producto.getNombre() + "   -             " + producto.getPrecio());
+            System.out.println(producto); //al ser un objeto va a mostrar todos los atributos
         }
-
+        
     }
 
     //e) Listar el nombre y el precio del producto más barato.
@@ -84,16 +88,13 @@ public class ProductoService {
     }
 
     //) Ingresar un producto a la base de datos.
-    public void crearProducto(int codigo, String nombre, double precio, int codigoFabricante) throws Exception{
+    public void crearProducto(int codigo, String nombre, double precio, int codigoFabricante) throws Exception {
+
         validar(codigo, nombre, precio, codigoFabricante);
-        
-        Producto producto = new Producto();
-        
-        producto.setCodigo(codigo);
-        producto.setNombre(nombre);
-        producto.setPrecio(precio);
-        producto.setCodigoFabricante(codigoFabricante);
-        
+
+        Fabricante f = fabricanteServicio.buscarPorCodigo(codigoFabricante); //hacer el metodo en fabricante servicio
+        Producto producto = new Producto(codigo, nombre, precio, f);
+
         dao.crearProducto(producto);
     }
 
@@ -111,7 +112,7 @@ public class ProductoService {
             throw new Exception("Debe indicar el precio");
         }
 
-        if (codigoFabricante <= 0 ) {
+        if (codigoFabricante <= 0) {
             throw new Exception("Cod fabricante incorrecto");
         }
 

@@ -12,11 +12,11 @@ public class Tienda {
         FabricanteService fabricanteService = new FabricanteService();
 
         try {
-            //productoService.mostrarTodos();
+            productoService.mostrarTodos();
             
         //    productoService.mostrarNombrePrecio();
             
-             productoService.MostrarPrecioEntre120_202();
+            // productoService.MostrarPrecioEntre120_202();
             
             //productoService.MostrarPortatil();
             
