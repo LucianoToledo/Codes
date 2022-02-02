@@ -1,5 +1,6 @@
 package libreria.persistencia;
 
+import java.util.List;
 import libreria.Entidades.Autor;
 
 public class AutorDAO extends DAO {
@@ -28,4 +29,22 @@ public class AutorDAO extends DAO {
         em.getTransaction().commit();
         desconectar();
     }
+
+    public Autor buscarPorNombre(String nombre) {
+        conectar();
+        Autor a = (Autor) em.createQuery("SELECT m FROM Autor m WHERE m.nombre LIKE :nombre")
+                .setParameter("nombre", "%" + nombre + "%")
+                .getSingleResult();
+        desconectar();
+        return a;
+    }
+    
+    
+    public Autor buscarPorId(String id) {
+        conectar();
+        Autor autor = em.find(Autor.class, id);
+        desconectar();
+        return autor;
+    }
+
 }

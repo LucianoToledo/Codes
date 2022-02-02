@@ -27,4 +27,11 @@ public class EditorialDAO extends DAO{
         em.getTransaction().commit();
         desconectar();
     }
+    
+    public Editorial buscarPorId(String id) {
+        conectar();
+        Editorial ed = em.find(Editorial.class, id);
+        desconectar();
+        return ed;
+    }
 }
