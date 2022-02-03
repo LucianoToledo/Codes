@@ -25,9 +25,20 @@ public class LibroDAO extends DAO {
     public void eliminar(Libro objeto) {
         conectar();
         em.getTransaction().begin();
+        if (!em.contains(objeto)) {
+            objeto = em.merge(objeto);
+        }
         em.remove(objeto);
         em.getTransaction().commit();
         desconectar();
+    }
+
+    public List<Libro> listarTodos() throws Exception {
+        conectar();
+        List<Libro> li = em.createQuery("SELECT d FROM Libro d")
+                .getResultList();
+        desconectar();
+        return li;
     }
 
     public Libro buscarPorIsbn(String isbn) {
@@ -39,7 +50,7 @@ public class LibroDAO extends DAO {
 
     public Libro buscarPotTitulo(String titulo) {
         conectar();
-        Libro l = (Libro) em.createQuery("SELECT l FROM Libro l WHERE m.titulo :titulo")
+        Libro l = (Libro) em.createQuery("SELECT l FROM Libro l WHERE l.titulo LIKE :titulo")
                 .setParameter("titulo", titulo)
                 .getSingleResult();
         desconectar();

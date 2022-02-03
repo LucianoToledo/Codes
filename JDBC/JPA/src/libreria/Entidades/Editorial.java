@@ -22,7 +22,7 @@ public class Editorial implements Serializable {
     public Editorial() {
     }
 
-    public Editorial(String id, Boolean alta, String nombre) {
+    public Editorial(Boolean alta, String nombre) {
         this.id = id;
         this.nombre = nombre;
         this.alta = alta;

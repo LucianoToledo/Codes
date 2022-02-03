@@ -13,7 +13,7 @@ public class Libro implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid")
     private String id;
 
     private String titulo;
@@ -32,7 +32,7 @@ public class Libro implements Serializable {
     public Libro() {
     }
 
-    public Libro(String id,String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Boolean alta, Editorial editorial, Autor autor) {
+    public Libro(String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Boolean alta, Editorial editorial, Autor autor) {
        this.id = id;
         this.titulo = titulo;
         this.anio = anio;
