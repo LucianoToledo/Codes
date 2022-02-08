@@ -1,25 +1,25 @@
-
 package libreriaextra.Persistencia;
 
+import java.util.List;
 import libreriaextra.Entities.Autor;
 
 public class AutorDAO extends DAO<Autor> {
-    
-     @Override
-    public void guardar(Autor autor){
+
+    @Override
+    public void guardar(Autor autor) {
         super.guardar(autor);
     }
-    
+
     @Override
-    public void eliminar(Autor autor){
+    public void eliminar(Autor autor) {
         super.eliminar(autor);
     }
-    
+
     @Override
-    public void editar(Autor autor){
+    public void editar(Autor autor) {
         super.editar(autor);
     }
-    
+
     public Autor buscarPorNombre(String nombre) {
         conectar();
         Autor a = (Autor) em.createQuery("SELECT m FROM Autor m WHERE m.nombre LIKE :nombre")
@@ -28,12 +28,19 @@ public class AutorDAO extends DAO<Autor> {
         desconectar();
         return a;
     }
-    
-    
+
     public Autor buscarPorId(String id) {
         conectar();
         Autor autor = em.find(Autor.class, id);
         desconectar();
         return autor;
+    }
+
+    public List<Autor> listarAutores() {
+        conectar();
+        List<Autor> au = em.createQuery("SELECT d FROM Autor d")
+                .getResultList();
+        desconectar();
+        return au;
     }
 }

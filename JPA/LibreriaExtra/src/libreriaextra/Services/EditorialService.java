@@ -12,7 +12,7 @@ public class EditorialService {
         dao = new EditorialDAO();
     }
 
-    public Editorial crear(String nombre) throws Exception{
+    public Editorial crear(String nombre) throws Exception {
         Editorial editorial = new Editorial();
         try {
             editorial.setNombre(nombre);
@@ -36,10 +36,16 @@ public class EditorialService {
         dao.eliminar(e);
     }
 
-    public List<Editorial> listarTodos() throws Exception {
-        List<Editorial> e = dao.listarTodos();
-        validarListaEditorialNull(e);
-        return e;
+    public void listarTodos() throws Exception {
+        try {
+            List<Editorial> e = dao.listarTodos();
+            validarListaEditorialNull(e);
+            for (Editorial editorial : e) {
+                System.out.println(editorial);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void validarEditorialNull(Editorial e) throws Exception {

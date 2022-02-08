@@ -53,6 +53,7 @@ public class libreriaMAIN {
 //        for (Libro aux : libroService.listarLibros()) {
 //            System.out.println(aux);
 //        }
+
         System.out.println(editorialService.buscarPorId("1"));
         try {
 

@@ -38,6 +38,18 @@ public class AutorService {
         return a;
     }
 
+    public void listarAutores() {
+        try {
+            List<Autor> au = dao.listarAutores();
+            validarListaAutorNull(au);
+            for (Autor autor : au) {
+                System.out.println(autor);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void validarAutorNull(Autor a) throws Exception {
         if (a == null) {
             throw new Exception("No existe ese autor");

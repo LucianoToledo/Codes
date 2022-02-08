@@ -7,7 +7,7 @@ import libreriaextra.Entities.Libro;
 import libreriaextra.Persistencia.LibroDAO;
 
 public class LibroService {
-
+    
     private final LibroDAO dao;
     private final EditorialService editorialService;
     private final AutorService autorService;
@@ -37,7 +37,7 @@ public class LibroService {
             return null;
         }
     }
-    
+
     //en este constructor le paso los ID de objetos de Editorial y Autor para que sus servicios traigan los objetos
     public Libro crear(String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, String idEditorial, String idAutor) throws Exception {
         Libro libro = new Libro();
@@ -57,21 +57,24 @@ public class LibroService {
             return null;
         }
     }
-
+    
     public void eliminar(String id) throws Exception {
         Libro l = buscarPorIsbn(id);
-
+        
         validarLibroNull(l);
-
+        
         dao.eliminar(l);
     }
-
-    public List<Libro> listarLibros() {
+    
+    public void listarLibros() {
         try {
-            return dao.listarTodos();
+            List<Libro> l = dao.listarTodos();
+            validarListaLibroNull(l);
+            for (Libro libro : l) {
+                System.out.println(libro);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
     }
 
@@ -100,15 +103,15 @@ public class LibroService {
         validarListaLibroNull(l);
         return l;
     }
-
+    
     private void validarLibroNull(Libro l) throws Exception {
         if (l == null) {
             throw new Exception("No existe ese libro");
         }
     }
-
+    
     private void validarListaLibroNull(List<Libro> l) throws Exception {
-
+        
         if (l.isEmpty()) {
             throw new Exception("No existe ese libro");
         }

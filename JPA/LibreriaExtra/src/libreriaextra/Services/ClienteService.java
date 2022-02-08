@@ -33,6 +33,14 @@ public class ClienteService {
         validarClienteNull(c);
         return c;
     }
+    
+    public void listarClientes() throws Exception{
+        List<Cliente> cl = dao.listarClientes();
+        validarListaClienteNull(cl);
+        for (Cliente cliente : cl) {
+            System.out.println(cliente);
+        }
+    }
 
     private void validarClienteNull(Cliente c) throws Exception {
         if (c == null) {

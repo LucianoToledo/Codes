@@ -40,6 +40,9 @@ public abstract class DAO<T> {
     protected void eliminar(T objeto) {
         conectar();
         em.getTransaction().begin();
+        if (!em.contains(objeto)) {
+            objeto = em.merge(objeto);
+        }
         em.remove(objeto);
         em.getTransaction().commit();
         desconectar();

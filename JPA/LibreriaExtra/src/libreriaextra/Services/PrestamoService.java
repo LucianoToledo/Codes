@@ -88,6 +88,12 @@ public class PrestamoService {
         }
     }
      
+     public List<Prestamo> buscarPrestamoDeUnCliente(String id) throws Exception {
+         List<Prestamo> pr = dao.buscarPrestamoDeUnCliente(id);
+         validarListaPrestamoNull(pr);
+         return pr;
+     }
+     
      private void validarPrestamoNull(Prestamo p) throws Exception {
         if (p == null) {
             throw new Exception("No existe ese libro");
