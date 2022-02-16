@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 6</title>
+</head>
+
+<body>
+
+    <h1>Registrar un usuario</h1>
+
+    <form action="">
+        <p>
+            <label for="name">Nombre de usuario</label>
+            <br>
+            <input type="text" name="name" id="name" placeholder="Luciano Toledo" autofocusautocomplete required />
+        </p>
+        <p>
+            <label for="password"> Contraseña (obligatorio)</label>
+            <br>
+            <input type="password" name="password" id="password" placeholder="qwe1234" pattern="[a-z]{3}[[[[0-9]{4}" required />
+        </p>
+        <p>
+            <label for="number">Edad del usuario</label>
+            <br>
+            <input type="number" name="number" id="number">
+        </p>
+        <p>
+            <label for="date">Fecha de nacimiento del usuario</label>
+            <br>
+            <input type="date" name="date" id="date">
+        </p>
+
+        <p>
+            <input type="radio" id="h" name="hombre" value="1">
+            <label for="primavera">Hombre</label>
+            <br>
+            <input type="radio" id="m" name="mujer" value="2">
+            <label for="verano">Mujer</label>
+            <br>
+            <input type="radio" id="o" name="otro" value="3">
+            <label for="verano">Otro</label>
+            <br> por alguna razon queda todo marcado, revisar!!
+        </p>
+
+        <p>
+            <label for="pais">Pais de nacimiento</label>
+            <br>
+            <select name="pais">
+                <option>Argentina</option>
+                <option>Chile</option>
+                <option>Andorra</option>
+                <option>Brasil</option>
+                <option>Italia</option>
+            </select>
+        </p>
+
+        <button type="submit">Enviar</button>
+        <button type="reset">Borrar</button>
+
+
+
+
+
+    </form>
+
+
+</body>
+
+</html>
