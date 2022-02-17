@@ -1,0 +1,62 @@
+h1 {
+    color: cadetblue;
+}
+
+strong {
+    color: red;
+}
+
+p span {
+    color: rgb(224, 145, 88);
+}
+
+h2 {
+    color: blue;
+}
+
+a {
+    color: crimson;
+}
+
+em {
+    color: blue
+}
+
+.especial {
+    color: blueviolet;
+}
+
+
+/* #adicional {
+    color: darkolivegreen;
+} */
+
+div a {
+    color: rgb(9, 196, 9);
+}
+
+div span,
+#adicional {
+    color: darkolivegreen;
+}
+
+div p span#especial {
+    color: pink;
+}
+
+
+/* table {
+    border: 1px solid black;
+    border-style: solid;
+    padding: 0px;
+} */
+
+tr,
+th,
+td {
+    border: 1px solid black;
+}
+
+th.especial {
+    color: orange;
+}

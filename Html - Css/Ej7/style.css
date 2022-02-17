@@ -1,0 +1,27 @@
+/*<!-- . Crear un archivo HTML y un archivo CSS, vamos a linkear el archivo CSS al archivo
+HTML y vamos hacer lo mismo que el primer ejercicio,
+*pero ahora la pagina va a tener un color de fondo a elección,
+*el encabezado H1 tiene que tener una fuente a elección y estar centrado, 
+*lo mismo para el encabezado H2, y
+*por ultimo lospárrafos deben tener un fuente a elección, deben tener un color a elección y deben
+*estar centrados a la izquierda -->*/
+
+body {
+    background-color: aquamarine;
+}
+
+h1,
+h2 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    text-align: center;
+}
+
+p {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: rgba(35, 22, 92, 0.8);
+    text-align: left;
+}
+
+ol {
+    list-style-type: lower-latin;
+}

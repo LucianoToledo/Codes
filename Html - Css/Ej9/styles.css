@@ -1,0 +1,13 @@
+.TituloLista {
+    list-style-type: none;
+    margin-left: 0px;
+    padding: 0px;
+}
+
+ol {
+    list-style: upper-roman;
+}
+
+ul {
+    list-style: none;
+}

@@ -18,16 +18,19 @@
             <br>
             <input type="text" name="name" id="name" placeholder="Luciano Toledo" autofocusautocomplete required />
         </p>
+
         <p>
             <label for="password"> Contraseña (obligatorio)</label>
             <br>
-            <input type="password" name="password" id="password" placeholder="qwe1234" pattern="[a-z]{3}[[[[0-9]{4}" required />
+            <input type="password" name="password" id="password" placeholder="*****" pattern="[a-z]{3}[[[[0-9]{4}" required />
         </p>
+
         <p>
             <label for="number">Edad del usuario</label>
             <br>
             <input type="number" name="number" id="number">
         </p>
+
         <p>
             <label for="date">Fecha de nacimiento del usuario</label>
             <br>
@@ -35,15 +38,13 @@
         </p>
 
         <p>
-            <input type="radio" id="h" name="hombre" value="1">
-            <label for="primavera">Hombre</label>
+            <strong>Sexo</strong>
             <br>
-            <input type="radio" id="m" name="mujer" value="2">
-            <label for="verano">Mujer</label>
+            <label for="s"><input type="radio" id="s" name="sexo">Hombre</label>
             <br>
-            <input type="radio" id="o" name="otro" value="3">
-            <label for="verano">Otro</label>
-            <br> por alguna razon queda todo marcado, revisar!!
+            <label for="m"> <input type="radio" id="m" name="sexo">Mujer</label>
+            <br>
+            <label for="o"> <input type="radio" id="o" name="sexo">Otro</label>
         </p>
 
         <p>
@@ -60,14 +61,7 @@
 
         <button type="submit">Enviar</button>
         <button type="reset">Borrar</button>
-
-
-
-
-
     </form>
-
-
 </body>
 
 </html>

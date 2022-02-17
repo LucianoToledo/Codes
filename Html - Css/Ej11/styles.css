@@ -1,0 +1,19 @@
+tr,
+th,
+td {
+    text-align: center;
+    padding: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.gray {
+    background-color: rgb(153, 153, 153);
+}
+
+.lightblue {
+    background-color: rgb(155, 230, 255);
+}
+
+tr.yellow td {
+    background-color: rgb(255, 255, 131);
+}

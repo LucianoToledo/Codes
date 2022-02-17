@@ -1,0 +1,18 @@
+a:link {
+    color: #cc0000;
+}
+
+a:hover {
+    background-color: #cc0000;
+    color: white;
+}
+
+a:visited {
+    color: gray;
+}
+
+a:active {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: aqua;
+    background-color: black;
+}
