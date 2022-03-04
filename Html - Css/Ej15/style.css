@@ -1,0 +1,18 @@
+.ppal {
+    border: 1px solid black;
+    width: 50%;
+    margin: 1%;
+    padding: 1%;
+}
+
+.negrita {
+    font-weight: bold;
+}
+
+.button_registrar {
+    border: 1px solid gray;
+}
+
+.titulo {
+    font-size: 27px;
+}
