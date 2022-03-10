@@ -11,3 +11,10 @@ public class LibreriaApplication {
 	}
 
 }
+
+//orden 
+//1ro entidades sin relaciones
+//2do hacer las relaciones
+//3er hacer repositorios de cada entidad
+//4to hacer servicios
+//5to hacer controladores
