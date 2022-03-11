@@ -25,7 +25,12 @@ public class Libro {
     private Integer ejemplares;
     private Integer ejemplaresPrestados;
     private Integer ejemplaresRestantes;
-    private boolean alta;
+    private boolean activo;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaAltaLibro;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaBajaLibro;
 
     @OneToOne
     private Autor autor;
@@ -33,15 +38,16 @@ public class Libro {
     @OneToOne
     private Editorial editorial;
 
-    //constructores, setter y getters
-    public Libro(String id, String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean alta, Autor autor, Editorial editorial) {
+    public Libro(String id, String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo, Date fechaAltaLibro, Date fechaBajaLibro, Autor autor, Editorial editorial) {
         this.id = id;
         this.titulo = titulo;
         this.anio = anio;
         this.ejemplares = ejemplares;
         this.ejemplaresPrestados = ejemplaresPrestados;
         this.ejemplaresRestantes = ejemplaresRestantes;
-        this.alta = alta;
+        this.activo = activo;
+        this.fechaAltaLibro = fechaAltaLibro;
+        this.fechaBajaLibro = fechaBajaLibro;
         this.autor = autor;
         this.editorial = editorial;
     }
@@ -97,12 +103,28 @@ public class Libro {
         this.ejemplaresRestantes = ejemplaresRestantes;
     }
 
-    public boolean isAlta() {
-        return alta;
+    public boolean isActivo() {
+        return activo;
     }
 
-    public void setAlta(boolean alta) {
-        this.alta = alta;
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    public Date getFechaAltaLibro() {
+        return fechaAltaLibro;
+    }
+
+    public void setFechaAltaLibro(Date fechaAltaLibro) {
+        this.fechaAltaLibro = fechaAltaLibro;
+    }
+
+    public Date getFechaBajaLibro() {
+        return fechaBajaLibro;
+    }
+
+    public void setFechaBajaLibro(Date fechaBajaLibro) {
+        this.fechaBajaLibro = fechaBajaLibro;
     }
 
     public Autor getAutor() {
@@ -123,7 +145,9 @@ public class Libro {
 
     @Override
     public String toString() {
-        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", anio=" + anio + ", ejemplares=" + ejemplares + ", ejemplaresPrestados=" + ejemplaresPrestados + ", ejemplaresRestantes=" + ejemplaresRestantes + ", alta=" + alta + ", autor=" + autor + ", editorial=" + editorial + '}';
+        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", anio=" + anio + ", ejemplares=" + ejemplares + ", ejemplaresPrestados=" + ejemplaresPrestados + ", ejemplaresRestantes=" + ejemplaresRestantes + ", activo=" + activo + ", fechaAltaLibro=" + fechaAltaLibro + ", fechaBajaLibro=" + fechaBajaLibro + ", autor=" + autor + ", editorial=" + editorial + '}';
     }
-    
+
+   
+
 }

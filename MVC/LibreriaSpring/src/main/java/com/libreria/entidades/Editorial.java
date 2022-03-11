@@ -5,9 +5,12 @@
  */
 package com.libreria.entidades;
 
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -18,15 +21,22 @@ public class Editorial {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     private String nombre;
-    private Boolean alta;
+    private boolean activo;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaAltaLibro;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaBajaLibro;
 
     public Editorial() {
     }
 
-    public Editorial(String id, String nombre, Boolean alta) {
+    public Editorial(String id, String nombre, Boolean activo, Date fechaAltaLibro, Date fechaBajaLibro) {
         this.id = id;
         this.nombre = nombre;
-        this.alta = alta;
+        this.activo = activo;
+        this.fechaAltaLibro = fechaAltaLibro;
+        this.fechaBajaLibro = fechaBajaLibro;
     }
 
     public String getId() {
@@ -46,16 +56,30 @@ public class Editorial {
     }
 
     public Boolean getAlta() {
-        return alta;
+        return activo;
     }
 
-    public void setAlta(Boolean alta) {
-        this.alta = alta;
+    public void setAlta(Boolean activo) {
+        this.activo = activo;
+    }
+    public Date getFechaAltaLibro() {
+        return fechaAltaLibro;
+    }
+
+    public void setFechaAltaLibro(Date fechaAltaLibro) {
+        this.fechaAltaLibro = fechaAltaLibro;
+    }
+
+    public Date getFechaBajaLibro() {
+        return fechaBajaLibro;
+    }
+
+    public void setFechaBajaLibro(Date fechaBajaLibro) {
+        this.fechaBajaLibro = fechaBajaLibro;
     }
 
     @Override
     public String toString() {
-        return "Editorial{" + "id=" + id + ", nombre=" + nombre + ", alta=" + alta + '}';
+        return "Editorial{" + "id=" + id + ", nombre=" + nombre + ", activo=" + activo + ", fechaAltaLibro=" + fechaAltaLibro + ", fechaBajaLibro=" + fechaBajaLibro + '}';
     }
-
 }

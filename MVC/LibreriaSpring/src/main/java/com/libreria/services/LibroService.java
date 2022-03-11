@@ -16,27 +16,28 @@ public class LibroService {
     @Autowired
     private LibroRepositorio libroRepositorio;
 
-    public void registrarLibro(String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean alta, Autor autor, Editorial editorial) throws ErrorServicio {
+    public void registrarLibro(String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo, Date fechaAltaLibro, Date fechaBajaLibro, Autor autor, Editorial editorial) throws ErrorServicio {
 
-        validarDatos(titulo, ejemplares, ejemplaresPrestados, ejemplaresRestantes);
-
+        validarDatos(titulo, ejemplares, ejemplaresPrestados, ejemplaresRestantes, fechaAltaLibro, fechaBajaLibro);
         Libro libro = new Libro();
         libro.setTitulo(titulo);
         libro.setAnio(anio);
         libro.setEjemplares(ejemplares);
         libro.setEjemplaresPrestados(ejemplaresPrestados);
         libro.setEjemplaresRestantes(libro.getEjemplares() - libro.getEjemplaresPrestados());
-        libro.setAlta(true);
+        libro.setActivo(true);
         libro.setAutor(autor);
         libro.setEditorial(editorial);
+        libro.setFechaAltaLibro(new Date());
+        libro.setFechaBajaLibro(null);
 
         libroRepositorio.save(libro);
     }
 
-    public void modificarLibro(String id, String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean alta, Autor autor, Editorial editorial) throws ErrorServicio {
+    //no se utilizan las fechas alta y baja
+    public void modificarLibro(String id, String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo,Date fechaAltaLibro, Date fechaBajaLibro, Autor autor, Editorial editorial) throws ErrorServicio {
 
-        validarDatos(titulo, ejemplares, ejemplaresPrestados, ejemplaresRestantes);
-
+        validarDatos(titulo, ejemplares, ejemplaresPrestados, ejemplaresRestantes, fechaAltaLibro, fechaBajaLibro);
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
@@ -45,39 +46,40 @@ public class LibroService {
             libro.setEjemplares(ejemplares);
             libro.setEjemplaresPrestados(ejemplaresPrestados);
             libro.setEjemplaresRestantes(libro.getEjemplares() - libro.getEjemplaresPrestados());
-            libro.setAlta(alta);
+            libro.setActivo(activo);
             libro.setAutor(autor);
             libro.setEditorial(editorial);
 
             libroRepositorio.save(libro);
         } else {
-            throw new ErrorServicio("No se encontro el usuario");
+            throw new ErrorServicio("No se encontro el Libro");
         }
 
     }
 
-    public void deshabilitarLibro(String id) throws ErrorServicio {
+    public void bajaLibro(String id) throws ErrorServicio {
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
-//            libro.setBaja(new Date()); si existe el libro se le pone la fecha de baja                     agregar fechasAlta y fechaModificacion
+            libro.setFechaBajaLibro(new Date()); //si existe el libro se le pone la fecha de baja                     agregar fechasAlta y fechaModificacion
             libroRepositorio.save(libro);
         } else {
-            throw new ErrorServicio("No se encontro el usuario");
-        }
-    }
-    public void habilitarLibro(String id) throws ErrorServicio {
-        Optional<Libro> respuesta = libroRepositorio.findById(id);
-        if (respuesta.isPresent()) {
-            Libro libro = respuesta.get();
-//            libro.setBaja(null);  si existe el libro se elimina la fecha de baja  agregar fechasAlta y fechaModificacion
-            libroRepositorio.save(libro);
-        } else {
-            throw new ErrorServicio("No se encontro el usuario");
+            throw new ErrorServicio("No se encontro el Libro");
         }
     }
 
-    private void validarDatos(String titulo, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes) throws ErrorServicio {
+    public void altaLibro(String id) throws ErrorServicio {
+        Optional<Libro> respuesta = libroRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Libro libro = respuesta.get();
+            libro.setFechaBajaLibro(null); // si existe el libro se elimina la fecha de baja  agregar fechasAlta y fechaModificacion
+            libroRepositorio.save(libro);
+        } else {
+            throw new ErrorServicio("No se encontro el Libro");
+        }
+    }
+
+    private void validarDatos(String titulo, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Date fechaAltaLibro, Date fechaBajaLibro) throws ErrorServicio {
         if (titulo == null || titulo.isEmpty()) {
             throw new ErrorServicio("El nombre del titulo no puede ser nulo");
         }
@@ -95,6 +97,9 @@ public class LibroService {
         }
         if (ejemplaresRestantes == null || ejemplaresRestantes < 0) {
             throw new ErrorServicio("La cantidad de ejemplares restantes del titulo no puede ser nulo");
+        }
+        if (fechaAltaLibro == null && fechaBajaLibro == null) {
+            throw new ErrorServicio("La fecha alta y la fecha baja no pueden ser ambas nulas");
         }
     }
 }
