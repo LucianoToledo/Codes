@@ -7,6 +7,7 @@ import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.LibroRepositorio;
 import java.util.Date;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ public class LibroService {
     @Autowired
     private LibroRepositorio libroRepositorio;
 
+    @Transactional
     public void registrarLibro(String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo, Date fechaAltaLibro, Date fechaBajaLibro, Autor autor, Editorial editorial) throws ErrorServicio {
 
         validarDatos(titulo, ejemplares, ejemplaresPrestados, ejemplaresRestantes, fechaAltaLibro, fechaBajaLibro);
@@ -35,6 +37,7 @@ public class LibroService {
     }
 
     //no se utilizan las fechas alta y baja
+    @Transactional
     public void modificarLibro(String id, String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo,Date fechaAltaLibro, Date fechaBajaLibro, Autor autor, Editorial editorial) throws ErrorServicio {
 
         validarDatos(titulo, ejemplares, ejemplaresPrestados, ejemplaresRestantes, fechaAltaLibro, fechaBajaLibro);
@@ -44,7 +47,7 @@ public class LibroService {
             libro.setTitulo(titulo);
             libro.setAnio(anio);
             libro.setEjemplares(ejemplares);
-            libro.setEjemplaresPrestados(ejemplaresPrestados);
+            libro.setEjemplaresPrestados(0);
             libro.setEjemplaresRestantes(libro.getEjemplares() - libro.getEjemplaresPrestados());
             libro.setActivo(activo);
             libro.setAutor(autor);
@@ -57,6 +60,7 @@ public class LibroService {
 
     }
 
+    @Transactional
     public void bajaLibro(String id) throws ErrorServicio {
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -68,6 +72,7 @@ public class LibroService {
         }
     }
 
+    @Transactional
     public void altaLibro(String id) throws ErrorServicio {
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {

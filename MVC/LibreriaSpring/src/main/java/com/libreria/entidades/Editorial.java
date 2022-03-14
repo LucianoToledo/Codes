@@ -24,19 +24,19 @@ public class Editorial {
     private boolean activo;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaAltaLibro;
+    private Date fechaAltaEditorial;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaBajaLibro;
+    private Date fechaBajaEditorial;
 
     public Editorial() {
     }
 
-    public Editorial(String id, String nombre, Boolean activo, Date fechaAltaLibro, Date fechaBajaLibro) {
+    public Editorial(String id, String nombre, Boolean activo, Date fechaAltaEditorial, Date fechaBajaEditorial) {
         this.id = id;
         this.nombre = nombre;
         this.activo = activo;
-        this.fechaAltaLibro = fechaAltaLibro;
-        this.fechaBajaLibro = fechaBajaLibro;
+        this.fechaAltaEditorial = fechaAltaEditorial;
+        this.fechaBajaEditorial = fechaBajaEditorial;
     }
 
     public String getId() {
@@ -62,24 +62,24 @@ public class Editorial {
     public void setAlta(Boolean activo) {
         this.activo = activo;
     }
-    public Date getFechaAltaLibro() {
-        return fechaAltaLibro;
+    public Date getFechaAltaEditorial() {
+        return fechaAltaEditorial;
     }
 
-    public void setFechaAltaLibro(Date fechaAltaLibro) {
-        this.fechaAltaLibro = fechaAltaLibro;
+    public void setFechaAltaEditorial(Date fechaAltaEditorial) {
+        this.fechaAltaEditorial = fechaAltaEditorial;
     }
 
-    public Date getFechaBajaLibro() {
-        return fechaBajaLibro;
+    public Date getFechaBajaEditorial() {
+        return fechaBajaEditorial;
     }
 
-    public void setFechaBajaLibro(Date fechaBajaLibro) {
-        this.fechaBajaLibro = fechaBajaLibro;
+    public void setFechaBajaEditorial(Date fechaBajaEditorial) {
+        this.fechaBajaEditorial = fechaBajaEditorial;
     }
 
     @Override
     public String toString() {
-        return "Editorial{" + "id=" + id + ", nombre=" + nombre + ", activo=" + activo + ", fechaAltaLibro=" + fechaAltaLibro + ", fechaBajaLibro=" + fechaBajaLibro + '}';
+        return "Editorial{" + "id=" + id + ", nombre=" + nombre + ", activo=" + activo + ", fechaAltaEditorial=" + fechaAltaEditorial + ", fechaBajaEditorial=" + fechaBajaEditorial + '}';
     }
 }

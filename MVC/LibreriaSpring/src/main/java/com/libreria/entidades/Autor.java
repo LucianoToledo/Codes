@@ -19,19 +19,19 @@ public class Autor {
     private boolean activo;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaAltaLibro;
+    private Date fechaAltaAutor;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaBajaLibro;
+    private Date fechaBajaAutor;
 
     public Autor() {
     }
 
-    public Autor(String id, String nombre, Boolean activo, Date fechaAltaLibro, Date fechaBajaLibro) {
+    public Autor(String id, String nombre, Boolean activo, Date fechaAltaAutor, Date fechaBajaAutor) {
         this.id = id;
         this.nombre = nombre;
         this.activo = activo;
-        this.fechaAltaLibro = fechaAltaLibro;
-        this.fechaBajaLibro = fechaBajaLibro;
+        this.fechaAltaAutor = fechaAltaAutor;
+        this.fechaBajaAutor = fechaBajaAutor;
     }
 
     public String getId() {
@@ -57,25 +57,25 @@ public class Autor {
     public void setAlta(Boolean activo) {
         this.activo = activo;
     }
-    public Date getFechaAltaLibro() {
-        return fechaAltaLibro;
+    public Date getFechaAltaAutor() {
+        return fechaAltaAutor;
     }
 
-    public void setFechaAltaLibro(Date fechaAltaLibro) {
-        this.fechaAltaLibro = fechaAltaLibro;
+    public void setFechaAltaAutor(Date fechaAltaAutor) {
+        this.fechaAltaAutor = fechaAltaAutor;
     }
 
-    public Date getFechaBajaLibro() {
-        return fechaBajaLibro;
+    public Date getFechaBajaAutor() {
+        return fechaBajaAutor;
     }
 
-    public void setFechaBajaLibro(Date fechaBajaLibro) {
-        this.fechaBajaLibro = fechaBajaLibro;
+    public void setFechaBajaAutor(Date fechaBajaAutor) {
+        this.fechaBajaAutor = fechaBajaAutor;
     }
 
     @Override
     public String toString() {
-        return "Autor{" + "id=" + id + ", nombre=" + nombre + ", activo=" + activo + ", fechaAltaLibro=" + fechaAltaLibro + ", fechaBajaLibro=" + fechaBajaLibro + '}';
+        return "Autor{" + "id=" + id + ", nombre=" + nombre + ", activo=" + activo + ", fechaAltaAutor=" + fechaAltaAutor + ", fechaBajaAutor=" + fechaBajaAutor + '}';
     }
 
  }

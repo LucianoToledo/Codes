@@ -5,6 +5,7 @@ import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.AutorRepositorio;
 import java.util.Date;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class AutorService {
     @Autowired
     private AutorRepositorio autorRepositorio;
 
+    @Transactional
     public void registrarAutor(String nombre, Boolean activo, Date fechaAltaLibro, Date fechaBajaLibro) throws Exception {
 
         validarDatos(nombre, activo, fechaAltaLibro, fechaBajaLibro);
@@ -21,12 +23,13 @@ public class AutorService {
 
         autor.setNombre(nombre);
         autor.setAlta(true);
-        autor.setFechaAltaLibro(new Date());
-        autor.setFechaBajaLibro(null);
+        autor.setFechaAltaAutor(new Date());
+        autor.setFechaBajaAutor(null);
 
         autorRepositorio.save(autor);
     }
 
+    @Transactional
     public void moficarAutor(String id, String nombre, Boolean activo,Date fechaAltaLibro, Date fechaBajaLibro) throws Exception {
         
         validarDatos(nombre, activo, fechaAltaLibro, fechaBajaLibro);
@@ -43,11 +46,12 @@ public class AutorService {
         }
     }
 
+    @Transactional
     public void bajaAutor(String id) throws ErrorServicio {
         Optional<Autor> respuesta = autorRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Autor autor = respuesta.get();
-            autor.setFechaBajaLibro(new Date());
+            autor.setFechaBajaAutor(new Date());
 
             autorRepositorio.save(autor);
         } else {
@@ -55,11 +59,12 @@ public class AutorService {
         }
     }
     
+    @Transactional
     public void altaAutor(String id) throws ErrorServicio {
         Optional<Autor> respuesta = autorRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Autor autor = respuesta.get();
-            autor.setFechaBajaLibro(null);
+            autor.setFechaBajaAutor(null);
 
             autorRepositorio.save(autor);
         } else {

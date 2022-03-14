@@ -1,0 +1,40 @@
+.card {
+    padding: 0;
+    margin: 0;
+}
+
+.list-group {
+    margin: 1px;
+    display: list-item;
+}
+
+button {
+    transform-style: none;
+    background-color: white;
+    padding: auto;
+    transform: none;
+}
+
+.container {
+    list-style: none;
+    /* display: flex;
+    justify-content: space-between;
+    box-sizing: border-box; */
+    /* border: 1px solid black; */
+    justify-content: left;
+}
+
+.list-group {
+    /* border: 1px solid black; */
+    padding: 10px;
+}
+
+.register {
+    margin-bottom: auto;
+}
+
+.title_list {
+    text-align: center;
+    font-weight: 700;
+    font-size: larger;
+}
