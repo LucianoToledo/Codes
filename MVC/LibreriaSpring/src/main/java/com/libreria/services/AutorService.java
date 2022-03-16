@@ -5,9 +5,10 @@ import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.AutorRepositorio;
 import java.util.Date;
 import java.util.Optional;
-import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AutorService {
@@ -15,13 +16,14 @@ public class AutorService {
     @Autowired
     private AutorRepositorio autorRepositorio;
 
-    @Transactional
-    public void registrarAutor(String nombre, Boolean activo, Date fechaAltaLibro, Date fechaBajaLibro) throws Exception {
+    @Transactional(rollbackFor = {Exception.class})
+    public void agregarAutor(String nombre, String apellido) throws Exception {
 
-        validarDatos(nombre, activo, fechaAltaLibro, fechaBajaLibro);
+        validarDatos(nombre);
         Autor autor = new Autor();
 
         autor.setNombre(nombre);
+        autor.setApellido(apellido);
         autor.setAlta(true);
         autor.setFechaAltaAutor(new Date());
         autor.setFechaBajaAutor(null);
@@ -30,16 +32,14 @@ public class AutorService {
     }
 
     @Transactional
-    public void moficarAutor(String id, String nombre, Boolean activo,Date fechaAltaLibro, Date fechaBajaLibro) throws Exception {
+    public void moficarAutor(String id, String nombre) throws Exception {
         
-        validarDatos(nombre, activo, fechaAltaLibro, fechaBajaLibro);
+        validarDatos(nombre);
 
         Optional<Autor> respuesta = autorRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Autor autor = respuesta.get();
             autor.setNombre(nombre);
-            autor.setAlta(activo);
-
             autorRepositorio.save(autor);
         } else {
             throw new ErrorServicio("No se encontro el Autor");
@@ -71,15 +71,24 @@ public class AutorService {
             throw new ErrorServicio("No se encontro el Autor");
         }
     }
+      @Transactional(readOnly = true)
+    public Autor buscarPorId(String id) throws ErrorServicio{
+        Optional<Autor> respuesta = autorRepositorio.findById(id);
+         if (respuesta.isPresent()) {
+            return respuesta.get();
+        } else {
+            throw new ErrorServicio("No se encontro el Libro");
+        }
+    }
     
-    public void validarDatos(String nombre, Boolean activo, Date fechaAltaLibro, Date fechaBajaLibro) throws ErrorServicio{
+    public void validarDatos(String nombre) throws ErrorServicio{
         if (nombre == null || nombre.isEmpty()) {
             throw new ErrorServicio("El nombre del nombre no puede ser nulo");
         }
         
-        if (fechaAltaLibro == null && fechaBajaLibro == null) {
-            throw new ErrorServicio("La fecha alta y la fecha baja no pueden ser ambas nulas");
-        }
+//        if (fechaAltaLibro == null && fechaBajaLibro == null) {
+//            throw new ErrorServicio("La fecha alta y la fecha baja no pueden ser ambas nulas");
+//        }
         
     }
 

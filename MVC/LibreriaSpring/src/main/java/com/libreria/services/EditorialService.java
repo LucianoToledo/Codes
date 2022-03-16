@@ -5,9 +5,10 @@ import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.EditorialRepositorio;
 import java.util.Date;
 import java.util.Optional;
-import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EditorialService {
@@ -15,10 +16,10 @@ public class EditorialService {
     @Autowired
     private EditorialRepositorio editorialRepositorio;
 
-    @Transactional
-    public void resgistrarEditorial(String id, String nombre, Boolean activo, Date fechaAltaLibro, Date fechaBajaLibro) throws ErrorServicio {
-        validarDatos(nombre, activo, fechaAltaLibro, fechaBajaLibro);
-        
+    @Transactional(rollbackFor = {Exception.class})
+    public void agregarEditorial(String nombre) throws ErrorServicio {
+        validarDatos(nombre);
+
         Editorial editorial = new Editorial();
 
         editorial.setNombre(nombre);
@@ -30,16 +31,14 @@ public class EditorialService {
     }
 
     @Transactional
-    public void moficarEditorial(String id, String nombre, Boolean activo, Date fechaAltaLibro, Date fechaBajaLibro) throws Exception {
+    public void moficarEditorial(String id, String nombre) throws Exception {
 
-        validarDatos(nombre, activo, fechaAltaLibro, fechaBajaLibro);
+        validarDatos(nombre);
 
         Optional<Editorial> respuesta = editorialRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Editorial editorial = respuesta.get();
             editorial.setNombre(nombre);
-            editorial.setAlta(activo);
-
             editorialRepositorio.save(editorial);
         } else {
             throw new ErrorServicio("No se encontro el Editorial");
@@ -72,15 +71,24 @@ public class EditorialService {
         }
     }
 
-    public void validarDatos(String nombre, Boolean activo, Date fechaAltaLibro, Date fechaBajaLibro) throws ErrorServicio {
+    @Transactional(readOnly = true)
+    public Editorial buscarPorId(String id) throws ErrorServicio {
+        Optional<Editorial> respuesta = editorialRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            return respuesta.get();
+        } else {
+            throw new ErrorServicio("No se encontro el Libro");
+        }
+    }
+
+    public void validarDatos(String nombre) throws ErrorServicio {
         if (nombre == null || nombre.isEmpty()) {
             throw new ErrorServicio("El nombre del nombre no puede ser nulo");
         }
 
-        if (fechaAltaLibro == null && fechaBajaLibro == null) {
-            throw new ErrorServicio("La fecha alta y la fecha baja no pueden ser ambas nulas");
-        }
-
+//        if (fechaAltaLibro == null && fechaBajaLibro == null) {
+//            throw new ErrorServicio("La fecha alta y la fecha baja no pueden ser ambas nulas");
+//        }
     }
 
 }

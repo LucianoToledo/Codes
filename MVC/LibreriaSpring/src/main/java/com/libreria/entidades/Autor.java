@@ -1,6 +1,7 @@
 package com.libreria.entidades;
 
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ public class Autor {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     private String nombre;
+    private String Apellido;
     private boolean activo;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -26,7 +28,7 @@ public class Autor {
     public Autor() {
     }
 
-    public Autor(String id, String nombre, Boolean activo, Date fechaAltaAutor, Date fechaBajaAutor) {
+    public Autor(String id, String nombre,String apellido, Boolean activo, Date fechaAltaAutor, Date fechaBajaAutor) {
         this.id = id;
         this.nombre = nombre;
         this.activo = activo;
@@ -48,6 +50,22 @@ public class Autor {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return Apellido;
+    }
+
+    public void setApellido(String Apellido) {
+        this.Apellido = Apellido;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     public Boolean getAlta() {
@@ -75,7 +93,7 @@ public class Autor {
 
     @Override
     public String toString() {
-        return "Autor{" + "id=" + id + ", nombre=" + nombre + ", activo=" + activo + ", fechaAltaAutor=" + fechaAltaAutor + ", fechaBajaAutor=" + fechaBajaAutor + '}';
+        return "Autor{" + "id=" + id + ", nombre=" + nombre + ", Apellido=" + Apellido + ", activo=" + activo + ", fechaAltaAutor=" + fechaAltaAutor + ", fechaBajaAutor=" + fechaBajaAutor + '}';
     }
 
  }

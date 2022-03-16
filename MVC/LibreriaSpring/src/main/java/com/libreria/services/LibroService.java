@@ -6,19 +6,27 @@ import com.libreria.entidades.Libro;
 import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.LibroRepositorio;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LibroService {
 
-    @Autowired
+    @Autowired //INYECCION DE DEPENDENCIA
     private LibroRepositorio libroRepositorio;
+    
+    @Autowired
+   private  AutorService autorServicio;
+    
+    @Autowired
+    private EditorialService editorialService;
+    
 
-    @Transactional
-    public void registrarLibro(String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo, Date fechaAltaLibro, Date fechaBajaLibro, Autor autor, Editorial editorial) throws ErrorServicio {
+    @Transactional(rollbackFor = {Exception.class})
+    public void agregarLibro(String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo, Date fechaAltaLibro, Date fechaBajaLibro, String idAutor, String idEditorial) throws ErrorServicio {
 
         validarDatos(titulo, ejemplares, ejemplaresPrestados, ejemplaresRestantes, fechaAltaLibro, fechaBajaLibro);
         Libro libro = new Libro();
@@ -28,11 +36,10 @@ public class LibroService {
         libro.setEjemplaresPrestados(ejemplaresPrestados);
         libro.setEjemplaresRestantes(libro.getEjemplares() - libro.getEjemplaresPrestados());
         libro.setActivo(true);
-        libro.setAutor(autor);
-        libro.setEditorial(editorial);
         libro.setFechaAltaLibro(new Date());
         libro.setFechaBajaLibro(null);
-
+        libro.setAutor(autorServicio.buscarPorId(idAutor));
+        libro.setEditorial(editorialService.buscarPorId(idEditorial));
         libroRepositorio.save(libro);
     }
 
@@ -57,7 +64,6 @@ public class LibroService {
         } else {
             throw new ErrorServicio("No se encontro el Libro");
         }
-
     }
 
     @Transactional
@@ -65,7 +71,7 @@ public class LibroService {
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
-            libro.setFechaBajaLibro(new Date()); //si existe el libro se le pone la fecha de baja                     agregar fechasAlta y fechaModificacion
+            libro.setFechaBajaLibro(new Date()); //si existe el libro se le pone la fecha de baja
             libroRepositorio.save(libro);
         } else {
             throw new ErrorServicio("No se encontro el Libro");
@@ -82,6 +88,20 @@ public class LibroService {
         } else {
             throw new ErrorServicio("No se encontro el Libro");
         }
+    }
+    
+      @Transactional(readOnly = true)
+    public Libro buscarPorId(String id) throws ErrorServicio{
+        Optional<Libro> respuesta = libroRepositorio.findById(id);
+         if (respuesta.isPresent()) {
+            return respuesta.get();
+        } else {
+            throw new ErrorServicio("No se encontro el Libro");
+        }
+    }
+    
+    public List<Libro> buscarPorAutor(String nombre){
+        return libroRepositorio.buscarPorAutor(nombre);
     }
 
     private void validarDatos(String titulo, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Date fechaAltaLibro, Date fechaBajaLibro) throws ErrorServicio {
