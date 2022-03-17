@@ -77,13 +77,13 @@ public class EditorialService {
         if (respuesta.isPresent()) {
             return respuesta.get();
         } else {
-            throw new ErrorServicio("No se encontro el Libro");
+            throw new ErrorServicio("No se encontro la Editorial");
         }
     }
 
     public void validarDatos(String nombre) throws ErrorServicio {
         if (nombre == null || nombre.isEmpty()) {
-            throw new ErrorServicio("El nombre del nombre no puede ser nulo");
+            throw new ErrorServicio("El nombre de la editorial no puede ser nulo");
         }
 
 //        if (fechaAltaLibro == null && fechaBajaLibro == null) {

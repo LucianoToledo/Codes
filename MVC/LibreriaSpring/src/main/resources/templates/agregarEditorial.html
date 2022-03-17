@@ -14,15 +14,17 @@
         <h2>Agregar Editorial</h2>
         <br>
         <form class="form" action="/agregarEditorial" method="POST">
-            <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="tituloLibro">Nombre Editorial</span>
                 <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="nombre">
             </div>
+            <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
+            <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
             <div class="d-grid gap-2 d-md-block">
                 <button class="btn btn-light" type="reset">Limpiar</button>
                 <button class="btn btn-light" type="submit">Aceptar</button>
             </div>
+
         </form>
         <br>
         <div class="button_bottom">

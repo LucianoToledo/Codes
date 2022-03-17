@@ -4,7 +4,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
@@ -19,8 +20,8 @@ public class Libro {
 
     private String titulo;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date anio;
+//    @Temporal(TemporalType.TIMESTAMP)
+    private String anio;
 
     private Integer ejemplares;
     private Integer ejemplaresPrestados;
@@ -32,13 +33,13 @@ public class Libro {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaBajaLibro;
 
-    @OneToOne
+    @ManyToOne
     private Autor autor;
 
-    @OneToOne
+    @ManyToOne
     private Editorial editorial;
 
-    public Libro(String id, String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo, Date fechaAltaLibro, Date fechaBajaLibro, Autor autor, Editorial editorial) {
+    public Libro(String id, String titulo, String anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo, Date fechaAltaLibro, Date fechaBajaLibro, Autor autor, Editorial editorial) {
         this.id = id;
         this.titulo = titulo;
         this.anio = anio;
@@ -71,11 +72,11 @@ public class Libro {
         this.titulo = titulo;
     }
 
-    public Date getAnio() {
+    public String getAnio() {
         return anio;
     }
 
-    public void setAnio(Date anio) {
+    public void setAnio(String anio) {
         this.anio = anio;
     }
 

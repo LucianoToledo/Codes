@@ -14,16 +14,16 @@
     <h2>Agregar Autor</h2>
     <br>
     <form class="form" action="/agregarAutor" method="POST">
-        <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="nombreAutor">Nombre</span>
-            <input type="text" class="form-control" name="nombre" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            <input type="text" class="form-control" name="nombre" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${nombre}">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="apellidoAutor">Apellido</span>
-            <input type="text" class="form-control" name="apellido" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            <input type="text" class="form-control" name="apellido" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${apellido}">
         </div>
-
+            <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
+            <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
         <div class="d-grid gap-2 d-md-block">
             <button class="btn btn-light" type="reset">Limpiar</button>
             <button class="btn btn-light" type="submit">Aceptar</button>

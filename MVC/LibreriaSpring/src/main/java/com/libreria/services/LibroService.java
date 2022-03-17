@@ -17,49 +17,58 @@ public class LibroService {
 
     @Autowired //INYECCION DE DEPENDENCIA
     private LibroRepositorio libroRepositorio;
-    
+
     @Autowired
-   private  AutorService autorServicio;
-    
+    private AutorService autorServicio;
+
     @Autowired
     private EditorialService editorialService;
-    
 
     @Transactional(rollbackFor = {Exception.class})
-    public void agregarLibro(String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo, Date fechaAltaLibro, Date fechaBajaLibro, String idAutor, String idEditorial) throws ErrorServicio {
+    public void agregarLibro(String titulo, String anio, Integer ejemplares, String idAutor, String idEditorial) throws ErrorServicio {
 
-        validarDatos(titulo, ejemplares, ejemplaresPrestados, ejemplaresRestantes, fechaAltaLibro, fechaBajaLibro);
+        Autor autor = autorServicio.buscarPorId(idAutor);
+        Editorial editorial = (editorialService.buscarPorId(idEditorial));
+
+        validarDatos(titulo, ejemplares, autor, editorial);
+
         Libro libro = new Libro();
         libro.setTitulo(titulo);
-        libro.setAnio(anio);
+        libro.setAnio(anio);  //validar que sea solo el año
         libro.setEjemplares(ejemplares);
-        libro.setEjemplaresPrestados(ejemplaresPrestados);
+        libro.setEjemplaresPrestados(0);
         libro.setEjemplaresRestantes(libro.getEjemplares() - libro.getEjemplaresPrestados());
         libro.setActivo(true);
         libro.setFechaAltaLibro(new Date());
         libro.setFechaBajaLibro(null);
-        libro.setAutor(autorServicio.buscarPorId(idAutor));
-        libro.setEditorial(editorialService.buscarPorId(idEditorial));
+        libro.setAutor(autor);
+        libro.setEditorial(editorial);
         libroRepositorio.save(libro);
     }
 
     //no se utilizan las fechas alta y baja
     @Transactional
-    public void modificarLibro(String id, String titulo, Date anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo,Date fechaAltaLibro, Date fechaBajaLibro, Autor autor, Editorial editorial) throws ErrorServicio {
+    public void modificarLibro(String id, String titulo, String anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Autor autor, Editorial editorial) throws ErrorServicio {
 
-        validarDatos(titulo, ejemplares, ejemplaresPrestados, ejemplaresRestantes, fechaAltaLibro, fechaBajaLibro);
+        validarDatos(titulo, ejemplares, autor, editorial);
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
             libro.setTitulo(titulo);
             libro.setAnio(anio);
-            libro.setEjemplares(ejemplares);
-            libro.setEjemplaresPrestados(0);
-            libro.setEjemplaresRestantes(libro.getEjemplares() - libro.getEjemplaresPrestados());
-            libro.setActivo(activo);
+            
+            if (ejemplares < libro.getEjemplaresPrestados()) {
+                throw new ErrorServicio("No pueden haber menos ejemplares totales que los prestados \n"
+                        + "Ejemplares total: " + libro.getEjemplares() + "\n"
+                        + "Ejemplares prestados: " + libro.getEjemplaresPrestados() + "\n"
+                        + "Ejemplares restantes: " + libro.getEjemplaresRestantes());
+            } else {
+                libro.setEjemplares(ejemplares);
+            }
+            
             libro.setAutor(autor);
             libro.setEditorial(editorial);
-
+            
             libroRepositorio.save(libro);
         } else {
             throw new ErrorServicio("No se encontro el Libro");
@@ -72,6 +81,7 @@ public class LibroService {
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
             libro.setFechaBajaLibro(new Date()); //si existe el libro se le pone la fecha de baja
+            libro.setActivo(false);
             libroRepositorio.save(libro);
         } else {
             throw new ErrorServicio("No se encontro el Libro");
@@ -84,47 +94,54 @@ public class LibroService {
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
             libro.setFechaBajaLibro(null); // si existe el libro se elimina la fecha de baja  agregar fechasAlta y fechaModificacion
+            libro.setActivo(true);
             libroRepositorio.save(libro);
         } else {
             throw new ErrorServicio("No se encontro el Libro");
         }
     }
-    
-      @Transactional(readOnly = true)
-    public Libro buscarPorId(String id) throws ErrorServicio{
+
+    @Transactional(readOnly = true)
+    public Libro buscarPorId(String id) throws ErrorServicio {
         Optional<Libro> respuesta = libroRepositorio.findById(id);
-         if (respuesta.isPresent()) {
+        if (respuesta.isPresent()) {
             return respuesta.get();
         } else {
             throw new ErrorServicio("No se encontro el Libro");
         }
     }
-    
-    public List<Libro> buscarPorAutor(String nombre){
+
+    public List<Libro> buscarPorAutor(String nombre) {
         return libroRepositorio.buscarPorAutor(nombre);
     }
 
-    private void validarDatos(String titulo, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Date fechaAltaLibro, Date fechaBajaLibro) throws ErrorServicio {
+    private void validarDatos(String titulo, Integer ejemplares, Autor autor, Editorial editorial) throws ErrorServicio {
         if (titulo == null || titulo.isEmpty()) {
             throw new ErrorServicio("El nombre del titulo no puede ser nulo");
         }
         if (ejemplares == null || ejemplares < 0) {
             throw new ErrorServicio("La cantidad de ejemplares del titulo no puede ser nulo o menor a 1");
         }
-        if (ejemplares < ejemplaresPrestados) {
-            throw new ErrorServicio("La cantidad de ejemplares del titulo no puede ser menor que la cantidad de ejemplares prestado");
+        if (autor == null) {
+            throw new ErrorServicio("No se encontro el autor solicitado");
         }
-        if (ejemplares < ejemplaresPrestados) {
-            throw new ErrorServicio("La cantidad de ejemplares del titulo no puede ser menor que la cantidad de ejemplares restantes");
+        if (editorial == null) {
+            throw new ErrorServicio("No se encontro la editorial solicitada");
         }
-        if (ejemplaresPrestados == null || ejemplaresPrestados < 0) {
-            throw new ErrorServicio("La cantidad de ejemplares prestados del titulo no puede ser nulo");
-        }
-        if (ejemplaresRestantes == null || ejemplaresRestantes < 0) {
-            throw new ErrorServicio("La cantidad de ejemplares restantes del titulo no puede ser nulo");
-        }
-        if (fechaAltaLibro == null && fechaBajaLibro == null) {
-            throw new ErrorServicio("La fecha alta y la fecha baja no pueden ser ambas nulas");
-        }
+//        if (ejemplares < ejemplaresPrestados) {
+//            throw new ErrorServicio("La cantidad de ejemplares del titulo no puede ser menor que la cantidad de ejemplares prestado");
+//        }
+//        if (ejemplares < ejemplaresPrestados) {
+//            throw new ErrorServicio("La cantidad de ejemplares del titulo no puede ser menor que la cantidad de ejemplares restantes");
+//        }
+//        if (ejemplaresPrestados == null || ejemplaresPrestados < 0) {
+//            throw new ErrorServicio("La cantidad de ejemplares prestados del titulo no puede ser nulo");
+//        }
+//        if (ejemplaresRestantes == null || ejemplaresRestantes < 0) {
+//            throw new ErrorServicio("La cantidad de ejemplares restantes del titulo no puede ser nulo");
+//        }
+//        if (fechaAltaLibro == null && fechaBajaLibro == null) {
+//            throw new ErrorServicio("La fecha alta y la fecha baja no pueden ser ambas nulas");
+//        }
     }
 }
