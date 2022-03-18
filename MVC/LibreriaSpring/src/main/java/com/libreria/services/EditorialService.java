@@ -4,6 +4,7 @@ import com.libreria.entidades.Editorial;
 import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.EditorialRepositorio;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,22 @@ public class EditorialService {
         Optional<Editorial> respuesta = editorialRepositorio.findById(id);
         if (respuesta.isPresent()) {
             return respuesta.get();
+        } else {
+            throw new ErrorServicio("No se encontro la Editorial");
+        }
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Editorial> listarEditoriales() {
+        List<Editorial> editoriales = editorialRepositorio.findAll();
+        return editoriales;
+    }
+    
+      @Transactional(rollbackFor = { Exception.class })
+    public void eliminarEditorial(String id) throws ErrorServicio {
+        Optional<Editorial> respuesta = editorialRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            editorialRepositorio.deleteById(respuesta.get().getId());
         } else {
             throw new ErrorServicio("No se encontro la Editorial");
         }

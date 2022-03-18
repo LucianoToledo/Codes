@@ -1,6 +1,7 @@
 package com.libreria.services;
 
 import com.libreria.entidades.Autor;
+import com.libreria.entidades.Libro;
 import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.AutorRepositorio;
 import java.util.Date;
@@ -16,6 +17,9 @@ public class AutorService {
 
     @Autowired
     private AutorRepositorio autorRepositorio;
+    
+    @Autowired
+    private LibroService libroService;
 
     @Transactional(rollbackFor = {Exception.class})
     public void agregarAutor(String nombre, String apellido) throws Exception {
@@ -89,15 +93,20 @@ public class AutorService {
         return autores;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(rollbackFor = {Exception.class})
     public void eliminarAutor(String id) throws ErrorServicio {
         Optional<Autor> respuesta = autorRepositorio.findById(id);
         if (respuesta.isPresent()) {
+            if(libroService.buscarPorAutorPorId(id)){
+                
+            }
             autorRepositorio.deleteById(respuesta.get().getId());
         } else {
             throw new ErrorServicio("No se encontro el Autor");
         }
     }
+    
+    
 
     public void validarDatos(String nombre, String apellido) throws ErrorServicio {
         if (nombre == null || nombre.isEmpty()) {

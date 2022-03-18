@@ -30,6 +30,7 @@ public class Libro {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaAltaLibro;
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaBajaLibro;
 

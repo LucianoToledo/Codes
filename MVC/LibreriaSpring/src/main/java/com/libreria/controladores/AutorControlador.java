@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,9 +25,10 @@ public class AutorControlador {
 
     @GetMapping("/agregarAutor")
     public String agregarAutor() {
+        
         return "agregarAutor.html";
     }
-
+    
     @PostMapping("/agregarAutor")
     public String agregarAutor(@RequestParam String nombre, @RequestParam String apellido, ModelMap model) {
         System.out.println("Nombre: " + nombre);
@@ -52,13 +54,13 @@ public class AutorControlador {
         return "listarAutores.html";
     }
     
-    @DeleteMapping("/eliminarAutor")
-    public String eliminarAutor(@RequestParam String id){
+    @GetMapping("/eliminarAutor/{id}")
+    public String eliminarAutor(@PathVariable("id") String id){
         try {
             autorService.eliminarAutor(id);
         } catch (ErrorServicio ex) {
             Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "listarAutores.html";
+        return "redirect:/listadoAutores";
     }
 }

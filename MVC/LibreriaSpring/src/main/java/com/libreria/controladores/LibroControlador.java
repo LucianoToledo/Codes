@@ -2,6 +2,7 @@ package com.libreria.controladores;
 
 import com.libreria.entidades.Autor;
 import com.libreria.entidades.Editorial;
+import com.libreria.entidades.Libro;
 import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.AutorRepositorio;
 import com.libreria.repositorios.EditorialRepositorio;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequestMapping("/")
@@ -52,7 +54,6 @@ public class LibroControlador {
             
             List<Autor> autores = autorRepositorio.findAll();
             model.put("autores", autores);
-            //del servicio hay que hacer un metodo que llame a todos para traerlos aca
             
             List<Editorial> editoriales = editorialRepositorio.findAll();
             model.put("editoriales", editoriales);
@@ -70,5 +71,22 @@ public class LibroControlador {
         model.put("editoriales", editoriales);
         
         return "agregarLibro.html";
+    }
+    
+      @GetMapping("/listadoLibros")
+    public String listarLibros(String id, ModelMap model) throws ErrorServicio{
+        List<Libro> libros = libroService.listarLibros();
+        model.put("libros", libros);
+        return "listarLibros.html";
+    }
+    
+   @GetMapping("/eliminarLibro/{id}")
+    public String eliminarLibro(@PathVariable("id") String id){
+        try {
+            libroService.eliminarLibro(id);
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "redirect:/listadoLibros";
     }
 }

@@ -37,7 +37,7 @@ public class LibroService {
         libro.setAnio(anio);  //validar que sea solo el año
         libro.setEjemplares(ejemplares);
         libro.setEjemplaresPrestados(0);
-        libro.setEjemplaresRestantes(libro.getEjemplares() - libro.getEjemplaresPrestados());
+        libro.setEjemplaresRestantes(ejemplares);
         libro.setActivo(true);
         libro.setFechaAltaLibro(new Date());
         libro.setFechaBajaLibro(null);
@@ -56,7 +56,7 @@ public class LibroService {
             Libro libro = respuesta.get();
             libro.setTitulo(titulo);
             libro.setAnio(anio);
-            
+
             if (ejemplares < libro.getEjemplaresPrestados()) {
                 throw new ErrorServicio("No pueden haber menos ejemplares totales que los prestados \n"
                         + "Ejemplares total: " + libro.getEjemplares() + "\n"
@@ -65,10 +65,10 @@ public class LibroService {
             } else {
                 libro.setEjemplares(ejemplares);
             }
-            
+
             libro.setAutor(autor);
             libro.setEditorial(editorial);
-            
+
             libroRepositorio.save(libro);
         } else {
             throw new ErrorServicio("No se encontro el Libro");
@@ -111,8 +111,30 @@ public class LibroService {
         }
     }
 
-    public List<Libro> buscarPorAutor(String nombre) {
-        return libroRepositorio.buscarPorAutor(nombre);
+    public List<Libro> buscarPorAutorPorNombre(String nombre) {
+        return libroRepositorio.buscarPorAutorPorNombre(nombre);
+    }
+    public List<Libro> buscarPorAutorPorId(String id) {
+        return libroRepositorio.buscarPorAutorPorId(id);
+    }
+    
+    
+    
+
+    @Transactional(readOnly = true)
+    public List<Libro> listarLibros() {
+        List<Libro> libros = libroRepositorio.findAll();
+        return libros;
+    }
+    
+    @Transactional(rollbackFor = { Exception.class })
+    public void eliminarLibro(String id) throws ErrorServicio {
+        Optional<Libro> respuesta = libroRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            libroRepositorio.deleteById(respuesta.get().getId());
+        } else {
+            throw new ErrorServicio("No se encontro el Libro");
+        }
     }
 
     private void validarDatos(String titulo, Integer ejemplares, Autor autor, Editorial editorial) throws ErrorServicio {
@@ -144,4 +166,5 @@ public class LibroService {
 //            throw new ErrorServicio("La fecha alta y la fecha baja no pueden ser ambas nulas");
 //        }
     }
+
 }
