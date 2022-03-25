@@ -12,21 +12,24 @@
 
     <body>
         <div class="container">
-            <h2>Editoriales</h2>
+            <h2>Autores</h2>
+
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Nombre Editorial</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
                         <th>Accion</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="editorial : ${editoriales}">
-                        <td th:text="${editorial.nombre}"></td>
+                    <tr th:each="autor : ${autores}">
+                        <td th:text="${autor.nombre}"></td>
+                        <td th:text="${autor.apellido}"></td>
                         <td>
                             <div class="d-grid gap-2 d-md-block">
-                                <a class="btn btn-light" th:href="@{/modificarEditorial(id=${__editorial.id__})}">Editar</a>
-                                <a class="btn btn-light" th:href="@{/eliminarEditorial/} + ${editorial.id}">Eliminar</a>
+                                <a class="btn btn-light" th:href="@{/modificarAutor(id=${__autor.id__})}">Editar</a>
+                                <a class="btn btn-light" th:href="@{/eliminarAutor/} + ${autor.id}">Eliminar</a>
                             </div>
                         </td>
                     </tr>

@@ -12,9 +12,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EditorialRepositorio extends JpaRepository<Editorial, String>{
-    
+public interface EditorialRepositorio extends JpaRepository<Editorial, String> {
+
     @Query("Select e FROM Editorial e WHERE e.id LIKE :id")
     public Editorial buscarPorId(@Param("id") String id);
-    
+
+    @Query("Select e FROM Editorial e WHERE e.nombre LIKE :nombre")
+    public Editorial buscarPorNombre(@Param("nombre") String nombre);
+
 }

@@ -7,6 +7,7 @@ import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.AutorRepositorio;
 import com.libreria.repositorios.EditorialRepositorio;
 import com.libreria.services.LibroService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +34,7 @@ public class LibroControlador {
     private EditorialRepositorio editorialRepositorio;
 
     @PostMapping("/agregarLibro")
-    public String agregarLibro(@RequestParam String titulo, @RequestParam Integer ejemplares, String anio,  String idAutor, String idEditorial, ModelMap model) {
+    public String agregarLibro(@RequestParam String titulo, @RequestParam Integer ejemplares, String anio, String idAutor, String idEditorial, ModelMap model) {
         System.out.println("Titulo: " + titulo);
         System.out.println("Ejemplares: " + ejemplares);
         System.out.println("Anio: " + anio);
@@ -51,10 +52,10 @@ public class LibroControlador {
             model.put("ejemplares", ejemplares);
             model.put("idAutor", idAutor);
             model.put("idEditorial", idEditorial);
-            
+
             List<Autor> autores = autorRepositorio.findAll();
             model.put("autores", autores);
-            
+
             List<Editorial> editoriales = editorialRepositorio.findAll();
             model.put("editoriales", editoriales);
         }
@@ -63,25 +64,18 @@ public class LibroControlador {
 
     @GetMapping("/agregarLibro")
     public String agregarAutorLibro(ModelMap model) {
-        
+
         List<Autor> autores = autorRepositorio.findAll();
         model.put("autores", autores);
-        
+
         List<Editorial> editoriales = editorialRepositorio.findAll();
         model.put("editoriales", editoriales);
-        
+
         return "agregarLibro.html";
     }
-    
-      @GetMapping("/listadoLibros")
-    public String listarLibros(String id, ModelMap model) throws ErrorServicio{
-        List<Libro> libros = libroService.listarLibros();
-        model.put("libros", libros);
-        return "listarLibros.html";
-    }
-    
-   @GetMapping("/eliminarLibro/{id}")
-    public String eliminarLibro(@PathVariable("id") String id){
+
+    @GetMapping("/eliminarLibro/{id}")
+    public String eliminarLibro(@PathVariable("id") String id) {
         try {
             libroService.eliminarLibro(id);
         } catch (ErrorServicio ex) {
@@ -89,4 +83,39 @@ public class LibroControlador {
         }
         return "redirect:/listadoLibros";
     }
+
+    @GetMapping("/prestamoLibro")
+    public String prestamoLibro() {
+        return "prestamo-libro.html";
+    }
+
+    @GetMapping("/listadoLibros")
+    public String listarLibros(String id, ModelMap model, @RequestParam(required = false) String query) throws ErrorServicio {
+//        List<Libro> libros = new ArrayList();
+//        
+//        if (query == null) {
+//            libros = libroService.listarLibros();
+//        } else {
+//            libros = libroService.buscarPor(query);
+//        }
+        List<Libro> libros = libroService.listarLibros();
+        model.put("libros", libros);
+        return "listarLibros.html";
+    }
+    
+    @GetMapping("/prestamoLibros")
+    public String buscarPor(ModelMap model, @RequestParam(required = false) String query) throws ErrorServicio {
+        List<Libro> libros = new ArrayList();
+
+        if (query == null) {
+            libros = libroService.listarLibros();
+        } else {
+            libros = libroService.buscarPor(query);
+        }
+ 
+        model.put("libros", libros);
+        return "prestamo-libro.html";
+    }
+
+   
 }

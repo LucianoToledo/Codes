@@ -13,47 +13,55 @@
 <body>
     <div class="container">
         <h2>Libros</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Año</th>
-                    <th>Ejemplares</th>
-                    <th>Ejemplares Restantes</th>
-                    <th>Ejemplares Prestados</th>
-                    <th>Fecha Alta</th>
-                    <th>Fecha Baja</th>
-                    <th>Activo</th>
-                    <th>Autor</th>
-                    <th>Editorial</th>
-                    <th>Accion</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="libro : ${libros}">
-                    <td th:text="${libro.titulo}"></td>
-                    <td th:text="${libro.anio}"></td>
-                    <td th:text="${libro.ejemplares}"></td>
-                    <td th:text="${libro.ejemplaresPrestados}"></td>
-                    <td th:text="${libro.ejemplaresRestantes}"></td>
-                    <td th:text="${libro.fechaAltaLibro}"></td>
-                    <td th:text="${libro.fechaBajaLibro}"></td>
-                    <td th:text="${libro.activo ? 'Si' : 'No'}"></td>
-                    <td th:text="${libro.autor.nombre}"></td>
-                    <td th:text="${libro.editorial.nombre}"></td>
-                    <td>
-                        <div class="d-grid gap-2 d-md-block">
-                            <a class="btn btn-light" th:href="@{/modificarLibro(id=${__libro.id__})}">Editar</a>
-                            <a class="btn btn-light" th:href="@{/eliminarLibro/} + ${libro.id}">Eliminar</a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="button_bottom">
-            <button type="button" class="btn btn-secondary btn-l"><a th:href="@{/}">Volver</a></button>
-        </div>
     </div>
+    <form th:action="@{/listadoLibros}">
+        <input name="query" />
+        <button>Buscar</button>
+    </form>
+    <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
+    <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
+    <div class="d-grid gap-2 d-md-block"></div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Año</th>
+                <th>Ejemplares</th>
+                <th>Ejemplares Prestados</th>
+                <th>Ejemplares Restantes</th>
+                <th>Fecha Alta</th>
+                <th>Fecha Baja</th>
+                <th>Activo</th>
+                <th>Autor</th>
+                <th>Editorial</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="libro : ${libros}">
+                <td th:text="${libro.titulo}"></td>
+                <td th:text="${libro.anio}"></td>
+                <td th:text="${libro.ejemplares}"></td>
+                <td th:text="${libro.ejemplaresPrestados}"></td>
+                <td th:text="${libro.ejemplaresRestantes}"></td>
+                <td th:text="${libro.fechaAltaLibro}"></td>
+                <td th:text="${libro.fechaBajaLibro}"></td>
+                <td th:text="${libro.activo ? 'Si' : 'No'}"></td>
+                <td th:text="${libro.autor.nombre}"></td>
+                <td th:text="${libro.editorial.nombre}"></td>
+                <td>
+                    <div class="d-grid gap-2 d-md-block">
+                        <a class="btn btn-light" th:href="@{/modificarLibro(id=${__libro.id__})}">Editar</a>
+                        <a class="btn btn-light" th:href="@{/eliminarLibro/} + ${libro.id}">Eliminar</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="button_bottom">
+        <button type="button" class="btn btn-secondary btn-l"><a th:href="@{/}">Volver</a></button>
+    </div>
+
 </body>
 
 </html>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/")
@@ -40,22 +41,24 @@ public class EditorialControlador {
         }
         return "agregarEditorial.html";
     }
-    
+
     @GetMapping("/listadoEditoriales")
-    public String listarEditoriales(String id, ModelMap model){
+    public String listarEditoriales(String id, ModelMap model) {
         List<Editorial> editoriales = editorialService.listarEditoriales();
         model.put("editoriales", editoriales);
         return "listarEditoriales.html";
     }
-    
+
     @GetMapping("/eliminarEditorial/{id}")
-    public String eliminarAutor(@PathVariable("id") String id){
+    public String eliminarAutor(@PathVariable("id") String id, RedirectAttributes attr) {
         try {
             editorialService.eliminarEditorial(id);
+            attr.addFlashAttribute("exito", "Editorial eliminada correctamente");
         } catch (ErrorServicio ex) {
             Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+            attr.addFlashAttribute("error", ex.getMessage());
         }
         return "redirect:/listadoEditoriales";
     }
-    
+
 }

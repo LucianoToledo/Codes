@@ -10,6 +10,7 @@
 </head>
 
 <body>
+
     <div>
         <nav class="navbar navbar-light bg-light ">
             <div class="container-fluid justify-content-center">
@@ -18,7 +19,6 @@
         </nav>
     </div>
     <br>
-
     <!-- class="container d-flex align-items-center justify-content-center" -->
     <div class="container">
 
@@ -27,7 +27,7 @@
             <a href="#" class="list-group-item list-group-item-action active title_list " aria-current="true">
                 Registros de Prestamos
             </a>
-            <a href="#" class="list-group-item list-group-item-action">Prestamo Libro</a>
+            <a th:href="@{/prestamoLibros}" class="list-group-item list-group-item-action">Prestamo Libro</a>
             <a href="#" class="list-group-item list-group-item-action">Devolucion Libro</a>
 
         </div>
@@ -37,7 +37,7 @@
             <a href="#" class="list-group-item list-group-item-action active title_list" aria-current="true">
                 Listar..
             </a>
-            <a th:href="@{/listadoLibros}"class="list-group-item list-group-item-action">Listar Libros</a>
+            <a th:href="@{/listadoLibros}" class="list-group-item list-group-item-action">Listar Libros</a>
             <a th:href="@{/listadoAutores}" class="list-group-item list-group-item-action">Listar Autores</a>
             <a th:href="@{/listadoEditoriales}" class="list-group-item list-group-item-action">Listar Editoriales</a>
         </div>

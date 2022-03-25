@@ -24,3 +24,7 @@ a:hover {
     float: auto;
     text-size-adjust: 20px;
 }
+
+-containerPrestamo {
+    display: flex;
+}

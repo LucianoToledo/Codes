@@ -41,6 +41,9 @@ public class LibroService {
         libro.setActivo(true);
         libro.setFechaAltaLibro(new Date());
         libro.setFechaBajaLibro(null);
+        libro.setPrestamo(false);
+        libro.setFechaPrestamo(null);
+        libro.setFechaDevolucion(null);
         libro.setAutor(autor);
         libro.setEditorial(editorial);
         libroRepositorio.save(libro);
@@ -111,23 +114,13 @@ public class LibroService {
         }
     }
 
-    public List<Libro> buscarPorAutorPorNombre(String nombre) {
-        return libroRepositorio.buscarPorAutorPorNombre(nombre);
-    }
-    public List<Libro> buscarPorAutorPorId(String id) {
-        return libroRepositorio.buscarPorAutorPorId(id);
-    }
-    
-    
-    
-
     @Transactional(readOnly = true)
     public List<Libro> listarLibros() {
         List<Libro> libros = libroRepositorio.findAll();
         return libros;
     }
-    
-    @Transactional(rollbackFor = { Exception.class })
+
+    @Transactional(rollbackFor = {Exception.class})
     public void eliminarLibro(String id) throws ErrorServicio {
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -136,6 +129,12 @@ public class LibroService {
             throw new ErrorServicio("No se encontro el Libro");
         }
     }
+
+    @Transactional(readOnly = true)
+    public List<Libro> buscarPor(String query) {
+        return libroRepositorio.buscarPor(query);
+    }
+
 
     private void validarDatos(String titulo, Integer ejemplares, Autor autor, Editorial editorial) throws ErrorServicio {
         if (titulo == null || titulo.isEmpty()) {
@@ -150,21 +149,6 @@ public class LibroService {
         if (editorial == null) {
             throw new ErrorServicio("No se encontro la editorial solicitada");
         }
-//        if (ejemplares < ejemplaresPrestados) {
-//            throw new ErrorServicio("La cantidad de ejemplares del titulo no puede ser menor que la cantidad de ejemplares prestado");
-//        }
-//        if (ejemplares < ejemplaresPrestados) {
-//            throw new ErrorServicio("La cantidad de ejemplares del titulo no puede ser menor que la cantidad de ejemplares restantes");
-//        }
-//        if (ejemplaresPrestados == null || ejemplaresPrestados < 0) {
-//            throw new ErrorServicio("La cantidad de ejemplares prestados del titulo no puede ser nulo");
-//        }
-//        if (ejemplaresRestantes == null || ejemplaresRestantes < 0) {
-//            throw new ErrorServicio("La cantidad de ejemplares restantes del titulo no puede ser nulo");
-//        }
-//        if (fechaAltaLibro == null && fechaBajaLibro == null) {
-//            throw new ErrorServicio("La fecha alta y la fecha baja no pueden ser ambas nulas");
-//        }
     }
 
 }

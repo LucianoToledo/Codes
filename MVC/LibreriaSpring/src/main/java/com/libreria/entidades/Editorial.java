@@ -27,6 +27,7 @@ public class Editorial {
     private Date fechaAltaEditorial;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaBajaEditorial;
+    //listar cantidad de libros por editorial
 
     public Editorial() {
     }

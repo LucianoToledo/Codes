@@ -27,20 +27,29 @@ public class Libro {
     private Integer ejemplaresPrestados;
     private Integer ejemplaresRestantes;
     private boolean activo;
+    private boolean prestamo;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaAltaLibro;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaBajaLibro;
+    
+    @Temporal(TemporalType.TIMESTAMP) //agregar clase PrestamoLibro donde se guarden las fechas de los prestamos
+    private Date fechaPrestamo;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaDevolucion;
 
     @ManyToOne
     private Autor autor;
 
     @ManyToOne
     private Editorial editorial;
+    
+    //contador cantidad de veces prestado
 
-    public Libro(String id, String titulo, String anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo, Date fechaAltaLibro, Date fechaBajaLibro, Autor autor, Editorial editorial) {
+    public Libro(String id, String titulo, String anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean activo, boolean prestamo, Date fechaAltaLibro, Date fechaBajaLibro, Date fechaPrestamo, Date fechaDevolucion, Autor autor, Editorial editorial) {
         this.id = id;
         this.titulo = titulo;
         this.anio = anio;
@@ -48,13 +57,42 @@ public class Libro {
         this.ejemplaresPrestados = ejemplaresPrestados;
         this.ejemplaresRestantes = ejemplaresRestantes;
         this.activo = activo;
+        this.prestamo = prestamo;
         this.fechaAltaLibro = fechaAltaLibro;
         this.fechaBajaLibro = fechaBajaLibro;
+        this.fechaPrestamo = fechaPrestamo;
+        this.fechaDevolucion = fechaDevolucion;
         this.autor = autor;
         this.editorial = editorial;
     }
 
+
+
     public Libro() {
+    }
+
+    public boolean isPrestamo() {
+        return prestamo;
+    }
+
+    public void setPrestamo(boolean prestamo) {
+        this.prestamo = prestamo;
+    }
+
+    public Date getFechaPrestamo() {
+        return fechaPrestamo;
+    }
+
+    public void setFechaPrestamo(Date fechaPrestamo) {
+        this.fechaPrestamo = fechaPrestamo;
+    }
+
+    public Date getFechaDevolucion() {
+        return fechaDevolucion;
+    }
+
+    public void setFechaDevolucion(Date fechaDevolucion) {
+        this.fechaDevolucion = fechaDevolucion;
     }
 
     public String getId() {
@@ -147,9 +185,8 @@ public class Libro {
 
     @Override
     public String toString() {
-        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", anio=" + anio + ", ejemplares=" + ejemplares + ", ejemplaresPrestados=" + ejemplaresPrestados + ", ejemplaresRestantes=" + ejemplaresRestantes + ", activo=" + activo + ", fechaAltaLibro=" + fechaAltaLibro + ", fechaBajaLibro=" + fechaBajaLibro + ", autor=" + autor + ", editorial=" + editorial + '}';
+        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", anio=" + anio + ", ejemplares=" + ejemplares + ", ejemplaresPrestados=" + ejemplaresPrestados + ", ejemplaresRestantes=" + ejemplaresRestantes + ", activo=" + activo + ", prestamo=" + prestamo + ", fechaAltaLibro=" + fechaAltaLibro + ", fechaBajaLibro=" + fechaBajaLibro + ", fechaPrestamo=" + fechaPrestamo + ", fechaDevolucion=" + fechaDevolucion + ", autor=" + autor + ", editorial=" + editorial + '}';
     }
 
-   
 
 }

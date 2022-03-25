@@ -1,8 +1,10 @@
 package com.libreria.services;
 
 import com.libreria.entidades.Editorial;
+import com.libreria.entidades.Libro;
 import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.EditorialRepositorio;
+import com.libreria.repositorios.LibroRepositorio;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,8 @@ public class EditorialService {
 
     @Autowired
     private EditorialRepositorio editorialRepositorio;
+    @Autowired
+    private LibroRepositorio libroRepositorio;
 
     @Transactional(rollbackFor = {Exception.class})
     public void agregarEditorial(String nombre) throws ErrorServicio {
@@ -81,18 +85,36 @@ public class EditorialService {
             throw new ErrorServicio("No se encontro la Editorial");
         }
     }
-    
+
     @Transactional(readOnly = true)
     public List<Editorial> listarEditoriales() {
         List<Editorial> editoriales = editorialRepositorio.findAll();
         return editoriales;
     }
-    
-      @Transactional(rollbackFor = { Exception.class })
+
+    @Transactional(readOnly = true)
+    public Editorial buscarPorNombre(String nombre) throws ErrorServicio {
+        Editorial editorial = editorialRepositorio.buscarPorNombre(nombre);
+        if (!(editorial == null)) {
+            return editorial;
+        } else {
+            throw new ErrorServicio("No se encontro la Editorial");
+        }
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
     public void eliminarEditorial(String id) throws ErrorServicio {
-        Optional<Editorial> respuesta = editorialRepositorio.findById(id);
-        if (respuesta.isPresent()) {
-            editorialRepositorio.deleteById(respuesta.get().getId());
+        Optional<Editorial> respuestaEditorial = editorialRepositorio.findById(id);
+        List<Libro> respuestaLibro = libroRepositorio.buscarPorIdEditorial(respuestaEditorial.get().getId());
+        if (respuestaEditorial.isPresent()) {
+            if (!respuestaLibro.isEmpty()) {
+                String errorMessage = "La editorial ''" + respuestaEditorial.get().getNombre() + "'' tiene asignado los siguientes libros: \n";
+                for (Libro libro : respuestaLibro) {
+                    errorMessage += "''" + libro.getTitulo() + "'' \n"; //validar que si es el ultimo libro no muestre el espacio en el mensaje
+                }
+                throw new ErrorServicio(errorMessage);
+            }
+            editorialRepositorio.deleteById(respuestaEditorial.get().getId());
         } else {
             throw new ErrorServicio("No se encontro la Editorial");
         }

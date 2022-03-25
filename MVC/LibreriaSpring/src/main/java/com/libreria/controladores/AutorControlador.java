@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/")
@@ -25,10 +26,10 @@ public class AutorControlador {
 
     @GetMapping("/agregarAutor")
     public String agregarAutor() {
-        
+
         return "agregarAutor.html";
     }
-    
+
     @PostMapping("/agregarAutor")
     public String agregarAutor(@RequestParam String nombre, @RequestParam String apellido, ModelMap model) {
         System.out.println("Nombre: " + nombre);
@@ -48,19 +49,33 @@ public class AutorControlador {
     }
 
     @GetMapping("/listadoAutores")
-    public String listarAutores(String id, ModelMap model) throws ErrorServicio{
+    public String listarAutores(String id, ModelMap model) throws ErrorServicio {
         List<Autor> autores = autorService.listarAutores();  //como se valida si vuelve nulo??
         model.put("autores", autores);
         return "listarAutores.html";
     }
-    
+
     @GetMapping("/eliminarAutor/{id}")
-    public String eliminarAutor(@PathVariable("id") String id){
+    public String eliminarAutor(@PathVariable("id") String id, RedirectAttributes attr) {
         try {
             autorService.eliminarAutor(id);
+            attr.addFlashAttribute("exito", "Autor eliminado correctamente");
         } catch (ErrorServicio ex) {
             Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+            attr.addFlashAttribute("error", ex.getMessage());
         }
         return "redirect:/listadoAutores";
+    }
+
+    @PostMapping("/modificarAutor")
+    public String modificarAutor(@RequestParam String id,@RequestParam(required = false) String nombre, @RequestParam(required = false)  String apellido, ModelMap model) {
+        try {
+            autorService.moficarAutor(id, nombre, apellido);
+            model.addAttribute("exito", "Autor cargado correctamente");
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
+            model.put("error", ex.getMessage());
+        }
+        return "agregarAutor.html";
     }
 }

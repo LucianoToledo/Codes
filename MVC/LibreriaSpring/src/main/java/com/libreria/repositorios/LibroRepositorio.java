@@ -13,12 +13,14 @@ public interface LibroRepositorio extends JpaRepository<Libro, String> {
     
     @Query("SELECT l FROM Libro l WHERE l.id LIKE :id")
     public Libro buscarPorId(@Param("id") String id);
-    
-    
-    @Query("SELECT l FROM Libro l WHERE l.autor.nombre LIKE :nombre")
-    public List<Libro> buscarPorAutorPorNombre(@Param("nombre") String nombre);
+     
+    @Query("SELECT l FROM Libro l WHERE l.editorial.id LIKE :id")
+    public List<Libro> buscarPorIdEditorial(@Param("id") String id);
     
     @Query("SELECT l FROM Libro l WHERE l.autor.id LIKE :id")
-    public List<Libro> buscarPorAutorPorId(@Param("id") String id);
+    public List<Libro> buscarPorIdAutor(@Param("id") String id);
+    
+    @Query("SELECT l FROM Libro l WHERE l.titulo LIKE %:query% OR l.autor.nombre LIKE %:query% OR l.editorial.nombre LIKE %:query%")
+    public List<Libro> buscarPor(@Param("query") String query);
     
 }

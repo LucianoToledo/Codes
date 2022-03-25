@@ -24,7 +24,7 @@ public class Autor {
     private Date fechaAltaAutor;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaBajaAutor;
-
+ //listar cantidad de libros por autor
     public Autor() {
     }
 
