@@ -112,7 +112,6 @@ public class LibroControlador {
         } else {
             libros = libroService.buscarPor(query);
         }
- 
         model.put("libros", libros);
         return "prestamo-libro.html";
     }

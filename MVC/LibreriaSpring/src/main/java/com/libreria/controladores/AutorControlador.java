@@ -67,7 +67,7 @@ public class AutorControlador {
         return "redirect:/listadoAutores";
     }
 
-    @PostMapping("/modificarAutor")
+    @PostMapping("/editarAutor")
     public String modificarAutor(@RequestParam String id,@RequestParam(required = false) String nombre, @RequestParam(required = false)  String apellido, ModelMap model) {
         try {
             autorService.moficarAutor(id, nombre, apellido);
@@ -76,6 +76,6 @@ public class AutorControlador {
             java.util.logging.Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
             model.put("error", ex.getMessage());
         }
-        return "agregarAutor.html";
+        return "modificar-autor.html";
     }
 }
