@@ -12,19 +12,14 @@
 
     <body>
         <div class="container">
-            <h2>Autores</h2>
+            <h2>Editoriales</h2>
 
-            <form class="form" action="/editarAutor" method="POST" >
-                <input type="hidden" name="id" th:value="${autor.id}"/>
-                
+            <form class="form" action="/editarEditorial" method="POST" >
+                <input type="hidden" name="id" th:value="${editorial.id}"/>
+
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="nombreAutor">Nombre</span>
-                    <input type="text" class="form-control" name="nombre" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  th:value="${autor.nombre}" >
-                </div>
-                
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="apellidoAutor">Apellido</span>
-                    <input type="text" class="form-control" name="apellido" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${autor.apellido}" >
+                    <input type="text" class="form-control" name="nombre" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  th:value="${editorial.nombre}" >
                 </div>
                 
                 <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
@@ -34,14 +29,14 @@
                     <button class="btn btn-light" type="reset">Limpiar</button>
                     <button class="btn btn-light" type="submit">Aceptar</button>
                 </div>
-                
             </form>
+            
             <br>
             <div class="button_bottom">
                 <button type="button" class="btn btn-secondary btn-l"><a th:href="@{/}">Volver al inicio</a></button>
-                <button type="button" class="btn btn-secondary btn-l"><a th:href="@{/listadoAutores}">Cancelar</a></button>
+                <button type="button" class="btn btn-secondary btn-l"><a th:href="@{/listarEditoriales}">Cancelar</a></button>
             </div>
 
     </body>
-    
+
 </html>

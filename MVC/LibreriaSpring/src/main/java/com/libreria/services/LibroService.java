@@ -49,11 +49,13 @@ public class LibroService {
         libroRepositorio.save(libro);
     }
 
-    //no se utilizan las fechas alta y baja
     @Transactional
-    public void modificarLibro(String id, String titulo, String anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Autor autor, Editorial editorial) throws ErrorServicio {
+    public void modificarLibro(String id, String titulo, String anio, Integer ejemplares, String idAutor, String idEditorial) throws ErrorServicio {
 
+        Autor autor = autorServicio.buscarPorId(idAutor);
+        Editorial editorial = (editorialService.buscarPorId(idEditorial));
         validarDatos(titulo, ejemplares, autor, editorial);
+        
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
@@ -134,7 +136,6 @@ public class LibroService {
     public List<Libro> buscarPor(String query) {
         return libroRepositorio.buscarPor(query);
     }
-
 
     private void validarDatos(String titulo, Integer ejemplares, Autor autor, Editorial editorial) throws ErrorServicio {
         if (titulo == null || titulo.isEmpty()) {

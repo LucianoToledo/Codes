@@ -67,15 +67,27 @@ public class AutorControlador {
         return "redirect:/listadoAutores";
     }
 
-    @PostMapping("/editarAutor")
-    public String modificarAutor(@RequestParam String id,@RequestParam(required = false) String nombre, @RequestParam(required = false)  String apellido, ModelMap model) {
+    @GetMapping("/editarAutor/{id}")
+    public String editarAutor(@PathVariable("id") String id, ModelMap model) {
+
+            Autor autor = new Autor();
         try {
-            autorService.moficarAutor(id, nombre, apellido);
-            model.addAttribute("exito", "Autor cargado correctamente");
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
-            model.put("error", ex.getMessage());
+            autor = autorService.buscarPorId(id);
+            model.put("autor", autor);
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "modificar-autor.html";
+    }
+    @PostMapping("/editarAutor")
+    public String editarAutor(@RequestParam String id, @RequestParam(required = false) String nombre, @RequestParam(required = false)  String apellido, RedirectAttributes attr) throws Exception {
+
+        try {
+            autorService.modificarAutor(id, nombre, apellido);
+
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "redirect:/listadoAutores";
     }
 }

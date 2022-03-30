@@ -20,7 +20,6 @@ public class Libro {
 
     private String titulo;
 
-//    @Temporal(TemporalType.TIMESTAMP)
     private String anio;
 
     private Integer ejemplares;

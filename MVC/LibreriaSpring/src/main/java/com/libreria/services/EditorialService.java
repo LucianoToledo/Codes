@@ -36,7 +36,7 @@ public class EditorialService {
     }
 
     @Transactional
-    public void moficarEditorial(String id, String nombre) throws Exception {
+    public void modificarEditorial(String id, String nombre) throws Exception {
 
         validarDatos(nombre);
 

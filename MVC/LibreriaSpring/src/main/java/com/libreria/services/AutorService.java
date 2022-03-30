@@ -38,14 +38,13 @@ public class AutorService {
     }
 
     @Transactional
-    public void moficarAutor(String id, String nombre, String apellido) throws Exception {
-
+    public void modificarAutor(String id, String nombre, String apellido) throws Exception {
         validarDatos(nombre, apellido);
-
         Optional<Autor> respuesta = autorRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Autor autor = respuesta.get();
             autor.setNombre(nombre);
+            autor.setApellido(apellido);
             autorRepositorio.save(autor);
         } else {
             throw new ErrorServicio("No se encontro el Autor");
@@ -87,7 +86,7 @@ public class AutorService {
             throw new ErrorServicio("No se encontro el Autor");
         }
     }
-    
+
     @Transactional(readOnly = true)
     public Autor buscarPorNombre(String nombre) throws ErrorServicio {
         Autor autor = autorRepositorio.buscarPorNombre(nombre);
@@ -97,6 +96,8 @@ public class AutorService {
              throw new ErrorServicio("No se encontro el Autor");
         }
     }
+    
+    
     
     @Transactional(readOnly = true)
     public List<Autor> listarAutores() throws ErrorServicio {

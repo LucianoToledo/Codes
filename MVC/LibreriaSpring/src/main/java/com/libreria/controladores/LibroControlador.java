@@ -6,6 +6,8 @@ import com.libreria.entidades.Libro;
 import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.AutorRepositorio;
 import com.libreria.repositorios.EditorialRepositorio;
+import com.libreria.services.AutorService;
+import com.libreria.services.EditorialService;
 import com.libreria.services.LibroService;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/")
@@ -28,13 +31,13 @@ public class LibroControlador {
     private LibroService libroService;
 
     @Autowired
-    private AutorRepositorio autorRepositorio;
+    private AutorService autorService;
 
     @Autowired
-    private EditorialRepositorio editorialRepositorio;
+    private EditorialService editorialService;
 
     @PostMapping("/agregarLibro")
-    public String agregarLibro(@RequestParam String titulo, @RequestParam Integer ejemplares, String anio, String idAutor, String idEditorial, ModelMap model) {
+    public String agregarLibro(@RequestParam String titulo, @RequestParam Integer ejemplares, @RequestParam String anio,@RequestParam String idAutor, @RequestParam String idEditorial, ModelMap model) throws ErrorServicio {
         System.out.println("Titulo: " + titulo);
         System.out.println("Ejemplares: " + ejemplares);
         System.out.println("Anio: " + anio);
@@ -53,22 +56,22 @@ public class LibroControlador {
             model.put("idAutor", idAutor);
             model.put("idEditorial", idEditorial);
 
-            List<Autor> autores = autorRepositorio.findAll();
+            List<Autor> autores = autorService.listarAutores();
             model.put("autores", autores);
 
-            List<Editorial> editoriales = editorialRepositorio.findAll();
+            List<Editorial> editoriales = editorialService.listarEditoriales();
             model.put("editoriales", editoriales);
         }
         return "agregarLibro.html";
     }
 
     @GetMapping("/agregarLibro")
-    public String agregarAutorLibro(ModelMap model) {
+    public String agregarAutorLibro(ModelMap model) throws ErrorServicio {
 
-        List<Autor> autores = autorRepositorio.findAll();
+        List<Autor> autores = autorService.listarAutores();
         model.put("autores", autores);
 
-        List<Editorial> editoriales = editorialRepositorio.findAll();
+        List<Editorial> editoriales = editorialService.listarEditoriales();
         model.put("editoriales", editoriales);
 
         return "agregarLibro.html";
@@ -102,7 +105,7 @@ public class LibroControlador {
         model.put("libros", libros);
         return "listarLibros.html";
     }
-    
+
     @GetMapping("/prestamoLibros")
     public String buscarPor(ModelMap model, @RequestParam(required = false) String query) throws ErrorServicio {
         List<Libro> libros = new ArrayList();
@@ -116,5 +119,35 @@ public class LibroControlador {
         return "prestamo-libro.html";
     }
 
-   
+    @GetMapping("/editarLibro/{id}")
+    public String editarLibro(@PathVariable("id") String id, ModelMap model) {
+
+        Libro libro = new Libro();
+        try {
+            libro = libroService.buscarPorId(id);
+            List<Autor> autores = autorService.listarAutores();
+            List<Editorial> editoriales = editorialService.listarEditoriales();
+
+            model.put("autores", autores);
+            model.put("editoriales", editoriales);
+            model.put("libro", libro);
+
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "modificar-libro.html";
+    }
+
+    @PostMapping("/editarLibro")
+    public String editarLibro(@RequestParam String id, @RequestParam(required = false) String titulo, @RequestParam(required = false) Integer ejemplares, @RequestParam(required = false) String anio, @RequestParam(required = false) String idAutor, @RequestParam(required = false) String idEditorial, ModelMap model) throws Exception {
+        try {
+            libroService.modificarLibro(id, titulo, anio, ejemplares, idAutor, idEditorial);
+            model.addAttribute("exito", "Libro editado correctamente");
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+            model.addAttribute("error", "Error inesperado");
+        }
+        return "redirect:/listadoLibros";
+
+    }
 }

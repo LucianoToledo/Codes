@@ -50,13 +50,36 @@ public class EditorialControlador {
     }
 
     @GetMapping("/eliminarEditorial/{id}")
-    public String eliminarAutor(@PathVariable("id") String id, RedirectAttributes attr) {
+    public String eliminarEditorial(@PathVariable("id") String id, RedirectAttributes attr) {
         try {
             editorialService.eliminarEditorial(id);
             attr.addFlashAttribute("exito", "Editorial eliminada correctamente");
         } catch (ErrorServicio ex) {
-            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditorialControlador.class.getName()).log(Level.SEVERE, null, ex);
             attr.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/listadoEditoriales";
+    }
+
+    @GetMapping("/editarEditorial/{id}")
+    public String editarEditorial(@PathVariable("id") String id, ModelMap model) {
+
+        Editorial editorial = new Editorial();
+        try {
+            editorial = editorialService.buscarPorId(id);
+            model.put("editorial", editorial);
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(EditorialControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "modificar-editorial.html";
+    }
+
+    @PostMapping("/editarEditorial")
+    public String editarEditorial(@RequestParam String id, @RequestParam(required = false) String nombre, RedirectAttributes attr) throws Exception {
+        try {
+            editorialService.modificarEditorial(id, nombre);
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(EditorialControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "redirect:/listadoEditoriales";
     }

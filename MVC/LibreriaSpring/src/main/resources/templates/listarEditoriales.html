@@ -25,7 +25,7 @@
                         <td th:text="${editorial.nombre}"></td>
                         <td>
                             <div class="d-grid gap-2 d-md-block">
-                                <a class="btn btn-light" th:href="@{/modificarEditorial(id=${__editorial.id__})}">Editar</a>
+                                <a class="btn btn-light" th:href="@{/editarEditorial/} + ${editorial.id}">Editar</a>
                                 <a class="btn btn-light" th:href="@{/eliminarEditorial/} + ${editorial.id}">Eliminar</a>
                             </div>
                         </td>

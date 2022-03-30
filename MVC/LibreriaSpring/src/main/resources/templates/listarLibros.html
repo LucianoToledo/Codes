@@ -51,7 +51,7 @@
                 <td th:text="${libro.editorial.nombre}"></td>
                 <td>
                     <div class="d-grid gap-2 d-md-block">
-                        <a class="btn btn-light" th:href="@{/modificarLibro(id=${__libro.id__})}">Editar</a>
+                        <a class="btn btn-light" th:href="@{/editarLibro/} + ${libro.id}">Editar</a>
                         <a class="btn btn-light" th:href="@{/eliminarLibro/} + ${libro.id}">Eliminar</a>
                     </div>
                 </td>
