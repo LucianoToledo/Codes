@@ -54,10 +54,15 @@ public class EditorialService {
     public void bajaEditorial(String id) throws ErrorServicio {
         Optional<Editorial> respuesta = editorialRepositorio.findById(id);
         if (respuesta.isPresent()) {
+            validarEditorialAsignada(respuesta, "dar de baja");
             Editorial editorial = respuesta.get();
-            editorial.setFechaBajaEditorial(new Date());
-
-            editorialRepositorio.save(editorial);
+            if (editorial.getAlta()) {
+                editorial.setFechaBajaEditorial(new Date());
+                editorial.setActivo(false);
+                editorialRepositorio.save(editorial);
+            } else {
+                throw new ErrorServicio("La Editorial ya se encuentra dada de Baja");
+            }
         } else {
             throw new ErrorServicio("No se encontro el Editorial");
         }
@@ -68,9 +73,14 @@ public class EditorialService {
         Optional<Editorial> respuesta = editorialRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Editorial editorial = respuesta.get();
-            editorial.setFechaBajaEditorial(null);
-
-            editorialRepositorio.save(editorial);
+            if (!editorial.getAlta()) {
+                editorial.setFechaBajaEditorial(null);
+                editorial.setFechaAltaEditorial(new Date());
+                editorial.setActivo(true);
+                editorialRepositorio.save(editorial);
+            } else {
+                throw new ErrorServicio("La Editorial ya se encuentra dada de Alta");
+            }
         } else {
             throw new ErrorServicio("No se encontro el Editorial");
         }
@@ -105,19 +115,28 @@ public class EditorialService {
     @Transactional(rollbackFor = {Exception.class})
     public void eliminarEditorial(String id) throws ErrorServicio {
         Optional<Editorial> respuestaEditorial = editorialRepositorio.findById(id);
+
+        if(validarEditorialAsignada(respuestaEditorial, "eliminar")){
+            editorialRepositorio.deleteById(id);
+        }
+    }
+
+    public boolean validarEditorialAsignada(Optional<Editorial> respuestaEditorial, String mensajeError) throws ErrorServicio {
+        boolean flag = true;
         List<Libro> respuestaLibro = libroRepositorio.buscarPorIdEditorial(respuestaEditorial.get().getId());
         if (respuestaEditorial.isPresent()) {
             if (!respuestaLibro.isEmpty()) {
-                String errorMessage = "La editorial ''" + respuestaEditorial.get().getNombre() + "'' tiene asignado los siguientes libros: \n";
+                String errorMessage = "No fue posible " + mensajeError + " a la Editorial: " + respuestaEditorial.get().getNombre() + "'' porque tiene asignado los siguientes libros: \n";
                 for (Libro libro : respuestaLibro) {
-                    errorMessage += "''" + libro.getTitulo() + "'' \n"; //validar que si es el ultimo libro no muestre el espacio en el mensaje
+                    errorMessage += "-''" + libro.getTitulo() + "'' \n";
+                    flag = false;
                 }
                 throw new ErrorServicio(errorMessage);
             }
-            editorialRepositorio.deleteById(respuestaEditorial.get().getId());
         } else {
             throw new ErrorServicio("No se encontro la Editorial");
         }
+        return flag;
     }
 
     public void validarDatos(String nombre) throws ErrorServicio {

@@ -83,5 +83,27 @@ public class EditorialControlador {
         }
         return "redirect:/listadoEditoriales";
     }
-
+  @GetMapping("/bajaEditorial/{id}")
+    public String bajaEditorial(@PathVariable("id") String id, RedirectAttributes attr) {
+        try {
+            editorialService.bajaEditorial(id);
+            attr.addFlashAttribute("exito", "Editorial dada de baja");
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(EditorialControlador.class.getName()).log(Level.SEVERE, null, ex);
+            attr.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/listadoEditoriales";
+    }
+    
+    @GetMapping("/altaEditorial/{id}")
+    public String altaEditorial(@PathVariable("id") String id, RedirectAttributes attr) {
+        try {
+            editorialService.altaEditorial(id);
+            attr.addFlashAttribute("exito", "Editorial dado de alta");
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(EditorialControlador.class.getName()).log(Level.SEVERE, null, ex);
+            attr.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/listadoEditoriales";
+    }
 }

@@ -30,7 +30,7 @@ public class AutorService {
 
         autor.setNombre(nombre);
         autor.setApellido(apellido);
-        autor.setAlta(true);
+        autor.setActivo(true);
         autor.setFechaAltaAutor(new Date());
         autor.setFechaBajaAutor(null);
 
@@ -55,10 +55,15 @@ public class AutorService {
     public void bajaAutor(String id) throws ErrorServicio {
         Optional<Autor> respuesta = autorRepositorio.findById(id);
         if (respuesta.isPresent()) {
+            validarAutorAsignado(respuesta, "dar de baja");
             Autor autor = respuesta.get();
-            autor.setFechaBajaAutor(new Date());
-
-            autorRepositorio.save(autor);
+            if (autor.isActivo()) {
+                autor.setFechaBajaAutor(new Date());
+                autor.setActivo(false);
+                autorRepositorio.save(autor);
+            } else {
+                throw new ErrorServicio("El Autor ya se encuentra dado de Baja");
+            }
         } else {
             throw new ErrorServicio("No se encontro el Autor");
         }
@@ -66,12 +71,18 @@ public class AutorService {
 
     @Transactional
     public void altaAutor(String id) throws ErrorServicio {
-        Optional<Autor> respuesta = autorRepositorio.findById(id);
-        if (respuesta.isPresent()) {
-            Autor autor = respuesta.get();
-            autor.setFechaBajaAutor(null);
+        Optional<Autor> respuestaAutor = autorRepositorio.findById(id);
+        if (respuestaAutor.isPresent()) {
+            Autor autor = respuestaAutor.get();
+            if (!autor.isActivo()) {
+                autor.setFechaBajaAutor(null);
+                autor.setFechaAltaAutor(new Date());
+                autor.setActivo(true);
+                autorRepositorio.save(autor);
+            } else {
+                throw new ErrorServicio("El Autor ya se encuentra dado de Alta");
+            }
 
-            autorRepositorio.save(autor);
         } else {
             throw new ErrorServicio("No se encontro el Autor");
         }
@@ -91,14 +102,12 @@ public class AutorService {
     public Autor buscarPorNombre(String nombre) throws ErrorServicio {
         Autor autor = autorRepositorio.buscarPorNombre(nombre);
         if (!(autor == null)) {
-             return autor;
-        }else{
-             throw new ErrorServicio("No se encontro el Autor");
+            return autor;
+        } else {
+            throw new ErrorServicio("No se encontro el Autor");
         }
     }
-    
-    
-    
+
     @Transactional(readOnly = true)
     public List<Autor> listarAutores() throws ErrorServicio {
         List<Autor> autores = autorRepositorio.findAll();
@@ -107,22 +116,34 @@ public class AutorService {
 
     @Transactional(rollbackFor = {Exception.class})
     public void eliminarAutor(String id) throws ErrorServicio {
+
         Optional<Autor> respuestaAutor = autorRepositorio.findById(id);
 
+        if (validarAutorAsignado(respuestaAutor, "eliminar")) {
+            autorRepositorio.deleteById(id);
+        }
+
+    }
+
+    @Transactional(readOnly = true)
+    public boolean validarAutorAsignado(Optional<Autor> respuestaAutor, String mensajeError) throws ErrorServicio {
+
+        boolean flag = true;
         List<Libro> respuestaLibro = libroRepositorio.buscarPorIdAutor(respuestaAutor.get().getId());
-        //int tamanio = respuestaLibro.size();
+
         if (respuestaAutor.isPresent()) {
             if (!respuestaLibro.isEmpty()) {
-                String errorMessage = "El autor ''" + respuestaAutor.get().getNombre() + " " + respuestaAutor.get().getApellido() + "'' tiene asignado los siguientes libros: \n";
+                String errorMessage = "No fue posible " + mensajeError + " al autor: ''" + respuestaAutor.get().getNombre() + " " + respuestaAutor.get().getApellido() + "'' porque tiene asignado los siguientes libros: \n";
                 for (Libro libro : respuestaLibro) {
-                    errorMessage +=  "''"+libro.getTitulo()+ "'' \n"; //validar que si es el ultimo libro no muestre el espacio en el mensaje
+                    errorMessage += "-''" + libro.getTitulo() + "'' \n"; //validar que si es el ultimo libro no muestre el espacio en el mensaje
+                    flag = false;
                 }
-                    throw new ErrorServicio(errorMessage);
+                throw new ErrorServicio(errorMessage);
             }
-            autorRepositorio.deleteById(respuestaAutor.get().getId());
         } else {
             throw new ErrorServicio("No se encontro el Autor");
         }
+        return flag;
     }
 
     public void validarDatos(String nombre, String apellido) throws ErrorServicio {

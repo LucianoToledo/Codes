@@ -20,6 +20,7 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Apellido</th>
+                    <th>Activo</th>
                     <th>Accion</th>
                 </tr>
             </thead>
@@ -27,17 +28,20 @@
                 <tr th:each="autor: ${autores}">
                     <td th:text="${autor.nombre}"></td>
                     <td th:text="${autor.apellido}"></td>
+                    <td th:text="${autor.activo ? 'Si' : 'No'}"></td>
                     <td>
                         <div class="d-grid gap-2 d-md-block">
-                                <a class="btn btn-light" th:href="@{/editarAutor/} + ${autor.id}">Editar</a>
-                                <a class="btn btn-light" th:href="@{/eliminarAutor/} + ${autor.id}">Eliminar</a>
+                                <a class="btn btn-secondary" th:href="@{/editarAutor/} + ${autor.id}">Editar Datos</a>
+                                <a class="btn btn-danger" th:href="@{/eliminarAutor/} + ${autor.id}">Eliminar Autor</a>
+                                <a class="btn btn-warning" th:href="@{/bajaAutor/} + ${autor.id}" >Baja Autor</a>
+                                <a class="btn btn-warning" th:href="@{/altaAutor/} + ${autor.id}" >Alta Autor</a>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
         <div class="button_bottom">
-            <button type="button" class="btn btn-secondary btn-l"><a th:href="@{/}">Volver</a></button>
+            <button type="button" class="btn btn-light btn-l"><a th:href="@{/}">Volver</a></button>
         </div>
         <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
         <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>

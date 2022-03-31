@@ -66,6 +66,30 @@ public class AutorControlador {
         }
         return "redirect:/listadoAutores";
     }
+    
+    @GetMapping("/bajaAutor/{id}")
+    public String bajaAutor(@PathVariable("id") String id, RedirectAttributes attr) {
+        try {
+            autorService.bajaAutor(id);
+            attr.addFlashAttribute("exito", "Autor dado de baja");
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+            attr.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/listadoAutores";
+    }
+    
+    @GetMapping("/altaAutor/{id}")
+    public String altaAutor(@PathVariable("id") String id, RedirectAttributes attr) {
+        try {
+            autorService.altaAutor(id);
+            attr.addFlashAttribute("exito", "Autor dado de alta");
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+            attr.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/listadoAutores";
+    }
 
     @GetMapping("/editarAutor/{id}")
     public String editarAutor(@PathVariable("id") String id, ModelMap model) {

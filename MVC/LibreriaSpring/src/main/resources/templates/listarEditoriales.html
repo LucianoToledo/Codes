@@ -24,17 +24,20 @@
                     <tr th:each="editorial : ${editoriales}">
                         <td th:text="${editorial.nombre}"></td>
                         <td>
-                            <div class="d-grid gap-2 d-md-block">
-                                <a class="btn btn-light" th:href="@{/editarEditorial/} + ${editorial.id}">Editar</a>
-                                <a class="btn btn-light" th:href="@{/eliminarEditorial/} + ${editorial.id}">Eliminar</a>
+                            <div class="d-grid gap-2 d-md-block">  
+                                <a class="btn btn-secondary" th:href="@{/editarEditorial/} + ${editorial.id}">Editar Datos</a>
+                                <a class="btn btn-danger" th:href="@{/eliminarEditorial/} + ${editorial.id}">Eliminar Autor</a>
+                                <a class="btn btn-warning" th:href="@{/bajaEditorial/} + ${editorial.id}" >Baja Editorial</a>
+                                <a class="btn btn-warning" th:href="@{/altaEditorial/} + ${editorial.id}" >Alta Editorial</a>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="button_bottom">
-                <button type="button" class="btn btn-secondary btn-l"><a th:href="@{/}">Volver</a></button>
+                <button type="button" class="btn btn-light btn-l"><a th:href="@{/}">Volver</a></button>
             </div>
+            <br/>
             <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
             <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
         </div>

@@ -55,7 +55,7 @@ public class LibroService {
         Autor autor = autorServicio.buscarPorId(idAutor);
         Editorial editorial = (editorialService.buscarPorId(idEditorial));
         validarDatos(titulo, ejemplares, autor, editorial);
-        
+
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
@@ -85,9 +85,13 @@ public class LibroService {
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
-            libro.setFechaBajaLibro(new Date()); //si existe el libro se le pone la fecha de baja
-            libro.setActivo(false);
-            libroRepositorio.save(libro);
+            if (libro.isActivo()) {
+                libro.setFechaBajaLibro(new Date()); //si existe el libro se le pone la fecha de baja
+                libro.setActivo(false);
+                libroRepositorio.save(libro);
+            } else {
+                throw new ErrorServicio("El Libro ya se encuentra dado de Baja");
+            }
         } else {
             throw new ErrorServicio("No se encontro el Libro");
         }
@@ -98,9 +102,14 @@ public class LibroService {
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
-            libro.setFechaBajaLibro(null); // si existe el libro se elimina la fecha de baja  agregar fechasAlta y fechaModificacion
-            libro.setActivo(true);
-            libroRepositorio.save(libro);
+            if (!libro.isActivo()) {
+                libro.setFechaBajaLibro(null); // si existe el libro se elimina la fecha de baja  agregar fechasAlta y fechaModificacion
+                libro.setFechaAltaLibro(new Date());
+                libro.setActivo(true);
+                libroRepositorio.save(libro);
+            }else {
+                throw new ErrorServicio("El Libro ya se encuentra dado de Alta");
+            }
         } else {
             throw new ErrorServicio("No se encontro el Libro");
         }

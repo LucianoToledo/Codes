@@ -68,10 +68,6 @@ public class Autor {
         this.activo = activo;
     }
 
-    public Boolean getAlta() {
-        return activo;
-    }
-
     public void setAlta(Boolean activo) {
         this.activo = activo;
     }

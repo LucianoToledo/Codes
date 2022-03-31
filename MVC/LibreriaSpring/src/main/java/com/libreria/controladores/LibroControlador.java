@@ -4,8 +4,6 @@ import com.libreria.entidades.Autor;
 import com.libreria.entidades.Editorial;
 import com.libreria.entidades.Libro;
 import com.libreria.errores.ErrorServicio;
-import com.libreria.repositorios.AutorRepositorio;
-import com.libreria.repositorios.EditorialRepositorio;
 import com.libreria.services.AutorService;
 import com.libreria.services.EditorialService;
 import com.libreria.services.LibroService;
@@ -149,5 +147,28 @@ public class LibroControlador {
         }
         return "redirect:/listadoLibros";
 
+    }
+      @GetMapping("/bajaLibro/{id}")
+    public String bajaLibro(@PathVariable("id") String id, RedirectAttributes attr) {
+        try {
+            libroService.bajaLibro(id);
+            attr.addFlashAttribute("exito", "Libro dado de baja");
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+            attr.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/listadoLibros";
+    }
+    
+    @GetMapping("/altaLibro/{id}")
+    public String altaLibro(@PathVariable("id") String id, RedirectAttributes attr) {
+        try {
+            libroService.altaLibro(id);
+            attr.addFlashAttribute("exito", "Libro dado de alta");
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+            attr.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/listadoLibros";
     }
 }
