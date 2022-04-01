@@ -1,0 +1,30 @@
+.form {
+    /* border: 1px solid black; */
+    padding: 5px;
+    margin-right: 25%;
+}
+
+.d-grid {
+    text-align: right;
+}
+
+body {
+    margin: 20px;
+}
+
+a:visited {
+    color: white;
+}
+
+a:hover {
+    color: white;
+}
+
+.button_bottom {
+    float: auto;
+    text-size-adjust: 20px;
+}
+
+-containerPrestamo {
+    display: flex;
+}
