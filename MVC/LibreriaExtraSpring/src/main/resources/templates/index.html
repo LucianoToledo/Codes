@@ -3,62 +3,266 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style.css">
-    <title>Spring MVC libreria</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Index</title>
 </head>
 
 <body>
 
-    <div>
-        <nav class="navbar navbar-light bg-light ">
-            <div class="container-fluid justify-content-center">
-                <span class="navbar-brand mb-0 h1">Administracion Libreria</span>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Libreria</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse navbar" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="prestamoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Prestamo</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li type="button" data-bs-toggle="modal" data-bs-target="#agregarPrestamo" class="dropdown-item">Crear Prestamo</li>
+                            <li type="button" data-bs-toggle="modal" data-bs-target="#devolucionLibro" class="dropdown-item">Devolución Libro</li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="libroDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Libro</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="libro.html">Listar Libros</a></li>
+                            <li type="button" data-bs-toggle="modal" data-bs-target="#agregarLibro" class="dropdown-item">Agregar Libros</li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="autorDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Autor</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="autor.html">Listar Autores</a></li>
+                            <li type="button" data-bs-toggle="modal" data-bs-target="#agregarAutor" class="dropdown-item">Agregar Autor</li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="editorialDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Editorial</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="editorial.html">Listar Editoriales</a></li>
+                            <li type="button" data-bs-toggle="modal" data-bs-target="#agregarEditorial" class="dropdown-item">Agregar Editorial</li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="clienteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cliente</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="cliente.html">Listar Clientes</a></li>
+                            <li type="button" data-bs-toggle="modal" data-bs-target="#agregarCliente" class="dropdown-item">Agregar Cliente</li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Buscar Libro..." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                </form>
             </div>
-        </nav>
+        </div>
+    </nav>
+    <!-- end navbar -->
+    <!-- cards -->
+    <div class="row row-cols-1 row-cols-md-5 g-4 cards">
+        <!-- card Prestamo -->
+        <div class="col">
+            <div class="card h-100">
+                <img src="../static/img/transaction.png" class="card-img-top img" alt="...">
+                <!-- th:src="@{/images/test.png}" ese sería un ejemplp -->
+                <div class="card-body">
+                    <h5 class="card-title">Prestamo</h5>
+                    <ul class="list-group">
+                        <!-- Button trigger modal -->
+                        <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#agregarPrestamo">Crear Prestamo</li>
+                        <!-- Modal -->
+                        <div class="modal fade" id="agregarPrestamo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Crear Prestamo</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        insert code para agregar un prestamo, se deben listar clientes o buscarlo por nroCli y los libros activos
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-primary">Guardar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Button trigger modal -->
+                        <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#devolucionLibro">Devolución Libro</li>
+                        <!-- Modal -->
+                        <div class="modal fade" id="devolucionLibro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Devolución Libro</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        listar los libros prestados para
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted"></small>
+                </div>
+            </div>
+        </div>
+        <!-- end card Prestamo -->
+        <!-- card Libro -->
+        <div class="col">
+            <div class="card h-100">
+                <img src="../static/img/bookshelf.png" class="card-img-top img" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Libro</h5>
+                    <li class="list-group-item"><a href="libro.html">Listar Libros</a></li>
+                    <!-- Button trigger modal -->
+                    <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#agregarLibro">Agregar Libro</li>
+                    <!-- Modal -->
+                    <div class="modal fade" id="agregarLibro" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Agregar Libro</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    agregar libro...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted"></small>
+                </div>
+            </div>
+        </div>
+        <!-- end card Libro -->
+        <!-- card Autor -->
+        <div class="col ">
+            <div class="card h-100">
+                <img src="../static/img/editor.png" class="card-img-top img" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Autor</h5>
+                    <li class="list-group-item"><a href="autor.html">Listar Autores</a></li>
+                    <!-- Button trigger modal -->
+                    <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#agregarAutor">Agregar Autor</li>
+                    <!-- Modal -->
+                    <div class="modal fade" id="agregarAutor" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Agregar Autor</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    agregar autor..
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted"></small>
+                </div>
+            </div>
+        </div>
+        <!--end card Autor -->
+        <!-- card Editorial -->
+        <div class="col">
+            <div class="card h-100">
+                <img src="../static/img/edificio.png" class="card-img-top img" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Editorial</h5>
+                    <li class="list-group-item"><a href="editorial.html">Listar Editoriales</a></li>
+                    <!-- Button trigger modal -->
+                    <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#agregarEditorial">Agregar Editorial</li>
+                    <!-- Modal -->
+                    <div class="modal fade" id="agregarEditorial" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Agregar Editorial</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    agregar editorial...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted"></small>
+                </div>
+            </div>
+        </div>
+        <!--end card Editorial -->
+        <!-- card Cliente -->
+        <div class="col">
+            <div class="card h-100">
+                <img src="../static/img/clasificacion.png" class="card-img-top img" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Clientes</h5>
+                    <li class="list-group-item"><a href="cliente.html">Listar Clientes</a></li>
+                    <!-- Button trigger modal -->
+                    <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#agregarCliente">Agregar Cliente</li>
+                    <!-- Modal -->
+                    <div class="modal fade" id="agregarCliente" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Agregar Cliente</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    agregar cliente...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted"></small>
+            </div>
+        </div>
+        <!-- end card Cliente -->
     </div>
-    <br>
-    <!-- class="container d-flex align-items-center justify-content-center" -->
-    <div class="container">
-
-        <div class="list-group list_border register ">
-
-            <a href="#" class="list-group-item list-group-item-action active title_list " aria-current="true">
-                Registros de Prestamos
-            </a>
-            <a th:href="@{/prestamoLibros}" class="list-group-item list-group-item-action">Prestamo Libro</a>
-            <a href="#" class="list-group-item list-group-item-action">Devolucion Libro</a>
-
-        </div>
-
-        <br>
-        <div class="list-group list_border ">
-            <a href="#" class="list-group-item list-group-item-action active title_list" aria-current="true">
-                Listar..
-            </a>
-            <a th:href="@{/listadoLibros}" class="list-group-item list-group-item-action">Listar Libros</a>
-            <a th:href="@{/listadoAutores}" class="list-group-item list-group-item-action">Listar Autores</a>
-            <a th:href="@{/listadoEditoriales}" class="list-group-item list-group-item-action">Listar Editoriales</a>
-        </div>
-
-        <br>
-        <div class="list-group list_border">
-
-            <a href="#" class="list-group-item list-group-item-action active title_list" aria-current="true">
-                Agregar..
-            </a>
-            <a th:href="@{/agregarLibro}" class="list-group-item list-group-item-action">Agregar Libro</a>
-            <a th:href="@{/agregarAutor}" class="list-group-item list-group-item-action">Agregar Autor</a>
-            <a th:href="@{/agregarEditorial}" class="list-group-item list-group-item-action">Agregar Editorial</a>
-            <!-- <a href="añadirLAE/agregarLibro.html" class="list-group-item list-group-item-action">Agregar Libro</a>
-            <a href="añadirLAE/agregarAutor.html" class="list-group-item list-group-item-action">Agregar Autor</a>
-            <a href="añadirLAE/agregarEditoral.html" class="list-group-item list-group-item-action">Agregar Editorial</a> -->
-        </div>
-    </div>
+    <!-- end cards -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
 </body>
 
 </html>
