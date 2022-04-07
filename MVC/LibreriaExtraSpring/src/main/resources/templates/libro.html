@@ -23,6 +23,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="prestamoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Prestamo</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <!-- Button trigger modal Crear Prestamo -->
                             <li type="button" data-bs-toggle="modal" data-bs-target="#agregarPrestamo" class="dropdown-item">Crear Prestamo</li>
                             <!-- Modal -->
                             <div class="modal fade" id="agregarPrestamo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -64,6 +65,33 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="editorial.html">Listar Editoriales</a></li>
                             <li type="button" data-bs-toggle="modal" data-bs-target="#agregarEditorial" class="dropdown-item">Agregar Editorial</li>
+                            <!-- Modal -->
+                            <div class="modal fade" id="agregarEditorial" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Agregar Editorial</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form" action="/agregarEditorial" method="POST">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="nombreEditorial">Nombre
+                                                        Editorial</span>
+                                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="nombre">
+                                                </div>
+                                                <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
+                                                <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button class="btn btn-light" type="reset">Limpiar</button>
+                                            <button type="button" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
