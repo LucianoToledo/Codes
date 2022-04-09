@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/libro")
 public class LibroControlador {
 
     @Autowired
@@ -35,13 +36,8 @@ public class LibroControlador {
     private EditorialService editorialService;
 
     @PostMapping("/agregarLibro")
-    public String agregarLibro(@RequestParam String titulo, @RequestParam Integer ejemplares, @RequestParam String anio,@RequestParam String idAutor, @RequestParam String idEditorial, ModelMap model) throws ErrorServicio {
-        System.out.println("Titulo: " + titulo);
-        System.out.println("Ejemplares: " + ejemplares);
-        System.out.println("Anio: " + anio);
-        System.out.println("Autor: " + idAutor);
-        System.out.println("Editorial: " + idEditorial);
-        System.out.println("----------");
+    public String agregarLibro(@RequestParam String titulo, @RequestParam Integer ejemplares, @RequestParam String anio,@RequestParam String idAutor, @RequestParam String idEditorial, ModelMap model, HttpServletRequest request) throws ErrorServicio {
+    String referer = request.getHeader("Referer");
         try {
             libroService.agregarLibro(titulo, anio, ejemplares, idAutor, idEditorial);
             model.addAttribute("exito", "Libro cargado correctamente");
@@ -60,7 +56,7 @@ public class LibroControlador {
             List<Editorial> editoriales = editorialService.listarEditoriales();
             model.put("editoriales", editoriales);
         }
-        return "agregarLibro.html";
+        return "redirect:" + referer;
     }
 
     @GetMapping("/agregarLibro")
@@ -90,7 +86,7 @@ public class LibroControlador {
         return "prestamo-libro.html";
     }
 
-    @GetMapping("/listadoLibros")
+    @GetMapping("/listarLibros")
     public String listarLibros(String id, ModelMap model, @RequestParam(required = false) String query) throws ErrorServicio {
 //        List<Libro> libros = new ArrayList();
 //        
@@ -101,7 +97,7 @@ public class LibroControlador {
 //        }
         List<Libro> libros = libroService.listarLibros();
         model.put("libros", libros);
-        return "listarLibros.html";
+        return "libro.html";
     }
 
     @GetMapping("/prestamoLibros")

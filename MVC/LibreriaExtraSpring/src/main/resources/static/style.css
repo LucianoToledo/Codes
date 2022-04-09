@@ -1,36 +1,57 @@
-body {
-    background-color: darkgray;
-}
-
-.cards {
-    margin-top: 5%;
-    justify-content: center;
-    margin-inline: 30px;
-    display: row;
-}
-
-.img {
-    width: 200px;
-    display: block;
-    margin: auto;
-}
-
-.card {
-    width: 300px;
-    border: 1px black;
-}
-
-button {
-    border-style: none;
-    background-color: white;
-}
-
-a:hover,
-a:visited,
-a:link,
-a:active {
-    color: #212529;
-    transform: none;
-    border: none;
-    text-decoration: none;
-}
+    body {
+        background-color: #E0E0E0 !important;
+    }
+    
+    nav {
+        box-shadow: inset 2px -7px 11px rgba(80, 92, 51, 0.17);
+    }
+    
+    .cards {
+        margin-top: 2000px;
+        justify-content: center;
+        margin: 30px;
+        display: row;
+    }
+    
+    .h-100 {
+        border-radius: 13px;
+        background: linear-gradient(145deg, #ece9e9, #f0f0f0);
+        box-shadow: 15px 15px 55px #747474, -15px -15px 55px #ffffff;
+        margin-bottom: 0;
+    }
+    
+    .img {
+        width: 200px;
+        display: block;
+        margin: auto;
+    }
+    
+    .card {
+        width: 300px;
+        border: 1px black;
+        padding-top: 15%;
+    }
+    
+    button {
+        border-style: none;
+        background-color: white;
+    }
+    
+    a:hover,
+    a:visited,
+    a:link,
+    a:active {
+        color: #212529;
+        transform: none;
+        border: none;
+        text-decoration: none;
+    }
+    
+    .form {
+        padding: 5px;
+        margin-right: 25%;
+    }
+    
+    .d-grid {
+        text-align: right;
+    }

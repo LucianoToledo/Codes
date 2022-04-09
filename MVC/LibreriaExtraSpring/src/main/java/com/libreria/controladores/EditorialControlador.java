@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/editorial")
 public class EditorialControlador {
 
     @Autowired
@@ -42,11 +42,11 @@ public class EditorialControlador {
         return "agregarEditorial.html";
     }
 
-    @GetMapping("/listadoEditoriales")
+    @GetMapping("/listarEditoriales")
     public String listarEditoriales(String id, ModelMap model) {
         List<Editorial> editoriales = editorialService.listarEditoriales();
         model.put("editoriales", editoriales);
-        return "listarEditoriales.html";
+        return "editorial.html";
     }
 
     @GetMapping("/eliminarEditorial/{id}")

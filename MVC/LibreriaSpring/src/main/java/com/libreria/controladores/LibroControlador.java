@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/libro")
 public class LibroControlador {
 
     @Autowired
@@ -90,7 +90,7 @@ public class LibroControlador {
         return "prestamo-libro.html";
     }
 
-    @GetMapping("/listadoLibros")
+    @GetMapping("/listarLibros")
     public String listarLibros(String id, ModelMap model, @RequestParam(required = false) String query) throws ErrorServicio {
 //        List<Libro> libros = new ArrayList();
 //        
@@ -101,7 +101,7 @@ public class LibroControlador {
 //        }
         List<Libro> libros = libroService.listarLibros();
         model.put("libros", libros);
-        return "listarLibros.html";
+        return "libro.html";
     }
 
     @GetMapping("/prestamoLibros")
