@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+    <head>
     <div th:include="fragment :: header"></div>
     <title>Index</title>
 </head>
@@ -22,16 +22,16 @@
     <div class="row row-cols-1 row-cols-md-5 g-4 cards">
         <!-- card Prestamo -->
         <div class="col">
-            <div class="card h-100">
-                <img th:src="@{/img/transaction.png}" class="card-img-top img" alt="...">
+            <div class="card h-100 bg-dark ">
+                <img th:src="@{/img/transaction.png}" class="card-img-top img bg-dark" alt="...">
                 <!-- th:src="@{/images/test.png}" ese sería un ejemplp -->
                 <div class="card-body">
-                    <h5 class="card-title">Prestamo</h5>
+                    <h5 class="card-title text-white">Prestamo</h5>
                     <ul class="list-group">
                         <!-- Button trigger modal Crear Prestamo -->
-                        <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#agregarPrestamo">Crear Prestamo</li>
+                        <li class="list-group-item bg-dark text-white" type="button" data-bs-toggle="modal" data-bs-target="#agregarPrestamo">Crear Prestamo</li>
                         <!-- Button trigger moda Devolucion Libro -->
-                        <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#devolucionLibro">Devolución Libro</li>
+                        <li class="list-group-item bg-dark text-white" type="button" data-bs-toggle="modal" data-bs-target="#devolucionLibro">Devolución Libro</li>
                     </ul>
                 </div>
             </div>
@@ -40,13 +40,15 @@
 
         <!-- card Libro -->
         <div class="col">
-            <div class="card h-100">
+            <div class="card h-100 bg-dark">
                 <img th:src="@{/img/bookshelf.png}" class="card-img-top img" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Libro</h5>
-                    <li class="list-group-item"><a th:href="@{/libro/listarLibros}">Listar Libros</a></li>
+                    <li class="list-group-item bg-dark text-white">
+                        <a class="text-white" th:href="@{/libro/listarLibros}">Listar Libros</a>
+                    </li>
                     <!-- Button trigger modal agregar libro -->
-                    <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#agregarLibro">Agregar Libro</li>
+                    <li class="list-group-item bg-dark text-white" type="button" data-bs-toggle="modal" data-bs-target="#agregarLibro">Agregar Libro</li>
                 </div>
             </div>
         </div>
@@ -54,13 +56,15 @@
 
         <!-- card Autor -->
         <div class="col ">
-            <div class="card h-100">
+            <div class="card h-100 bg-dark">
                 <img th:src="@{/img//editor.png}" class="card-img-top img" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Autor</h5>
-                    <li class="list-group-item"><a th:href="@{/autor/listarAutores}">Listar Autores</a></li>
+                    <li class="list-group-item bg-dark text-white">
+                        <a class="text-white" th:href="@{/autor/listarAutores}">Listar Autores</a>
+                    </li>
                     <!-- Button trigger modal agregar autor -->
-                    <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#agregarAutor">
+                    <li class="list-group-item bg-dark text-white" type="button" data-bs-toggle="modal" data-bs-target="#agregarAutor">
                         Agregar Autor</li>
                 </div>
             </div>
@@ -69,13 +73,15 @@
 
         <!-- card Editorial -->
         <div class="col">
-            <div class="card h-100">
+            <div class="card h-100 bg-dark">
                 <img th:src="@{/img//edificio.png}" class="card-img-top img" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Editorial</h5>
-                    <li class="list-group-item"><a th:href="@{/editorial/listarEditoriales}">Listar Editoriales</a></li>
+                    <li class="list-group-item bg-dark text-white">
+                        <a class="text-white" th:href="@{/editorial/listarEditoriales}">Listar Editoriales</a>
+                    </li>
                     <!-- Button trigger modal Agregar Editorial -->
-                    <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#agregarEditorial">
+                    <li class="list-group-item bg-dark text-white" type="button" data-bs-toggle="modal" data-bs-target="#agregarEditorial">
                         Agregar Editorial</li>
                 </div>
             </div>
@@ -84,13 +90,15 @@
 
         <!-- card Cliente -->
         <div class="col">
-            <div class="card h-100">
+            <div class="card h-100 bg-dark">
                 <img th:src="@{/img//clasificacion.png}" class="card-img-top img" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Clientes</h5>
-                    <li class="list-group-item"><a th:href="@{/cliente/listarClientes}">Listar Clientes</a></li>
+                    <li class="list-group-item bg-dark text-white">
+                        <a class="text-white"  th:href="@{/cliente/listarClientes}">Listar Clientes</a>
+                    </li>
                     <!-- Button trigger modal Agregar Cliente -->
-                    <li class="list-group-item" type="button" data-bs-toggle="modal" data-bs-target="#agregarCliente">Agregar Cliente</li>
+                    <li class="list-group-item bg-dark text-white" type="button" data-bs-toggle="modal" data-bs-target="#agregarCliente">Agregar Cliente</li>
                 </div>
             </div>
         </div>
@@ -99,7 +107,8 @@
     </div>
     <!-- end cards -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </body>
 
 </html>

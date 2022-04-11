@@ -14,18 +14,17 @@ nav {
     align-items: center;
     position: relative;
     margin:auto;
-    
-   
+
+
     /*        justify-content: center;
             display: row;*/
 }
 
-.h-100 {
-    border-radius: 13px;
-    background: linear-gradient(145deg, #ece9e9, #f0f0f0);
-    box-shadow: 15px 15px 55px #747474, -15px -15px 55px #ffffff;
-    margin-bottom: 0;
- 
+.h-100{
+border-radius: 13px;
+background: #3B4043;
+box-shadow:  20px 20px 40px #2c2f32,
+             -20px -20px 40px #4a5154;
 }
 
 .img {
@@ -38,13 +37,13 @@ nav {
     width: 260px;
     border: 1px black;
     padding-top: 15%;
-/*       background-color: #313638; ,color en modo oscuro de las tarjetas, hay que ver bien donde va esto porque no lo toma xd
-       color: #313638;*/
+    /*       background-color: #313638; ,color en modo oscuro de las tarjetas, hay que ver bien donde va esto porque no lo toma xd
+           color: #313638;*/
 }
 
 button {
     border-style: none;
-    background-color: white;
+    background-color: #212529;
 }
 
 a:hover,

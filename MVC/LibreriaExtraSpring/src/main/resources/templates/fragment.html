@@ -31,35 +31,42 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="libroDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Libro</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" th:href="@{/libro/listarLibros}">Listar Libros</a></li>
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/libro/listarLibros}">Listar Libros</a>
+                                </li>
                                 <li type="button" data-bs-toggle="modal" data-bs-target="#agregarLibro" class="dropdown-item">Agregar Libros</li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="autorDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Autor</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" th:href="@{/autor/listarAutores}">Listar Autores</a></li>
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/autor/listarAutores}">Listar Autores</a>
+                                </li>
                                 <li type="button" data-bs-toggle="modal" data-bs-target="#agregarAutor" class="dropdown-item">Agregar Autor</li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="editorialDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Editorial</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" th:href="@{/editorial/listarEditoriales}">Listar
-                                        Editoriales</a></li>
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/editorial/listarEditoriales}">ListarEditoriales</a>
+                                </li>
                                 <li type="button" data-bs-toggle="modal" data-bs-target="#agregarEditorial" class="dropdown-item">Agregar Editorial</li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="clienteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cliente</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="cliente.html">Listar Clientes</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="cliente.html">Listar Clientes</a>
+                                </li>
                                 <li type="button" data-bs-toggle="modal" data-bs-target="#agregarCliente" class="dropdown-item">Agregar Cliente</li>
                             </ul>
                         </li>
                     </ul>
                     <form class="d-flex" th:action="@{libro/listarLibros}">
-                        <input class="form-control me-2" type="search" placeholder="Buscar Libro..." aria-label="Search" name="query">
+                        <input class="form-control me-2  bg-dark text-white" type="search" placeholder="Buscar Libro..." aria-label="Search" name="query">
                         <button class="btn btn-outline-success" type="submit">Buscar</button>
                     </form>
                 </div>
