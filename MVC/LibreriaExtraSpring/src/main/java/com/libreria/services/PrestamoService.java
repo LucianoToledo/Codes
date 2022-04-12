@@ -12,6 +12,7 @@ import com.libreria.errores.ErrorServicio;
 import com.libreria.repositorios.ClienteRepositorio;
 import com.libreria.repositorios.PrestamoRepositorio;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,11 @@ class PrestamoService {
         if (cliente == null) {
             throw new ErrorServicio("No se encontro el Cliente solicitado");
         }
+    }
+
+   public List<Prestamo> buscarPorIdCliente(String id) {
+       List<Prestamo> prestamos = prestamoRepositorio.buscarPorIdCliente(id);
+       return prestamos;
     }
 
 }

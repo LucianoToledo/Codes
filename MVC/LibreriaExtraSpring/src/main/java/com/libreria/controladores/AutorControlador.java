@@ -41,9 +41,9 @@ public class AutorControlador {
 
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
-            model.put("error", ex.getMessage());
-            model.put("nombre", nombre);
-            model.put("apellido", apellido);
+            attr.addFlashAttribute("error", ex.getMessage());
+//            model.put("nombre", nombre);
+//            model.put("apellido", apellido);
         }
         //return "redirect:/";
         return "redirect:" + referer;
@@ -72,7 +72,8 @@ public class AutorControlador {
     }
 
     @GetMapping("/bajaAutor/{id}")
-    public String bajaAutor(@PathVariable("id") String id, RedirectAttributes attr) {
+    public String bajaAutor(@PathVariable("id") String id, RedirectAttributes attr, HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
         try {
             autorService.bajaAutor(id);
             attr.addFlashAttribute("exito", "Autor dado de baja");
@@ -80,11 +81,12 @@ public class AutorControlador {
             Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
             attr.addFlashAttribute("error", ex.getMessage());
         }
-        return "redirect:/autor";
+        return "redirect:" + referer;
     }
 
     @GetMapping("/altaAutor/{id}")
-    public String altaAutor(@PathVariable("id") String id, RedirectAttributes attr) {
+    public String altaAutor(@PathVariable("id") String id, RedirectAttributes attr, HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
         try {
             autorService.altaAutor(id);
             attr.addFlashAttribute("exito", "Autor dado de alta");
@@ -92,7 +94,7 @@ public class AutorControlador {
             Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
             attr.addFlashAttribute("error", ex.getMessage());
         }
-        return "redirect:/listadoAutores";
+        return "redirect:" + referer;
     }
 
     @GetMapping("/editarAutor/{id}")

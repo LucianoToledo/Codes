@@ -122,7 +122,6 @@ public class AutorService {
         if (validarAutorAsignado(respuestaAutor, "eliminar")) {
             autorRepositorio.deleteById(id);
         }
-
     }
 
     @Transactional(readOnly = true)

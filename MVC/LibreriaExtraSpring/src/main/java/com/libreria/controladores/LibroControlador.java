@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class LibroControlador {
 
     @Autowired
+
     private LibroService libroService;
 
     @Autowired
@@ -36,8 +37,8 @@ public class LibroControlador {
     private EditorialService editorialService;
 
     @PostMapping("/agregarLibro")
-    public String agregarLibro(@RequestParam String titulo, @RequestParam Integer ejemplares, @RequestParam String anio,@RequestParam String idAutor, @RequestParam String idEditorial, ModelMap model, HttpServletRequest request) throws ErrorServicio {
-    String referer = request.getHeader("Referer");
+    public String agregarLibro(@RequestParam String titulo, @RequestParam Integer ejemplares, @RequestParam String anio, @RequestParam(required = false) String idAutor, @RequestParam(required = false) String idEditorial, ModelMap model, HttpServletRequest request) throws ErrorServicio {
+        String referer = request.getHeader("Referer");
         try {
             libroService.agregarLibro(titulo, anio, ejemplares, idAutor, idEditorial);
             model.addAttribute("exito", "Libro cargado correctamente");
@@ -60,7 +61,8 @@ public class LibroControlador {
     }
 
     @GetMapping("/agregarLibro")
-    public String agregarAutorLibro(ModelMap model) throws ErrorServicio {
+    public String agregarAutorLibro(ModelMap model, HttpServletRequest request) throws ErrorServicio {
+        String referer = request.getHeader("Referer");
 
         List<Autor> autores = autorService.listarAutores();
         model.put("autores", autores);
@@ -68,7 +70,7 @@ public class LibroControlador {
         List<Editorial> editoriales = editorialService.listarEditoriales();
         model.put("editoriales", editoriales);
 
-        return "agregarLibro.html";
+        return "redirect:" + referer;
     }
 
     @GetMapping("/eliminarLibro/{id}")
@@ -144,7 +146,8 @@ public class LibroControlador {
         return "redirect:/listadoLibros";
 
     }
-      @GetMapping("/bajaLibro/{id}")
+
+    @GetMapping("/bajaLibro/{id}")
     public String bajaLibro(@PathVariable("id") String id, RedirectAttributes attr) {
         try {
             libroService.bajaLibro(id);
@@ -155,7 +158,7 @@ public class LibroControlador {
         }
         return "redirect:/listadoLibros";
     }
-    
+
     @GetMapping("/altaLibro/{id}")
     public String altaLibro(@PathVariable("id") String id, RedirectAttributes attr) {
         try {

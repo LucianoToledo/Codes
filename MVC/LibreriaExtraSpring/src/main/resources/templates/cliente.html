@@ -11,60 +11,116 @@
 </head>
 
 <body>
-    <!-- navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">Libreria</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse navbar" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="prestamoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Prestamo</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Crear Prestamo</a></li>
-                            <li><a class="dropdown-item" href="#">Devolución Libro</a></li>
-                            <li><a class="dropdown-item" href="#">Ver Libros Prestados</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="libroDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Libro</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Listar Libros</a></li>
-                            <li><a class="dropdown-item" href="#">Agregar Libros</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="autorDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Autor</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Listar Autores</a></li>
-                            <li><a class="dropdown-item" href="#">Agregar Autor</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="editorialDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Editorial</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Listar Editoriales</a></li>
-                            <li><a class="dropdown-item" href="#">Agregar Editorial</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="clienteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cliente</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Listar Clientes</a></li>
-                            <li><a class="dropdown-item" href="#">Agregar Cliente</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Buscar Libro..." aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Buscar</button>
-                </form>
-            </div>
+
+    <!-- Inyeccion HTML-->
+    <div th:include="fragment :: nav"></div>
+    <div th:include="fragment :: modals"></div>
+    <div th:include="fragment :: mensajes"></div>
+    <!-- end Inyeccion HTML -->
+
+    <div class="container">
+        <h2>clientes</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Activo</th>
+                    <th>Accion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cliente: ${clientes}">
+                    <td th:text="${cliente.nombre}"></td>
+                    <td th:text="${cliente.apellido}"></td>
+                    <td th:text="${cliente.activo ? 'Si' : 'No'}"></td>
+                    <td>
+                        <div class="d-grid gap-2 d-md-block">
+                            <a class="btn btn-secondary" th:href="@{/cliente/editarcliente/} + ${cliente.id}">Editar Datos</a>
+                            <!-- <a class="btn btn-danger" th:href="@{/cliente/eliminarcliente/} + ${cliente.id}">Eliminar cliente</a>
+                            <a class="btn btn-warning" th:href="@{/cliente/bajacliente/} + ${cliente.id}">Baja cliente</a>
+                            <a class="btn btn-warning" th:href="@{/cliente/altacliente/} + ${cliente.id}">Alta cliente</a> -->
+
+                            <!-- Button trigger modal Eliminar Cliente-->
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarCliente">
+                                Eliminar
+                            </button>
+                            <!-- Modal Eliminar cliente-->
+                            <div class="modal fade" id="eliminarCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Eliminar Cliente</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Seguro desea eliminar este cliente?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn  btn-primary" th:href="@{/cliente/eliminarCliente/} + ${cliente.id}">Eliminar cliente</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal Eliminar Cliente-->
+
+                            <!-- Button trigger modal BajaCliente-->
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#bajaCliente">Baja</button>
+                            <!-- Modal Bajacliente-->
+                            <div class="modal fade" id="bajaCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Baja Cliente</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Seguro desea dar de baja a este cliente?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn  btn-primary" th:href="@{/cliente/bajaCliente/} + ${cliente.id}">Aceptar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal BajaCliente-->
+
+                            <!-- Button trigger modal AltaCliente-->
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#altaCliente">Alta</button>
+                            <!-- Modal AltaCliente-->
+                            <div class="modal fade" id="altaCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Alta Cliente</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Seguro desea dar de alta a esta cliente?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn  btn-primary" th:href="@{/cliente/altaCliente/} + ${cliente.id}">Aceptar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal AltaCliente-->
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="button_bottom">
+            <button type="button" class="btn btn-light btn-l"><a th:href="@{/}">Volver</a></button>
         </div>
-    </nav>
-    <!-- end navbar -->
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
+<head>
     <div th:include="fragment :: header"></div>
     <title>Index</title>
 </head>
 
 <body>
 
-    <!-- navbar -->
+    <!-- Inyeccion HTML-->
     <div th:include="fragment :: nav"></div>
-    <!-- end navbar -->
-    <br><br><br>
     <div th:include="fragment :: modals"></div>
-
-    <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
-    <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
-
+    <div th:include="fragment :: mensajes"></div>
+    <!-- end Inyeccion HTML -->
+    <br><br><br>
 
     <!-- cards -->
     <div class="row row-cols-1 row-cols-md-5 g-4 cards">
@@ -64,8 +61,7 @@
                         <a class="text-white" th:href="@{/autor/listarAutores}">Listar Autores</a>
                     </li>
                     <!-- Button trigger modal agregar autor -->
-                    <li class="list-group-item bg-dark text-white" type="button" data-bs-toggle="modal" data-bs-target="#agregarAutor">
-                        Agregar Autor</li>
+                    <li class="list-group-item bg-dark text-white" type="button" data-bs-toggle="modal" data-bs-target="#agregarAutor">Agregar Autor</li>
                 </div>
             </div>
         </div>
@@ -95,7 +91,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Clientes</h5>
                     <li class="list-group-item bg-dark text-white">
-                        <a class="text-white"  th:href="@{/cliente/listarClientes}">Listar Clientes</a>
+                        <a class="text-white" th:href="@{/cliente/listarClientes}">Listar Clientes</a>
                     </li>
                     <!-- Button trigger modal Agregar Cliente -->
                     <li class="list-group-item bg-dark text-white" type="button" data-bs-toggle="modal" data-bs-target="#agregarCliente">Agregar Cliente</li>
@@ -103,11 +99,10 @@
             </div>
         </div>
         <!-- end card Cliente -->
-
     </div>
     <!-- end cards -->
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <div th:include="fragment :: modals"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 </body>
 

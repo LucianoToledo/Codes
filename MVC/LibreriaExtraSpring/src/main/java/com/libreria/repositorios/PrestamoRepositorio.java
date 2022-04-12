@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PrestamoRepositorio extends JpaRepository<Prestamo, String> {
 
-//    @Query("SELECT p FROM Prestamo WHERE p.libro.id LIKE :id")
-//    public List<Prestamo> buscarPorIdLibro(@Param("id") String id);
-//    
-//    @Query("SELECT p FROM Prestamo WHERE p.cliente.id LIKE :id")
-//    public List<Prestamo> buscarPorIdCliente(@Param("id") String id);
+    @Query("SELECT p FROM Prestamo p WHERE p.libro.id LIKE :id")
+    public List<Prestamo> buscarPorIdLibro(@Param("id") String id);
+    
+    @Query("SELECT p FROM Prestamo p WHERE p.cliente.id LIKE :id")
+    public List<Prestamo> buscarPorIdCliente(@Param("id") String id);
     
 }

@@ -10,14 +10,14 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link rel="stylesheet" href="./style.css">
     </div>
-    <!-- NavBar-->
+
     <div th:fragment="nav">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" th:href="@{/}">Libreria</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                 <div class="collapse navbar-collapse navbar" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
@@ -25,7 +25,11 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <!-- Button trigger modal Crear Prestamo -->
                                 <li type="button" data-bs-toggle="modal" data-bs-target="#agregarPrestamo" class="dropdown-item">Crear Prestamo</li>
+                                <!-- End Button trigger modal Crear Prestamo -->
+
+                                <!-- Button trigger modal Devolucion Prestamo -->
                                 <li type="button" data-bs-toggle="modal" data-bs-target="#devolucionLibro" class="dropdown-item">Devolución Libro</li>
+                                <!-- End Button trigger modal Devolucion Prestamo -->
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -34,7 +38,9 @@
                                 <li>
                                     <a class="dropdown-item" th:href="@{/libro/listarLibros}">Listar Libros</a>
                                 </li>
+                                <!-- Button trigger modal Agregar Libro -->
                                 <li type="button" data-bs-toggle="modal" data-bs-target="#agregarLibro" class="dropdown-item">Agregar Libros</li>
+                                <!-- End Button trigger modal Agregar Libro -->
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -43,7 +49,9 @@
                                 <li>
                                     <a class="dropdown-item" th:href="@{/autor/listarAutores}">Listar Autores</a>
                                 </li>
+                                <!-- Button trigger modal Agregar Autor -->
                                 <li type="button" data-bs-toggle="modal" data-bs-target="#agregarAutor" class="dropdown-item">Agregar Autor</li>
+                                <!--End Button trigger modal Agregar Autor -->
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -52,7 +60,9 @@
                                 <li>
                                     <a class="dropdown-item" th:href="@{/editorial/listarEditoriales}">ListarEditoriales</a>
                                 </li>
+                                <!-- Button trigger modal Agregar Editorial -->
                                 <li type="button" data-bs-toggle="modal" data-bs-target="#agregarEditorial" class="dropdown-item">Agregar Editorial</li>
+                                <!-- End Button trigger modal Agregar Editorial -->
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -61,7 +71,9 @@
                                 <li>
                                     <a class="dropdown-item" href="cliente.html">Listar Clientes</a>
                                 </li>
+                                <!-- Button trigger modal Agregar Cliente -->
                                 <li type="button" data-bs-toggle="modal" data-bs-target="#agregarCliente" class="dropdown-item">Agregar Cliente</li>
+                                <!-- End Button trigger modal Agregar Cliente -->
                             </ul>
                         </li>
                     </ul>
@@ -73,6 +85,7 @@
             </div>
         </nav>
     </div>
+    <!-- End NavBar-->
 
     <!-- Modal-->
     <div th:fragment="modals">
@@ -95,6 +108,7 @@
             </div>
         </div>
         <!-- End Modal Crear Prestamo -->
+
         <!-- Modal devolucion libro -->
         <div class="modal fade" id="devolucionLibro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -114,6 +128,7 @@
             </div>
         </div>
         <!-- End Modal devolucion libro -->
+
         <!-- Modal Agregar Libro -->
         <div class="modal fade" id="agregarLibro" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
@@ -140,130 +155,125 @@
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="autorLibro">Autor</span>
                                 <select class="form-control" name="idAutor">
-                                    <option th:each="autor : ${autores}" th:value="${autor.id}"
-                                        th:text="${autor.nombre+' '+autor.apellido}"></option>
-                                </select>
+                                        <option th:each="autor : ${autores}" th:value="${autor.id}" th:text="${autor.nombre+' '+autor.apellido}"></option>
+                                    </select>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="editorialLibro">Editorial</span>
                                 <select class="form-control" name="idEditorial">
-                                    <option th:each="editorial : ${editoriales}" th:value="${editorial.id}"
-                                        th:text="${editorial.nombre}">
-                                    </option>
-                                </select>
+                                        <option th:each="editorial : ${editoriales}" th:value="${editorial.id}" th:text="${editorial.nombre}"></option>
+                                    </select>
                             </div>
-                            <!-- <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
-                            <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>-->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal Agregar Libro -->
+
+        <!-- Modal agregar autor -->
+        <div class="modal fade" id="agregarAutor" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agregar Autor</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form" action="/autor/agregarAutor" method="POST">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="nombreAutor">Nombre</span>
+                                <input type="text" class="form-control" name="nombre" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${nombre}">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="apellidoAutor">Apellido</span>
+                                <input type="text" class="form-control" name="apellido" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${apellido}">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal agregar autor -->
+
+        <!-- Modal  Agregar Editorial-->
+        <div class="modal fade" id="agregarEditorial" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agregar Editorial</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form" action="/editorial/agregarEditorial" method="POST">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="nombreEditorial">Nombre Editorial</span>
+                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="nombre" th:value="${nombre}">
+                            </div>
+                            <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}">
+                            </div>
+                            <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}">
+                            </div>
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
-            <!-- End Modal Agregar Libro -->
+        </div>
+        <!-- End Modal Agregar Editorial-->
 
-            <!-- Modal agregar autor -->
-            <div class="modal fade" id="agregarAutor" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Agregar Autor</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="form" action="/autor/agregarAutor" method="POST">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="nombreAutor">Nombre</span>
-                                    <input type="text" class="form-control" name="nombre" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${nombre}">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="apellidoAutor">Apellido</span>
-                                    <input type="text" class="form-control" name="apellido" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${apellido}">
-                                </div>
-                                <!--                                <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
-                                                                <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>-->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
+        <!-- Modal Agregar Cliente-->
+        <div class="modal fade" id="agregarCliente" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agregar Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form" action="/cliente/agregarCliente" method="POST">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="nombreCliente">Nombre</span>
+                                <input type="text" class="form-control" name="nombre" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${nombre}">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="apellidoCliente">Apellido</span>
+                                <input type="text" class="form-control" name="apellido" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${apellido}">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="telCliente">Teléfono</span>
+                                <input type="text" class="form-control" name="apellido" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${telefono}">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <!-- End Modal agregar autor -->
-            <!-- Modal  Agregar Editorial-->
-            <div class="modal fade" id="agregarEditorial" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Agregar Editorial</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="form" action="/agregarEditorial" method="POST">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="nombreEditorial">Nombre Editorial</span>
-                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="nombre">
-                                </div>
-                                <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}">
-                                </div>
-                                <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}">
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button class="btn btn-light" type="reset">Limpiar</button>
-                            <button type="button" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Modal Agregar Editorial-->
-            <!-- Modal Agregar Cliente-->
-            <div class="modal fade" id="agregarCliente" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Agregar Cliente</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="form" action="/agregarCliente" method="POST">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="nombreCliente">Nombre</span>
-                                    <input type="text" class="form-control" name="nombre" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${nombre}">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="apellidoCliente">Apellido</span>
-                                    <input type="text" class="form-control" name="apellido" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${apellido}">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="telCliente">Teléfono</span>
-                                    <input type="text" class="form-control" name="apellido" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" th:value="${telefono}">
-                                </div>
-                                <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}">
-                                </div>
-                                <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}">
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button class="btn btn-light" type="reset">Limpiar</button>
-                            <button type="button" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal Agregar Cliente-->
         </div>
+        <!-- End Modal Agregar Cliente-->
+    </div>
 
+    <!-- Modal mensajes exito/error -->
+    <div th:fragment="mensajes">
+        <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
+        <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
+    </div>
+    <!-- End Modal mensajes exito/error -->
 </body>
 
 </html>

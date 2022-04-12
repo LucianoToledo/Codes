@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
+<head>
     <div th:include="fragment :: header"></div>
     <title>Autores</title>
 </head>
 
 <body>
 
-    <!-- navbar -->
+    <!-- Inyeccion HTML-->
     <div th:include="fragment :: nav"></div>
     <div th:include="fragment :: modals"></div>
-    <!-- end navbar -->
+    <div th:include="fragment :: mensajes"></div>
+    <!-- end Inyeccion HTML -->
+
     <br>
 
     <div class="container">
@@ -34,9 +36,81 @@
                     <td>
                         <div class="d-grid gap-2 d-md-block">
                             <a class="btn btn-secondary" th:href="@{/autor/editarAutor/} + ${autor.id}">Editar Datos</a>
-                            <a class="btn btn-danger" th:href="@{/autor/eliminarAutor/} + ${autor.id}">Eliminar Autor</a>
-                            <a class="btn btn-warning" th:href="@{/autor/bajaAutor/} + ${autor.id}" >Baja Autor</a>
-                            <a class="btn btn-warning" th:href="@{/autor/altaAutor/} + ${autor.id}" >Alta Autor</a>
+                            <!-- <a class="btn btn-danger" th:href="@{/autor/eliminarAutor/} + ${autor.id}">Eliminar Autor</a>
+                            <a class="btn btn-warning" th:href="@{/autor/bajaAutor/} + ${autor.id}">Baja Autor</a>
+                            <a class="btn btn-warning" th:href="@{/autor/altaAutor/} + ${autor.id}">Alta Autor</a> -->
+
+                            <!-- Button trigger modal Eliminar Autor-->
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarAutor">
+                                Eliminar
+                            </button>
+                            <!-- Modal Eliminar Autor-->
+                            <div class="modal fade" id="eliminarAutor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Eliminar Autor</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Seguro desea eliminar este Autor?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn  btn-primary" th:href="@{/autor/eliminarAutor/} + ${autor.id}">Eliminar Autor</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal Eliminar Autor-->
+
+                            <!-- Button trigger modal BajaAutor-->
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#bajaAutor">
+                                Baja
+                            </button>
+                            <!-- Modal BajaAutor-->
+                            <div class="modal fade" id="bajaAutor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Modal title</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Seguro desea dar de baja a este Autor?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn  btn-primary" th:href="@{/autor/bajaAutor/} + ${autor.id}">Aceptar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal BajaAutor-->
+
+                            <!-- Button trigger modal AltaAutor-->
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#altaAutor">
+                                Alta
+                            </button>
+                            <!-- Modal AltaAutor-->
+                            <div class="modal fade" id="altaAutor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Seguro desea dar de alta a esta autor?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn  btn-primary" th:href="@{/autor/altaAutor/} + ${autor.id}">Aceptar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal AltaAutor-->
                         </div>
                     </td>
                 </tr>
@@ -45,10 +119,9 @@
         <div class="button_bottom">
             <button type="button" class="btn btn-light btn-l"><a th:href="@{/}">Volver</a></button>
         </div>
-        <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
-        <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
+
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 </body>

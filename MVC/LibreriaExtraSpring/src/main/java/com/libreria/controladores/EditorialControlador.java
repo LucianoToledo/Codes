@@ -6,6 +6,7 @@ import com.libreria.services.EditorialService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,17 +30,17 @@ public class EditorialControlador {
     }
 
     @PostMapping("/agregarEditorial")
-    public String agregarEditorial(@RequestParam String nombre, ModelMap model) {
-        System.out.println("Nombre: " + nombre);
-        System.out.println("----------");
+    public String agregarEditorial(RedirectAttributes attr, @RequestParam String nombre, ModelMap model, HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
+
         try {
             editorialService.agregarEditorial(nombre);
-            model.addAttribute("exito", "Editorial cargada correctamente");
+            attr.addFlashAttribute("exito", "Editorial cargada correctamente");
         } catch (ErrorServicio ex) {
-            model.put("error", ex.getMessage());
+            attr.addFlashAttribute("error", ex.getMessage());
             java.util.logging.Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "agregarEditorial.html";
+        return "redirect:" + referer;
     }
 
     @GetMapping("/listarEditoriales")
@@ -50,7 +51,8 @@ public class EditorialControlador {
     }
 
     @GetMapping("/eliminarEditorial/{id}")
-    public String eliminarEditorial(@PathVariable("id") String id, RedirectAttributes attr) {
+    public String eliminarEditorial(@PathVariable("id") String id, RedirectAttributes attr, HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
         try {
             editorialService.eliminarEditorial(id);
             attr.addFlashAttribute("exito", "Editorial eliminada correctamente");
@@ -58,7 +60,7 @@ public class EditorialControlador {
             Logger.getLogger(EditorialControlador.class.getName()).log(Level.SEVERE, null, ex);
             attr.addFlashAttribute("error", ex.getMessage());
         }
-        return "redirect:/listadoEditoriales";
+        return "redirect:" + referer;
     }
 
     @GetMapping("/editarEditorial/{id}")
@@ -83,7 +85,8 @@ public class EditorialControlador {
         }
         return "redirect:/listadoEditoriales";
     }
-  @GetMapping("/bajaEditorial/{id}")
+
+    @GetMapping("/bajaEditorial/{id}")
     public String bajaEditorial(@PathVariable("id") String id, RedirectAttributes attr) {
         try {
             editorialService.bajaEditorial(id);
@@ -94,7 +97,7 @@ public class EditorialControlador {
         }
         return "redirect:/listadoEditoriales";
     }
-    
+
     @GetMapping("/altaEditorial/{id}")
     public String altaEditorial(@PathVariable("id") String id, RedirectAttributes attr) {
         try {
