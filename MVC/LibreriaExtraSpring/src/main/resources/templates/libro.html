@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+    <head>
     <div th:include="fragment :: header"></div>
     <link rel="stylesheet" href="./style.css">
     <title>Libros</title>
 </head>
 
-<body>
+<body class=" bg-dark text-white">
 
     <!-- Inyeccion HTML-->
     <div th:include="fragment :: nav"></div>
@@ -16,13 +16,12 @@
     <!-- end Inyeccion HTML -->
 
     <br>
-    <div bg-dark text-white>
-        <div th:include="fragment :: mensajes"></div>
-        <div class="d-grid gap-2 d-md-block"></div>
-        <table class="table table-striped">
+    <div class="bg-dark text-white">
+        <div class="d-grid gap-2 d-md-bloc bg-dark text-white"></div>
+        <table class="table table-striped bg-dark text-white">
             <thead>
-                <tr>
-                    <th>Titulo</th>
+                <tr bg-dark text-white>
+                    <th >Titulo</th>
                     <th>Año</th>
                     <th>Ejemplares</th>
                     <th>Ejemplares Prestados</th>
@@ -35,32 +34,151 @@
                     <th>Accion</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-dark text-white">
                 <tr th:each="libro : ${libros}">
-                    <td th:text="${libro.titulo}"></td>
-                    <td th:text="${libro.anio}"></td>
-                    <td th:text="${libro.ejemplares}"></td>
-                    <td th:text="${libro.ejemplaresPrestados}"></td>
-                    <td th:text="${libro.ejemplaresRestantes}"></td>
-                    <td th:text="${libro.fechaAltaLibro}"></td>
-                    <td th:text="${libro.fechaBajaLibro}"></td>
-                    <td th:text="${libro.activo ? 'Si' : 'No'}"></td>
-                    <td th:text="${libro.autor.nombre}"></td>
-                    <td th:text="${libro.editorial.nombre}"></td>
+                    <td th:text="${libro.titulo}" class="text-white"></td>
+                    <td th:text="${libro.anio}"  class="text-white"></td>
+                    <td th:text="${libro.ejemplares}"  class="text-white"></td>
+                    <td th:text="${libro.ejemplaresPrestados}"  class="text-white"></td>
+                    <td th:text="${libro.ejemplaresRestantes}"  class="text-white"></td>
+                    <td th:text="${libro.fechaAltaLibro}"  class="text-white"></td>
+                    <td th:text="${libro.fechaBajaLibro}"  class="text-white"></td>
+                    <td th:text="${libro.activo ? 'Si' : 'No'}"  class="text-white"></td>
+                    <td th:text="${libro.autor.nombre}"  class="text-white"></td>
+                    <td th:text="${libro.editorial.nombre}"  class="text-white"></td>
                     <td>
                         <div class="d-grid gap-2 d-md-block">
-                            <a class="btn btn-secondary" th:href="@{/editarLibro/} + ${libro.id}">Editar Datos</a>
+                            <!--<a class="btn btn-secondary" th:href="@{/editarLibro/} + ${libro.id}">Editar Datos</a>
                             <a class="btn btn-danger" th:href="@{/eliminarLibro/} + ${libro.id}">Eliminar Libro</a>
                             <a class="btn btn-warning" th:href="@{/bajaLibro/} + ${libro.id}">Baja Libro</a>
-                            <a class="btn btn-warning" th:href="@{/altaLibro/} + ${libro.id}">Alta Libro</a>
+                            <a class="btn btn-warning" th:href="@{/altaLibro/} + ${libro.id}">Alta Libro</a>-->
+
+                            <!-- Button trigger modal Editar Libro-->
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" th:data-bs-target="${'#exampleModal' + i.index}">Editar</button>
+                            <!-- Modal Editar Libro-->
+                            <div class="modal fade" th:id="${'exampleModal' + i.index}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Editar Libro</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form" th:action="@{/libro/agregarLibro}" method="POST">
+                                                <input type="hidden" name="id" th:value="${libro.id}"/>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="tituloLibro">Titulo</span>
+                                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="titulo" th:value="${titulo}">
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="anioLibro">Año</span>
+                                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="anio" th:value="${anio}">
+                                                    <!-- validar para que entre solo el año-->
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="ejemplares">Ejemplares</span>
+                                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="ejemplares" th:value="${ejemplares}">
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="autorLibro">Autor</span>
+                                                    <select class="form-control" name="idAutor">
+                                                        <option th:each="autor : ${autores}" th:value="${autor.id}" th:text="${autor.nombre+' '+autor.apellido}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="editorialLibro">Editorial</span>
+                                                    <select class="form-control" name="idEditorial">
+                                                        <option th:each="editorial : ${editoriales}" th:value="${editorial.id}" th:text="${editorial.nombre}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn  btn-primary" th:href="@{/libro/editarLibro/} + ${libro.id}">Editar Libro</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal Editar Libro-->
+
+                            <!-- Button trigger modal Eliminar Libro-->
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarLibro">Eliminar</button>
+                            <!-- Modal Eliminar Libro-->
+                            <div class="modal fade" id="eliminarLibro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Eliminar Libro</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Seguro desea eliminar este libro?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn  btn-primary" th:href="@{/libro/eliminarLibro/} + ${libro.id}">Eliminar Libro</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal Eliminar Libro-->
+
+
+                            <!-- Button trigger modal BajaLibro-->
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#bajaLibro">Baja</button>
+                            <!-- Modal Baja libro-->
+                            <div class="modal fade" id="bajaLibro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Baja Libro</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Seguro desea dar de baja a este Libro?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn  btn-primary" th:href="@{/libro/bajaLibro/} + ${libro.id}">Aceptar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal BajaLibro-->
+                            <!-- Button trigger modal AltaLibro-->
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#altaLibro">Alta</button>
+                            <!-- Modal AltaLibro-->
+                            <div class="modal fade" id="altaLibro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Alta Libro</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Seguro desea dar de alta a esta libro?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn  btn-primary" th:href="@{/libro/altaLibro/} + ${libro.id}">Aceptar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal AltaLibro-->
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div class="button_bottom">
-            <button type="button" class="btn btn-light btn-l"><a th:href="@{/}">Volver</a></button>
-        </div>
+    </div>
+    <div class="btn btn-dark">
+        <button type="button" class="btn btn-light btn-l"><a th:href="@{/}">Volver</a></button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 

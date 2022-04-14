@@ -29,18 +29,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="editorial : ${editoriales}">
+                <tr th:each="editorial, i : ${editoriales}">
                     <td th:text="${editorial.nombre}"></td>
                     <td>
                         <a class="btn btn-secondary" th:href="@{/editorial/editarEditorial/} + ${editorial.id}">Editar
                             Datos</a>
 
                         <!-- Button trigger modal Eliminar Editorial-->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarEditorial">
-                            Eliminar
-                        </button>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="${'#eliminarEditorial' + i.index}">Eliminar</button>
                         <!-- Modal Eliminar Editorial-->
-                        <div class="modal fade" id="eliminarEditorial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" th:id="${'eliminarEditorial' + i.index}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -52,8 +50,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <a class="btn  btn-primary" th:href="@{/editorial/eliminarEditorial/} + ${editorial.id}">Eliminar
-                                            Editorial</a>
+                                        <a class="btn  btn-primary" th:href="@{/editorial/eliminarEditorial/} + ${editorial.id}">Eliminar Editorial</a>
                                     </div>
                                 </div>
                             </div>
@@ -61,11 +58,9 @@
                         <!-- End Modal Eliminar Editorial-->
 
                         <!-- Button trigger modal BajaEditorial-->
-                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#bajaEditorial">
-                            Baja
-                        </button>
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="${'#bajaEditorial'+i.index}">Baja</button>
                         <!-- Modal BajaEditorial-->
-                        <div class="modal fade" id="bajaEditorial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" th:id="${'bajaEditorial'+i.index}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">

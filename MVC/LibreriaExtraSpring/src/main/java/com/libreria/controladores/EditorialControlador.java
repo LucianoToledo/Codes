@@ -1,7 +1,9 @@
 package com.libreria.controladores;
 
+import com.libreria.entidades.Autor;
 import com.libreria.entidades.Editorial;
 import com.libreria.errores.ErrorServicio;
+import com.libreria.services.AutorService;
 import com.libreria.services.EditorialService;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,6 +25,8 @@ public class EditorialControlador {
 
     @Autowired
     private EditorialService editorialService;
+    @Autowired
+    private AutorService autorService;
 
     @GetMapping("/agregarEditorial")
     public String agregarEditorial() {
@@ -44,9 +48,11 @@ public class EditorialControlador {
     }
 
     @GetMapping("/listarEditoriales")
-    public String listarEditoriales(String id, ModelMap model) {
+    public String listarEditoriales(String id, ModelMap model) throws ErrorServicio {
+        List<Autor> autores = autorService.listarAutores();  //Traigo la lista de editoriales yclientes por si quiero agregar un libro desde esta vista
         List<Editorial> editoriales = editorialService.listarEditoriales();
         model.put("editoriales", editoriales);
+        model.put("autores", autores);
         return "editorial.html";
     }
 

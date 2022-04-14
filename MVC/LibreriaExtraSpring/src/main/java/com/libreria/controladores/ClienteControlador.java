@@ -1,8 +1,12 @@
 package com.libreria.controladores;
 
+import com.libreria.entidades.Autor;
 import com.libreria.entidades.Cliente;
+import com.libreria.entidades.Editorial;
 import com.libreria.errores.ErrorServicio;
+import com.libreria.services.AutorService;
 import com.libreria.services.ClienteService;
+import com.libreria.services.EditorialService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +27,10 @@ public class ClienteControlador {
 
     @Autowired
     private ClienteService clienteService;
+    @Autowired
+    private AutorService autorService;
+    @Autowired
+    private EditorialService editorialService;
 
     @GetMapping("/agregarCliente")
     public String agregarCliente(HttpServletRequest request) {
@@ -31,12 +39,11 @@ public class ClienteControlador {
     }
 
     @PostMapping("/agregarCliente")
-    public String agregarCliente(RedirectAttributes attr, @RequestParam String nombre, @RequestParam String apellido, @RequestParam(required = false) String telefono, ModelMap model, HttpServletRequest request) {
+    public String agregarCliente(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String telefono, HttpServletRequest request, RedirectAttributes attr) {
         String referer = request.getHeader("Referer");
         try {
             clienteService.agregarCliente(nombre, apellido, telefono);
             attr.addFlashAttribute("exito", "Cliente cargado correctamente");
-
         } catch (ErrorServicio ex) {
             java.util.logging.Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
             attr.addFlashAttribute("error", ex.getMessage());
@@ -46,7 +53,11 @@ public class ClienteControlador {
 
     @GetMapping("/listarClientes")
     public String listarClientes(String id, ModelMap model) throws ErrorServicio {
-        List<Cliente> clientes = clienteService.listarClientes();  //como se valida si vuelve nulo??
+        List<Cliente> clientes = clienteService.listarClientes();
+        List<Autor> autores = autorService.listarAutores();  //Traigo la lista de editoriales yclientes por si quiero agregar un libro desde esta vista
+        List<Editorial> editoriales = editorialService.listarEditoriales();
+        model.put("editoriales", editoriales);
+        model.put("autores", autores);
         model.put("clientes", clientes);
         return "cliente.html";
     }
@@ -57,7 +68,6 @@ public class ClienteControlador {
         try {
             clienteService.eliminarCliente(id);
             attr.addFlashAttribute("exito", "Cliente eliminado correctamente");
-            return "redirect:/cliente";
         } catch (ErrorServicio ex) {
             Logger.getLogger(ClienteControlador.class.getName()).log(Level.SEVERE, null, ex);
             attr.addFlashAttribute("error", ex.getMessage());

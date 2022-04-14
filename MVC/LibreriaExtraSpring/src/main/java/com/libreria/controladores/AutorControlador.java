@@ -1,9 +1,10 @@
 package com.libreria.controladores;
 
 import com.libreria.entidades.Autor;
+import com.libreria.entidades.Editorial;
 import com.libreria.errores.ErrorServicio;
 import com.libreria.services.AutorService;
-import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
+import com.libreria.services.EditorialService;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -25,16 +26,19 @@ public class AutorControlador {
 
     @Autowired
     private AutorService autorService;
+    @Autowired
+    private EditorialService editorialService;
 
     @GetMapping("/agregarAutor")
-    public String agregarAutor() {
-        return "index.html";
+    public String agregarAutor(HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
+        // return "index.html";
+        return "redirect:" + referer;
     }
 
     @PostMapping("/agregarAutor")
-    public String agregarAutor(RedirectAttributes attr, @RequestParam String nombre, @RequestParam String apellido, ModelMap model, HttpServletRequest request) {
+    public String agregarAutor(RedirectAttributes attr, @RequestParam String nombre, @RequestParam String apellido, HttpServletRequest request) {
         String referer = request.getHeader("Referer");
-
         try {
             autorService.agregarAutor(nombre, apellido);
             attr.addFlashAttribute("exito", "Autor cargado correctamente");
@@ -52,6 +56,8 @@ public class AutorControlador {
     @GetMapping("/listarAutores")
     public String listarAutores(String id, ModelMap model) throws ErrorServicio {
         List<Autor> autores = autorService.listarAutores();  //como se valida si vuelve nulo??
+        List<Editorial> editoriales = editorialService.listarEditoriales(); //Traigo la lista de editoriales por si quiero agregar un libro desde esta vista
+        model.put("editoriales", editoriales);
         model.put("autores", autores);
         return "autor.html";
     }
@@ -62,7 +68,6 @@ public class AutorControlador {
         try {
             autorService.eliminarAutor(id);
             attr.addFlashAttribute("exito", "Autor eliminado correctamente");
-            return "redirect:/autor";
         } catch (ErrorServicio ex) {
             Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
             attr.addFlashAttribute("error", ex.getMessage());
@@ -98,8 +103,8 @@ public class AutorControlador {
     }
 
     @GetMapping("/editarAutor/{id}")
-    public String editarAutor(@PathVariable("id") String id, ModelMap model) {
-
+    public String editarAutor(@PathVariable("id") String id, ModelMap model, HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
         Autor autor = new Autor();
         try {
             autor = autorService.buscarPorId(id);
@@ -107,31 +112,18 @@ public class AutorControlador {
         } catch (ErrorServicio ex) {
             Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "modificar-autor.html";
+        return "redirect:" + referer;
     }
 
     @PostMapping("/editarAutor")
-    public String editarAutor(@RequestParam String id, @RequestParam(required = false) String nombre, @RequestParam(required = false) String apellido, RedirectAttributes attr) throws Exception {
-
+    public String editarAutor(@RequestParam String id, @RequestParam(required = false) String nombre, @RequestParam(required = false) String apellido, RedirectAttributes attr, HttpServletRequest request) throws Exception {
+        String referer = request.getHeader("Referer");
         try {
             autorService.modificarAutor(id, nombre, apellido);
-
         } catch (ErrorServicio ex) {
             Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "redirect:/listadoAutores";
+        return "redirect:" + referer;
     }
 
-    /**
-     * https://foroayuda.es/el-controlador-spring-mvc-redirige-a-la-pagina-anterior/
-     * Returns the viewName to return for coming back to the sender url
-     *
-     * @param request Instance of {@link HttpServletRequest} or use an injected
-     * instance
-     * @return Optional with the view name. Recomended to use an alternativa url
-     * with {@link Optional#orElse(java.lang.Object)}
-     */
-    protected Optional<String> getPreviousPageByRequest(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:" + requestUrl);
-    }
 }

@@ -1,5 +1,4 @@
-body,
-.container {
+body{
     background-color: #3B4043 !important;
 }
 
@@ -39,11 +38,6 @@ nav {
            color: #313638;*/
 }
 
-button {
-    border-style: none;
-    background-color: #212529;
-}
-
 a:hover,
 a:visited,
 a:link,
@@ -61,8 +55,4 @@ a:active {
 
 .d-grid {
     text-align: right;
-}
-
-:root {
-    background-color: #3B4043;
 }

@@ -30,7 +30,7 @@ public class LibroService {
         Autor autor = autorServicio.buscarPorId(idAutor);
         Editorial editorial = (editorialService.buscarPorId(idEditorial));
 
-        validarDatos(titulo, ejemplares, autor, editorial);
+        validarDatos(titulo, anio, ejemplares, autor, editorial);
 
         Libro libro = new Libro();
         libro.setTitulo(titulo);
@@ -54,7 +54,7 @@ public class LibroService {
 
         Autor autor = autorServicio.buscarPorId(idAutor);
         Editorial editorial = (editorialService.buscarPorId(idEditorial));
-        validarDatos(titulo, ejemplares, autor, editorial);
+        validarDatos(titulo, anio, ejemplares, autor, editorial);
 
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -107,7 +107,7 @@ public class LibroService {
                 libro.setFechaAltaLibro(new Date());
                 libro.setActivo(true);
                 libroRepositorio.save(libro);
-            }else {
+            } else {
                 throw new ErrorServicio("El Libro ya se encuentra dado de Alta");
             }
         } else {
@@ -146,18 +146,37 @@ public class LibroService {
         return libroRepositorio.buscarPor(query);
     }
 
-    private void validarDatos(String titulo, Integer ejemplares, Autor autor, Editorial editorial) throws ErrorServicio {
+    private void validarDatos(String titulo,String anio, Integer ejemplares, Autor autor, Editorial editorial) throws ErrorServicio {
         if (titulo == null || titulo.isEmpty()) {
             throw new ErrorServicio("El nombre del titulo no puede ser nulo");
         }
         if (ejemplares == null || ejemplares < 0) {
             throw new ErrorServicio("La cantidad de ejemplares del titulo no puede ser nulo o menor a 1");
         }
+        if (!String.valueOf(ejemplares).matches("[+-]?\\d*(\\.\\d+)?")) {//https://www.delftstack.com/es/howto/java/how-to-check-if-a-string-is-a-number-in-java/
+            throw new ErrorServicio("Error: La cantidad de ejemplares del Libro debe ser numerico");
+        }
+        
+        if (anio == null || Integer.parseInt(anio) < 0) {
+            throw new ErrorServicio("La cantidad de ejemplares del titulo no puede ser nulo o menor a 1");
+        }
+        if (anio.matches("[+-]?\\d*(\\.\\d+)?")) {
+            throw new ErrorServicio("Error: El Año del Libro deben ser numeros");
+        }
+        
         if (autor == null) {
             throw new ErrorServicio("No se encontro el autor solicitado");
         }
         if (editorial == null) {
             throw new ErrorServicio("No se encontro la editorial solicitada");
+        }
+
+        if (!autor.isActivo()) {
+            throw new ErrorServicio("No se puede asignar el Autor: " + autor.getNombre() + " " + autor.getApellido() + " porque esta dado de baja");
+        }
+
+        if (!editorial.isActivo()) {
+            throw new ErrorServicio("No se puede asignar la Editorial : " + editorial.getNombre() + " porque esta dada de baja");
         }
     }
 

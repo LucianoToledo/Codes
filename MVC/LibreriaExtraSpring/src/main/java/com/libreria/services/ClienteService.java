@@ -94,8 +94,9 @@ public class ClienteService {
         List<Cliente> clientes = clienteRepositorio.findAll();
         return clientes;
     }
-       @Transactional(rollbackFor = {Exception.class})
-       
+
+    @Transactional(rollbackFor = {Exception.class})
+
     public void eliminarCliente(String id) throws ErrorServicio {
         Optional<Cliente> respuestaCliente = clienteRepositorio.findById(id);
 
@@ -103,7 +104,6 @@ public class ClienteService {
             clienteRepositorio.deleteById(id);
         }
     }
-    
 
     @Transactional(readOnly = true)                          //  ACA HAY QUE TRAER LOS LIBROS QUE TIENEN LOS PRESTAMOS DE ESE CLIENTE   CORREGIR!!
     public boolean validarClienteAsignado(Optional<Cliente> respuestaCliente, String mensajeError) throws ErrorServicio {
@@ -132,34 +132,11 @@ public class ClienteService {
         if (apellido == null || apellido.isEmpty()) {
             throw new ErrorServicio("Error: El apellido del Cliente no puede ser nulo");
         }
-
-//        if (telefono == null || telefono.isEmpty()) {
-//            throw new ErrorServicio("Error: El telefono del Cliente no puede ser nulo");
-//        }
-
-//        boolean flagTel = false;
-//        for (int i = 0; i < telefono.length(); i++) { //https://es.stackoverflow.com/questions/231794/validar-string-numerico
-//            if (telefono.charAt(i) - '0' <= 0 && telefono.charAt(i) - '0' >= 9) {
-//                flagTel = false;
-//            }
-//        }
-//
-//        if (flagTel) {
-//            throw new ErrorServicio("Error: El numero del Cliente deben ser numeros");
-//        }
-
-//        if (documento == null || documento.isEmpty()) {
-//            throw new ErrorServicio("Error: El documento del Cliente no puede ser nulo");
-//        }
-//
-//        boolean flagDoc = false;
-//        for (int i = 0; i < documento.length(); i++) {
-//            if (documento.charAt(i) - '0' <= 0 && documento.charAt(i) - '0' >= 9) {
-//                flagDoc = true;
-//            }
-//        }
-//        if (flagDoc) {
-//            throw new ErrorServicio("Error: El numero del Cliente debe ser numerico");
-//        }
+        if (telefono == null || telefono.isEmpty()) {
+            throw new ErrorServicio("Error: El telefono del Cliente no puede ser nulo");
+        }
+        if (!telefono.matches("[+-]?\\d*(\\.\\d+)?")) {  //https://www.delftstack.com/es/howto/java/how-to-check-if-a-string-is-a-number-in-java/
+            throw new ErrorServicio("Error: El télefono del Cliente debe ser numerico");
+        }
     }
 }

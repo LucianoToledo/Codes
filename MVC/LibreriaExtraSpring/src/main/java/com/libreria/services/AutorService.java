@@ -128,9 +128,9 @@ public class AutorService {
     public boolean validarAutorAsignado(Optional<Autor> respuestaAutor, String mensajeError) throws ErrorServicio {
 
         boolean flag = true;
-        List<Libro> respuestaLibro = libroRepositorio.buscarPorIdAutor(respuestaAutor.get().getId());
 
         if (respuestaAutor.isPresent()) {
+            List<Libro> respuestaLibro = libroRepositorio.buscarPorIdAutor(respuestaAutor.get().getId());
             if (!respuestaLibro.isEmpty()) {
                 String errorMessage = "No fue posible " + mensajeError + " al autor: ''" + respuestaAutor.get().getNombre() + " " + respuestaAutor.get().getApellido() + "'' porque tiene asignado los siguientes libros: \n";
                 for (Libro libro : respuestaLibro) {
@@ -139,8 +139,6 @@ public class AutorService {
                 }
                 throw new ErrorServicio(errorMessage);
             }
-        } else {
-            throw new ErrorServicio("No se encontro el Autor");
         }
         return flag;
     }

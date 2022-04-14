@@ -1,0 +1,86 @@
+<!DOCTYPE html
+    <html>
+<head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<td>  
+
+
+
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="${'#exampleModal' + i.index}">
+        Editar
+    </button>
+
+    <div class="modal fade" th:id="${'exampleModal' + i.index}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" th:text="${'Editar: ' + libro.titulo}"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/libros/actualizar-perfil}" method="POST">
+
+                        <input type ="hidden" name ="id" th:value="${libro.id}"/>
+
+                        <div class="modal-body">
+
+                            <div class="mb-3">
+                                <label for="formGroupExampleInput" class="form-label">ISBN</label>
+                                <input type="text" class="form-control" name="isbn" id="formGroupExampleInput" th:value="${libro.isbn}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formGroupExampleInput2" class="form-label">Titulo</label>
+                                <input type="text" class="form-control" name="titulo" id="formGroupExampleInput2" th:value="${libro.titulo}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formGroupExampleInput3" class="form-label">Año</label>
+                                <input type="text" class="form-control" name="anio" id="formGroupExampleInput3" th:value="${libro.anio}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formGroupExampleInput4" class="form-label">Ejemplares</label>
+                                <input type="text" class="form-control" name="ejemplares" id="formGroupExampleInput4" th:value="${libro.ejemplares}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formGroupExampleInput5" class="form-label">Ejemplares Prestados</label>
+                                <input type="text" class="form-control" name="ejemplaresPrestados" id="formGroupExampleInput5" th:value="${libro.ejemplaresPrestados}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formGroupExampleInput6" class="form-label">Ejemplares Restantes</label>
+                                <input type="text" class="form-control" name="ejemplaresRestantes" id="formGroupExampleInput6" th:value="${libro.ejemplaresRestantes}">
+                            </div>
+
+
+                            MOSTRAR COMBO
+                            <div class="mb-3">
+                                <label>Autor</label>
+                                <select class="form-control" name="idAutor" >
+                                    <option th:each="autor : ${autores}" th:value="${autor.id}" th:text="${autor.nombre}" th:selected="${autor.id == libro.autor.id}"  ></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Editorial</label>
+                                <select class="form-control" name="idEditorial" >
+                                    <option th:each="editorial : ${editoriales}" th:value="${editorial.id}" th:text="${editorial.nombre}" th:selected="${editorial.id == libro.editorial.id}"></option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

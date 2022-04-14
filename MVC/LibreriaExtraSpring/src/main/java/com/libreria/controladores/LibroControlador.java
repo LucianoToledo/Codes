@@ -37,14 +37,14 @@ public class LibroControlador {
     private EditorialService editorialService;
 
     @PostMapping("/agregarLibro")
-    public String agregarLibro(@RequestParam String titulo, @RequestParam Integer ejemplares, @RequestParam String anio, @RequestParam(required = false) String idAutor, @RequestParam(required = false) String idEditorial, ModelMap model, HttpServletRequest request) throws ErrorServicio {
+    public String agregarLibro(RedirectAttributes attr, ModelMap model, @RequestParam String titulo, @RequestParam Integer ejemplares, @RequestParam String anio, @RequestParam(required = false) String idAutor, @RequestParam(required = false) String idEditorial, HttpServletRequest request) throws ErrorServicio {
         String referer = request.getHeader("Referer");
         try {
             libroService.agregarLibro(titulo, anio, ejemplares, idAutor, idEditorial);
-            model.addAttribute("exito", "Libro cargado correctamente");
+            attr.addFlashAttribute("exito", "Libro cargado correctamente");  //validar no funciona mensaje de exito y error
         } catch (ErrorServicio ex) {
             Logger.getLogger(LibroControlador.class.getName()).log(Level.SEVERE, null, ex);
-            model.put("error", ex.getMessage());
+            attr.addFlashAttribute("error", ex.getMessage());
             model.put("titulo", titulo);
             model.put("anio", anio);
             model.put("ejemplares", ejemplares);
@@ -61,7 +61,7 @@ public class LibroControlador {
     }
 
     @GetMapping("/agregarLibro")
-    public String agregarAutorLibro(ModelMap model, HttpServletRequest request) throws ErrorServicio {
+    public String agregarLibro(ModelMap model, HttpServletRequest request) throws ErrorServicio {
         String referer = request.getHeader("Referer");
 
         List<Autor> autores = autorService.listarAutores();
@@ -71,21 +71,6 @@ public class LibroControlador {
         model.put("editoriales", editoriales);
 
         return "redirect:" + referer;
-    }
-
-    @GetMapping("/eliminarLibro/{id}")
-    public String eliminarLibro(@PathVariable("id") String id) {
-        try {
-            libroService.eliminarLibro(id);
-        } catch (ErrorServicio ex) {
-            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "redirect:/listadoLibros";
-    }
-
-    @GetMapping("/prestamoLibro")
-    public String prestamoLibro() {
-        return "prestamo-libro.html";
     }
 
     @GetMapping("/listarLibros")
@@ -99,7 +84,52 @@ public class LibroControlador {
 //        }
         List<Libro> libros = libroService.listarLibros();
         model.put("libros", libros);
+
+        List<Autor> autores = autorService.listarAutores();  //Traigo la lista de editoriales yclientes por si quiero agregar un libro desde esta vista
+        List<Editorial> editoriales = editorialService.listarEditoriales();
+        model.put("editoriales", editoriales);
+        model.put("autores", autores);
         return "libro.html";
+    }
+
+    @GetMapping("/eliminarLibro/{id}")
+    public String eliminarLibro(@PathVariable("id") String id, RedirectAttributes attr, HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
+
+        try {
+            libroService.eliminarLibro(id);
+            attr.addFlashAttribute("exito", "Libro eliminado correctamente");
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(LibroControlador.class.getName()).log(Level.SEVERE, null, ex);
+            attr.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:" + referer;
+    }
+
+    @GetMapping("/bajaLibro/{id}")
+    public String bajaLibro(@PathVariable("id") String id, RedirectAttributes attr, HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
+        try {
+            libroService.bajaLibro(id);
+            attr.addFlashAttribute("exito", "Libro dado de baja");
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+            attr.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:" + referer;
+    }
+
+    @GetMapping("/altaLibro/{id}")
+    public String altaLibro(@PathVariable("id") String id, RedirectAttributes attr, HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
+        try {
+            libroService.altaLibro(id);
+            attr.addFlashAttribute("exito", "Libro dado de alta");
+        } catch (ErrorServicio ex) {
+            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
+            attr.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:" + referer;
     }
 
     @GetMapping("/prestamoLibros")
@@ -147,27 +177,4 @@ public class LibroControlador {
 
     }
 
-    @GetMapping("/bajaLibro/{id}")
-    public String bajaLibro(@PathVariable("id") String id, RedirectAttributes attr) {
-        try {
-            libroService.bajaLibro(id);
-            attr.addFlashAttribute("exito", "Libro dado de baja");
-        } catch (ErrorServicio ex) {
-            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
-            attr.addFlashAttribute("error", ex.getMessage());
-        }
-        return "redirect:/listadoLibros";
-    }
-
-    @GetMapping("/altaLibro/{id}")
-    public String altaLibro(@PathVariable("id") String id, RedirectAttributes attr) {
-        try {
-            libroService.altaLibro(id);
-            attr.addFlashAttribute("exito", "Libro dado de alta");
-        } catch (ErrorServicio ex) {
-            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
-            attr.addFlashAttribute("error", ex.getMessage());
-        }
-        return "redirect:/listadoLibros";
-    }
 }
