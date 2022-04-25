@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,7 @@ public class ClienteControlador {
     private AutorService autorService;
     @Autowired
     private EditorialService editorialService;
-
+    
     @GetMapping("/agregarCliente")
     public String agregarCliente(HttpServletRequest request) {
         String referer = request.getHeader("Referer");
@@ -39,10 +40,10 @@ public class ClienteControlador {
     }
 
     @PostMapping("/agregarCliente")
-    public String agregarCliente(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String telefono, HttpServletRequest request, RedirectAttributes attr) {
+    public String agregarCliente(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String telefono, @RequestParam String email, @RequestParam String password, @RequestParam String confirmarPassword, HttpServletRequest request, RedirectAttributes attr) {
         String referer = request.getHeader("Referer");
         try {
-            clienteService.agregarCliente(nombre, apellido, telefono);
+            clienteService.agregarCliente(nombre, apellido, telefono, email, password, confirmarPassword);
             attr.addFlashAttribute("exito", "Cliente cargado correctamente");
         } catch (ErrorServicio ex) {
             java.util.logging.Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,6 +52,7 @@ public class ClienteControlador {
         return "redirect:" + referer;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listarClientes")
     public String listarClientes(String id, ModelMap model) throws ErrorServicio {
         List<Cliente> clientes = clienteService.listarClientes();

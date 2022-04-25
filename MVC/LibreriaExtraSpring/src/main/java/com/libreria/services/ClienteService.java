@@ -7,13 +7,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.libreria.entidades.Cliente;
 import com.libreria.entidades.Prestamo;
+import com.libreria.enums.RolUsuario;
 import com.libreria.repositorios.PrestamoRepositorio;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpSession;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
-public class ClienteService {
+public class ClienteService implements UserDetailsService{
 
     @Autowired
     private ClienteRepositorio clienteRepositorio;
@@ -22,11 +34,10 @@ public class ClienteService {
     private PrestamoRepositorio prestamoRepositorio;
 
     @Transactional(rollbackFor = {Exception.class})
-    public void agregarCliente(String nombre, String apellido, String telefono) throws ErrorServicio {
-
-        validarDatos(nombre, apellido, telefono);
-        Cliente cliente = new Cliente(nombre, apellido, telefono, true, new Date(), null);
-
+    public void agregarCliente(String nombre, String apellido, String telefono, String email, String password, String confirmarPassword) throws ErrorServicio {
+        validarDatos(nombre, apellido, telefono); //tambien hay que validar si las contraseñas son identicas
+        String passEncrip = new BCryptPasswordEncoder().encode(password);
+        Cliente cliente = new Cliente(nombre, apellido, telefono, true, new Date(), null, email, passEncrip, RolUsuario.ADMIN);
         clienteRepositorio.save(cliente);
     }
 
@@ -138,5 +149,28 @@ public class ClienteService {
         if (!telefono.matches("[+-]?\\d*(\\.\\d+)?")) {  //https://www.delftstack.com/es/howto/java/how-to-check-if-a-string-is-a-number-in-java/
             throw new ErrorServicio("Error: El télefono del Cliente debe ser numerico");
         }
+    }
+
+   @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        Cliente c = clienteRepositorio.buscarPorEmail(email);
+
+        if (c == null) {
+            return null;
+        }  
+
+        List<GrantedAuthority> permisos = new ArrayList<>();
+
+        GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_" + c.getRolUsuario().toString());
+        permisos.add(p1);
+
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+
+        HttpSession session = attr.getRequest().getSession(true);
+        session.setAttribute("usuariosession", c);
+
+        return new User(c.getEmail(), c.getPassword(), permisos);
+
     }
 }

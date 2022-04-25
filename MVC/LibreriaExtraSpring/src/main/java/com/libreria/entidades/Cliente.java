@@ -1,7 +1,10 @@
 package com.libreria.entidades;
 
+import com.libreria.enums.RolUsuario;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
@@ -23,8 +26,15 @@ public class Cliente {
     private Date fechaAltaCliente;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaBajaCliente;
+    private String email;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private RolUsuario rolUsuario;
 
-    public Cliente(String nombre, String Apellido, String Telefono, boolean activo, Date fechaAltaCliente, Date fechaBajaCliente) {
+    public Cliente() {
+    }
+
+    public Cliente(String nombre, String Apellido, String Telefono, boolean activo, Date fechaAltaCliente, Date fechaBajaCliente, String email, String password, RolUsuario rolUsuario) {
         this.id = id;
         this.nombre = nombre;
         this.Apellido = Apellido;
@@ -32,9 +42,9 @@ public class Cliente {
         this.activo = activo;
         this.fechaAltaCliente = fechaAltaCliente;
         this.fechaBajaCliente = fechaBajaCliente;
-    }
-
-    public Cliente() {
+        this.email = email;
+        this.password = password;
+        this.rolUsuario = rolUsuario;
     }
 
     public String getId() {
@@ -93,9 +103,29 @@ public class Cliente {
         this.fechaBajaCliente = fechaBajaCliente;
     }
 
-    @Override
-    public String toString() {
-        return "Cliente{" + "id=" + id + ", nombre=" + nombre + ", Apellido=" + Apellido + ", Telefono=" + Telefono + ", activo=" + activo + ", fechaAltaCliente=" + fechaAltaCliente + ", fechaBajaCliente=" + fechaBajaCliente + '}';
+    public String getEmail() {
+        return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public RolUsuario getRolUsuario() {
+        return rolUsuario;
+    }
+
+    public void setRolUsuario(RolUsuario rolUsuario) {
+        this.rolUsuario = rolUsuario;
+    }
+
+    
 }
