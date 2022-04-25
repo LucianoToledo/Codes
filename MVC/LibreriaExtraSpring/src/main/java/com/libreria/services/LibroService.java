@@ -153,15 +153,16 @@ public class LibroService {
         if (ejemplares == null || ejemplares < 0) {
             throw new ErrorServicio("La cantidad de ejemplares del titulo no puede ser nulo o menor a 1");
         }
-        if (!String.valueOf(ejemplares).matches("[+-]?\\d*(\\.\\d+)?")) {//https://www.delftstack.com/es/howto/java/how-to-check-if-a-string-is-a-number-in-java/
+        if (!String.valueOf(ejemplares).matches("[+-]?\\d*(\\.\\d+)?")) { //https://www.delftstack.com/es/howto/java/how-to-check-if-a-string-is-a-number-in-java/
             throw new ErrorServicio("Error: La cantidad de ejemplares del Libro debe ser numerico");
-        }
+        } //no funca
         
         if (anio == null || Integer.parseInt(anio) < 0) {
             throw new ErrorServicio("La cantidad de ejemplares del titulo no puede ser nulo o menor a 1");
         }
-        if (anio.matches("[+-]?\\d*(\\.\\d+)?")) {
-            throw new ErrorServicio("Error: El Año del Libro deben ser numeros");
+        if (!anio.matches("[+-]?\\d*(\\.\\d+)?")) {
+            System.out.println("-------> anio: " +anio);
+            throw new ErrorServicio("Error: El Año del Libro debe ser numerico");
         }
         
         if (autor == null) {

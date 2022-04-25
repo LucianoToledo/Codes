@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Registro</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h3>Registro</h3>
+        <form th:action="@{/registro}" method="POST">
+            <ul>
+                <li>Nombre<input name="nombre"/></li>
+                <li>Apellido<input name="apellido"/></li>
+                <li>Telefono<input name="telefono"/></li>
+                <li>Email<input name="email"/></li>
+                <li>Password<input name="password" type="password"/></li>
+                <li>ConfirmarPassword<input name="confirmarPassword" type="password"/></li>
+            </ul>
+            <button type="submit">Registrarrrrrr</button>
+        </form>
+    </body>
+</html>

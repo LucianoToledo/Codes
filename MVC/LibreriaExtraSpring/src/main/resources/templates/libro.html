@@ -35,7 +35,7 @@
                 </tr>
             </thead>
             <tbody class="bg-dark text-white">
-                <tr th:each="libro : ${libros}">
+                <tr th:each="libro, i : ${libros}">
                     <td th:text="${libro.titulo}" class="text-white"></td>
                     <td th:text="${libro.anio}"  class="text-white"></td>
                     <td th:text="${libro.ejemplares}"  class="text-white"></td>
