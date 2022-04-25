@@ -13,8 +13,12 @@
     <div th:include="fragment :: modals"></div>
     <div th:include="fragment :: mensajes"></div>
     <!-- end Inyeccion HTML -->
-    <br><br><br>
-
+    <br>
+    <br>
+    <br>
+    
+    <h3 th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre}"></h3>
+<!--    <p th:if="${session.usuariosession = null}" >No estas logueado</p>-->
     <!-- cards -->
     <div class="row row-cols-1 row-cols-md-5 g-4 cards">
         <!-- card Prestamo -->
@@ -54,7 +58,7 @@
         <!-- card Autor -->
         <div class="col ">
             <div class="card h-100 bg-dark">
-                <img th:src="@{/img//editor.png}" class="card-img-top img" alt="...">
+                <img th:src="@{/img/editor.png}" class="card-img-top img" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Autor</h5>
                     <li class="list-group-item bg-dark text-white">
@@ -70,7 +74,7 @@
         <!-- card Editorial -->
         <div class="col">
             <div class="card h-100 bg-dark">
-                <img th:src="@{/img//edificio.png}" class="card-img-top img" alt="...">
+                <img th:src="@{/img/edificio.png}" class="card-img-top img" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Editorial</h5>
                     <li class="list-group-item bg-dark text-white">
@@ -85,9 +89,9 @@
         <!--end card Editorial -->
 
         <!-- card Cliente -->
-        <div class="col">
+        <div class="col" sec:authorize="hasAnyRole('ROLE_ADMIN')">
             <div class="card h-100 bg-dark">
-                <img th:src="@{/img//clasificacion.png}" class="card-img-top img" alt="...">
+                <img th:src="@{/img/clasificacion.png}" class="card-img-top img" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Clientes</h5>
                     <li class="list-group-item bg-dark text-white">

@@ -161,7 +161,7 @@ public class LibroControlador {
         } catch (ErrorServicio ex) {
             Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "modificar-libro.html";
+        return "libro.html";
     }
 
     @PostMapping("/editarLibro")
@@ -173,7 +173,7 @@ public class LibroControlador {
             Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("error", "Error inesperado");
         }
-        return "redirect:/listadoLibros";
+        return "redirect:/libro";
 
     }
 

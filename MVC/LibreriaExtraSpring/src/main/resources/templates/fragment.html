@@ -77,11 +77,21 @@
                                 </ul>
                             </li>
                         </ul>
+                        <!--Buscar libro-->
                         <form class="d-flex" th:action="@{libro/listarLibros}">
                             <input class="form-control me-2  bg-dark text-white" type="search" placeholder="Buscar Libro..." aria-label="Search" name="query">
                             <button class="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
+                        <!--End Buscar libro-->
+<!--           no funca             <p th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre}"></p>-->
                     </div>
+                    
+                    <div  th:if="${session.usuariosession != null}">
+                        <a type="button" class="btn btn-secondary" th:href="@{/logout}" >Cerrar Sesion</a>
+                    </div>
+<!--                    <div th:if="${session.usuariosession = null}">
+                        <a type="button" class="btn btn-info" th:href="@{/login}">Iniciar Sesion</a>
+                    </div>-->
                 </div>
             </nav>
         </nav>
